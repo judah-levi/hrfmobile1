@@ -37,12 +37,6 @@ export default function PersonalPage() {
                 </TouchableOpacity>
                 <Text style={styles.avatartext}>SURVEYS</Text>
             </View>
-            <View>
-                <TouchableOpacity style={styles.buttonavatar}>
-                    <Entypo style={styles.avatar} size={85} name='light-bulb'  />
-                </TouchableOpacity>
-                <Text style={styles.avatartext}>SUGGESTIONS</Text>
-            </View>
         </View>
         </View>
     )
@@ -50,6 +44,7 @@ export default function PersonalPage() {
 
 const styles = StyleSheet.create({
     wrapper: {
+        marginTop: 50,
         margin: 10,
         flexDirection: 'row',
         justifyContent: "space-around",

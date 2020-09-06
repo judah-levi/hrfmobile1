@@ -1,25 +1,38 @@
-import React from "react";
-import { Avatar, Title } from 'react-native-paper';
-import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
+import React, {useState, useEffect} from "react";
+import { Avatar, Title, Text } from 'react-native-paper';
 import MyCarousel from './Carousel';
 import NavBar from './NavBar'
+import auth from '@react-native-firebase/auth'
+import { useNavigation } from "@react-navigation/native";
+
 import {
     StyleSheet,
     View,
     TouchableOpacity,
   } from "react-native";
 
+  
+  export default class MainPage extends React.Component {
+   state = { 
+       currentUser: null,
+    }
 
-export default function MainPage(){
+   componentDidMount()  {
+       const { currentUser } = auth()
+       this.setState({currentUser})
+   }
+
+
+   render()  {
+    const {currentUser} = this.state
 
     return(
         <View style={styles.mainWrapper}>
             <NavBar/>
-            <Title>FUCK NICO</Title>
             {/* <MyCarousel/> */}
         </View>
     );
+    }
 }
 
 

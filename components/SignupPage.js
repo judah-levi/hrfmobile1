@@ -1,5 +1,4 @@
-// import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, {useState} from "react";
 import {Title} from 'react-native-paper'
 import {
   StyleSheet,
@@ -10,14 +9,24 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
-import { NavigationContainer, useNavigation } from "@react-navigation/native";
-import { createStackNavigator } from "@react-navigation/stack";
+import { useNavigation } from "@react-navigation/native";
+import auth from '@react-native-firebase/auth'
+
 
 export default function LoginPage() {
-  const [email, onChangeEmail] = React.useState("email");
-  const [password, onChangePassword] = React.useState("password");
-
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [firstName, onChangeFirstName] = useState("");
+  const [lastName, onChangeLastName] = useState("");
+  const [email, onChangeEmail] = useState("");
+  const [password, onChangePassword] = useState("");
   const navigation = useNavigation();
+
+  handleSignUp = () =>  {
+    auth().createUserWithEmailAndPassword(email, password)
+    .then(() => useNavigation.navigate('MainPage'))
+    .catch(error => setErrorMessage({ errorMessage: error.message }))
+    
+  }
 
   return (
     <View style={styles.container}>
@@ -31,36 +40,35 @@ export default function LoginPage() {
         </Title>
         <TextInput
           style={styles.input}
-          onChangeText={(text) => onChangeEmail(text)}
+          onChangeText={(firstName) => onChangeFirstName(firstName)}
           clearTextOnFocus
           placeholder='First Name'
         />
         <TextInput
           style={styles.input}
-          onChangeText={(text) => onChangeEmail(text)}
+          onChangeText={(lastName) => onChangeLastName(lastName)}
           clearTextOnFocus
           placeholder='Last Name'
         />
         <TextInput
           style={styles.input}
-          onChangeText={(text) => onChangeEmail(text)}
+          onChangeText={(email) => onChangeEmail(email)}
           clearTextOnFocus
-          placeholder='Phone #'
+          placeholder='Email'
         />
         <TextInput
           style={styles.input}
-          onChangeText={(text) => onChangePassword(text)}
+          onChangeText={(password) => onChangePassword(password)}
           clearTextOnFocus
           secureTextEntry={true}
           placeholder= 'Password'
         />
         <TouchableOpacity
           style={styles.newButton}
-          onPress={() => navigation.navigate("Login")}
+          onPress={handleSignUp}
         >
           <Text style={styles.buttonText}>Signup</Text>
         </TouchableOpacity>
-        {/* <StatusBar style="auto" /> */}
       </View>
     </View>
   );

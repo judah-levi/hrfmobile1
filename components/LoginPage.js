@@ -1,5 +1,4 @@
-// import { StatusBar } from "expo-status-bar";
-import React from "react";
+import React, {useState} from "react";
 import {
   StyleSheet,
   Text,
@@ -8,14 +7,22 @@ import {
   TouchableOpacity,
   Image,
 } from "react-native";
+import auth from '@react-native-firebase/auth'
 import { useNavigation } from "@react-navigation/native";
 
 
 export default function LoginPage() {
-  const [email, onChangeEmail] = React.useState("email");
-  const [password, onChangePassword] = React.useState("password");
-
+  const [errorMessage, setErrorMessage] = useState(null)
+  const [email, onChangeEmail] = useState("");
+  const [password, onChangePassword] = useState("");
   const navigation = useNavigation();
+
+  handleLogin = () =>  {
+    auth().signInWithEmailAndPassword(email, password)
+    .then(() => navigation.navigate('MainPage'))
+    .catch(error => setErrorMessage({ errorMessage: error.message }))
+  }
+
 
   return (
     <View style={styles.container}>
@@ -26,20 +33,20 @@ export default function LoginPage() {
         />
         <TextInput
           style={styles.input}
-          onChangeText={(text) => onChangeEmail(text)}
+          onChangeText={(email) => onChangeEmail(email)}
           clearTextOnFocus
-          placeholder='Phone #'
+          placeholder='Email'
         />
         <TextInput
           style={styles.input}
-          onChangeText={(text) => onChangePassword(text)}
+          onChangeText={(password) => onChangePassword(password)}
           clearTextOnFocus
           secureTextEntry={true}
           placeholder= 'Password'
         />
         <TouchableOpacity
           style={styles.loginButton}
-          onPress={() => navigation.navigate("MainPage")}
+          onPress={handleLogin}
         >
           <Text style={styles.buttonText}>Login</Text>
         </TouchableOpacity>
@@ -52,7 +59,6 @@ export default function LoginPage() {
             <Text style={styles.signupButtonText}>Signup</Text>
           </TouchableOpacity>
         </View>
-        {/* <StatusBar style="auto" /> */}
       </View>
     </View>
   );

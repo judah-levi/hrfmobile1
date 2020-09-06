@@ -3,9 +3,12 @@ import { Appbar, Avatar, Title } from 'react-native-paper';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import { useNavigation } from "@react-navigation/native";
+import auth from '@react-native-firebase/auth'
 import {
     StyleSheet,
     TouchableOpacity,
+    Image,
+    View
   } from "react-native";
 
 
@@ -14,7 +17,14 @@ export default function NavBar(){
 
 
     return(
-        <Appbar.Header style={styles.header}>
+        <Appbar.Header style={styles.headerWrapper}>
+            <Appbar style={styles.column1}>
+            <Image
+                style={styles.image}
+                source={require("../pics/HeaderLogo_180x.png")}
+            />
+            </Appbar>
+            <Appbar style={styles.column2}>
             <TouchableOpacity onPress={() => navigation.navigate("MainPage")}>
                 <MaterialCommunityIcon name="newspaper" style={styles.icons}/>
             </TouchableOpacity>
@@ -24,33 +34,58 @@ export default function NavBar(){
             <TouchableOpacity onPress={() => navigation.navigate("BusinessPage")}>
                 <MaterialCommunityIcon name="factory" style={styles.icons}/>
             </TouchableOpacity>
-            <TouchableOpacity >
+            {/* <TouchableOpacity >
                 <MaterialCommunityIcon name="briefcase" style={styles.icons}/>
-            </TouchableOpacity>
-            <TouchableOpacity>
+            </TouchableOpacity> */}
+            {/* <TouchableOpacity>
                 <MaterialIcon name="language" style={styles.icons}/>
+            </TouchableOpacity> */}
+            <TouchableOpacity onPress={() => auth().signOut()}>
+                <MaterialCommunityIcon name="logout" style={styles.icons}/>
             </TouchableOpacity>
+            </Appbar>
         </Appbar.Header>
     );
 }
 
 
 const styles = StyleSheet.create({
-    mainWrapper: {
-        flex: 6,
-        backgroundColor: '#fff',
+    headerWrapper:  {
+        height: 'auto',
+        backgroundColor: '#F9F7B7',
+        alignItems: 'flex-end',
+        justifyContent: 'center',
+        flexDirection: 'column',
     },
-    header:  {
-        height: 90,
+    column1:  {
+        height: 'auto',
+        width: '100%',
         backgroundColor: '#F9F7B7',
         alignItems: 'flex-end',
         justifyContent: 'space-around',
         flexDirection: 'row',
-        paddingBottom: 20
+        padding: 20,
+        zIndex: 0
+
+    },
+    column2: {
+        height: 'auto',
+        width: '100%',
+        backgroundColor: '#F9F7B7',
+        alignItems: 'flex-end',
+        justifyContent: 'space-around',
+        flexDirection: 'row',
+        paddingBottom: 20,
+        zIndex: 0
     },
     icons:  {
         backgroundColor: '#F9F7B7',
         color: '#00486D',
         fontSize: 30
     },
+    image:  {
+        width: 50,
+        height: 50,
+        tintColor: '#00486D',
+    }
 })

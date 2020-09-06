@@ -10,7 +10,6 @@ import PersonalPage from './components/PersonalPage.js'
 import BusinessPage from './components/BusinessPage.js'
 
 
-
 const Stack = createStackNavigator();
 
 export default function App() {
@@ -25,8 +24,7 @@ export default function App() {
 
   return (
     <NavigationContainer>
-      <Stack.Navigator
-        screenOptions={{headerShown: false,}}>
+      <Stack.Navigator screenOptions={{headerShown: false,}}>
           <Stack.Screen name="Login" component={isEnter ? EnterPage : LoginPage} />
           <Stack.Screen name="Signup" component={SignupPage} />
           <Stack.Screen name="MainPage" component={MainPage} />  
@@ -36,5 +34,3 @@ export default function App() {
     </NavigationContainer>
   );
 }
-
-
