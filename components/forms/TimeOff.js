@@ -1,5 +1,5 @@
 import * as React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import {StyleSheet, ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import CalendarTimeOff from './forms subcomponents/CalendarTimeOff'
 import { TextInput } from 'react-native-paper';
@@ -11,9 +11,9 @@ function TimeOff(){
     const [lastname, setLastname] = React.useState('');
 
     return(
-        <View>
+        <ScrollView showsVerticalScrollIndicator={false}>
             <Navbar />
-            <Text style={styles.hOneTimeOff}>Time off</Text>
+            <Text style={styles.hOneTimeOff}>Schedule time off</Text>
             <View style={styles.timeOffWrapper}>
                 <TextInput
                     style={styles.timeOffInput}
@@ -42,7 +42,7 @@ function TimeOff(){
                     <Text style={styles.btnTextTimeOff}>Submit</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </ScrollView>
         )
 }
 
@@ -60,24 +60,25 @@ const styles = StyleSheet.create({
     },
     timeOffPicker: {
         backgroundColor: 'white',
-        marginBottom: '3%'
+        marginBottom: '3%',
+        marginTop: '1%'
     },
     timeOffInput: {
-        marginBottom: '3%',
+        marginBottom: '1%',
         backgroundColor: 'white'
     },
     btnTimeOff: {
-        marginTop: '13%',
-        backgroundColor: 'red',
-        borderRadius: 2,
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        marginTop: 10,
+        borderRadius: 5,
+        // flex: 1,
+        // justifyContent: 'center',
+        // alignItems: 'center'
     },
     btnTextTimeOff: {
         backgroundColor: "#00486D",
+        textAlign: 'center',
         padding: 15,
-        borderRadius: 4,
+        borderRadius: 5,
         color: 'white',
         fontWeight: 'bold',
         fontSize: 20
