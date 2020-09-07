@@ -26,13 +26,13 @@ export default function PersonalPage() {
                 </TouchableOpacity>
                 <Text style={styles.avatartext}>MEETINGS</Text>
             </View>
-            <View>
+            <View style={styles.belows}>
                 <TouchableOpacity style={styles.buttonavatar} onPress={() => navigation.navigate("SickDayForm")}>
                     <AntDesign style={styles.avatar} size={85} name='deleteuser' />
                 </TouchableOpacity>
                 <Text style={styles.avatartext}>SICK DAY</Text>
             </View>
-            <View>
+            <View style={styles.belows}>
                 <TouchableOpacity style={styles.buttonavatar}>
                     <AntDesign style={styles.avatar} size={85} name='solution1'  />
                 </TouchableOpacity>
@@ -63,4 +63,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold'
     },
+    belows: {
+        marginTop: 65
+    }
 })

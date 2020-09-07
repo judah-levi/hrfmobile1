@@ -1,5 +1,5 @@
 import React, {useState} from 'react'
-import {StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import {StyleSheet, ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import { TextInput } from 'react-native-paper';
 import Navbar from '../NavBar'
@@ -12,7 +12,7 @@ function Meetings(){
 
     return(
     
-    <View>
+    <ScrollView showsVerticalScrollIndicator={false}>
         <Navbar />
         <Text style={styles.hOneMeeting}>Meetings</Text>
         <View style={styles.meetingWrapper}>
@@ -61,42 +61,38 @@ function Meetings(){
                 <Text style={styles.btnTextMeeting}>Submit</Text>
             </TouchableOpacity>
         </View>
-    </View>
+    </ScrollView>
     )
 }
 
 const styles = StyleSheet.create({
     meetingWrapper:{
-        marginTop: '7%',
+        marginTop: '4%',
         marginLeft: 15,
         marginRight: 15
     },
     hOneMeeting: {
         fontSize: 30,
         textAlign: 'center',
-        marginTop: '10%',
-        // fontWeight: 'bold'
+        marginTop: '6%',
     },
     meetingPicker: {
         backgroundColor: 'white',
-        marginBottom: '3%'
+        marginBottom: '2%'
     },
     meetingInput: {
-        marginBottom: '3%',
+        marginBottom: '2%',
         backgroundColor: 'white'
     },
     btnMeeting: {
-        marginTop: '13%',
-        backgroundColor: 'red',
-        borderRadius: 2,
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        marginTop: 10,
+        borderRadius: 5,
     },
     btnTextMeeting: {
         backgroundColor: "#00486D",
+        textAlign: 'center',
         padding: 15,
-        borderRadius: 4,
+        borderRadius: 5,
         color: 'white',
         fontWeight: 'bold',
         fontSize: 20

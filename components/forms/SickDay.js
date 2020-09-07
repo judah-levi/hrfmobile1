@@ -1,6 +1,5 @@
 import React, {useState} from 'react'
-import { StyleSheet, Text, View, TouchableOpacity } from 'react-native';
-import {Picker} from '@react-native-community/picker';
+import { StyleSheet, ScrollView, Text, View, TouchableOpacity } from 'react-native';
 import CalendarTimeOff from './forms subcomponents/CalendarTimeOff';
 import ImagePicker from 'react-native-image-picker'
 import { TextInput } from 'react-native-paper';
@@ -25,7 +24,7 @@ function SickDay(){
     }
 
     return(
-        <View>
+        <ScrollView showsVerticalScrollIndicator={false}>
             <Navbar />
             <Text style={styles.hOneSickDay}>Sick day</Text>
             <View style={styles.sickDayWrapper}>
@@ -54,7 +53,7 @@ function SickDay(){
                     <Text style={styles.btnTextSickDay}>Submit</Text>
                 </TouchableOpacity>
             </View>
-        </View>
+        </ScrollView>
     )
 }
 
@@ -68,28 +67,24 @@ const styles = StyleSheet.create({
         fontSize: 30,
         textAlign: 'center',
         marginTop: '6%',
-        // fontWeight: 'bold'
     },
     timeOffPicker: {
         backgroundColor: 'white',
         marginBottom: '3%'
     },
     sickDayInput: {
-        marginBottom: '3%',
+        marginBottom: '1%',
         backgroundColor: 'white'
     },
     btnSickDay: {
-        marginTop: '13%',
-        backgroundColor: 'red',
-        borderRadius: 2,
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        marginTop: 10,
+        borderRadius: 5,
     },
     btnTextSickDay: {
         backgroundColor: "#00486D",
+        textAlign: 'center',
         padding: 15,
-        borderRadius: 4,
+        borderRadius: 5,
         color: 'white',
         fontWeight: 'bold',
         fontSize: 20

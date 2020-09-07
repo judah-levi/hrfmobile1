@@ -45,30 +45,26 @@ function Suggestion(){
 
 const styles = StyleSheet.create({
     suggestionWrapper:{
-        marginTop: '10%',
+        marginTop: '4%',
         marginLeft: 15,
         marginRight: 15
     },
     hOneSuggestion: {
         fontSize: 30,
         textAlign: 'center',
-        marginTop: '10%',
-        // fontWeight: 'bold'
+        marginTop: '6%',
     },
     suggestionInput: {
         backgroundColor: 'white',
-        marginBottom: '3%'
+        marginBottom: '1%'
     },
     btnSuggestion: {
-        marginTop: '18%',
-        backgroundColor: 'red',
+        marginTop: 10,
         borderRadius: 2,
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
     },
     btnTextSuggestion: {
         backgroundColor: "#00486D",
+        textAlign: 'center',
         padding: 15,
         borderRadius: 4,
         color: 'white',

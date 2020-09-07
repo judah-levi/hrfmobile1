@@ -37,32 +37,28 @@ function EquipmentFailure(){
 
 const styles = StyleSheet.create({
     equipmentWrapper:{
-        marginTop: '10%',
+        marginTop: '4%',
         marginLeft: 15,
         marginRight: 15
     },
     hOneEquipment: {
         fontSize: 30,
         textAlign: 'center',
-        marginTop: '10%',
-        // fontWeight: 'bold'
+        marginTop: '6%',
     },
     equipmentInput: {
         backgroundColor: 'white',
-        marginBottom: '3%'
+        marginBottom: '1%'
     },
     btnEquipment: {
-        marginTop: '18%',
-        backgroundColor: 'red',
-        borderRadius: 2,
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        marginTop: 10,
+        borderRadius: 5,
     },
     btnTextEquipment: {
         backgroundColor: "#00486D",
+        textAlign: 'center',
         padding: 15,
-        borderRadius: 4,
+        borderRadius: 5,
         color: 'white',
         fontWeight: 'bold',
         fontSize: 20

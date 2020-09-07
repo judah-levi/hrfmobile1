@@ -26,13 +26,13 @@ export default function BusinessPage() {
                 </TouchableOpacity>
                 <Text style={styles.avatartext}>FACILITIES ISSUES</Text>
             </View>
-            <View>
+            <View style={styles.belows}>
                 <TouchableOpacity style={styles.buttonavatar} onPress={() => navigation.navigate("MaterialsNeededForm")}>
                     <MaterialIcon style={styles.avatar} size={85} name='add-shopping-cart'/>
                 </TouchableOpacity>
                 <Text style={styles.avatartext}>MATERIALS NEEDED</Text>
             </View>
-            <View>
+            <View style={styles.belows}>
                 <TouchableOpacity style={styles.buttonavatar} onPress={() => navigation.navigate("SuggestionForm")}>
                     <Entypo style={styles.avatar} size={85} name='light-bulb'  />
                 </TouchableOpacity>
@@ -63,7 +63,7 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold'
     },
-    buttonavatar: {
-        
+    belows: {
+        marginTop: 65
     }
 })

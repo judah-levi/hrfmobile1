@@ -28,6 +28,7 @@ import {
     return(
         <View style={styles.mainWrapper}>
             <NavBar/>
+            <Text>this is the main page</Text>
             {/* <MyCarousel/> */}
         </View>
     );

@@ -56,7 +56,6 @@ const styles = StyleSheet.create({
         fontSize: 30,
         textAlign: 'center',
         marginTop: '6%',
-        // fontWeight: 'bold'
     },
     timeOffPicker: {
         backgroundColor: 'white',
@@ -70,9 +69,6 @@ const styles = StyleSheet.create({
     btnTimeOff: {
         marginTop: 10,
         borderRadius: 5,
-        // flex: 1,
-        // justifyContent: 'center',
-        // alignItems: 'center'
     },
     btnTextTimeOff: {
         backgroundColor: "#00486D",

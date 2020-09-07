@@ -29,31 +29,27 @@ function FacilitiesIssues(){
 
 const styles = StyleSheet.create({
     facilitiesWrapper:{
-        marginTop: '10%',
+        marginTop: '4%',
         marginLeft: 15,
         marginRight: 15
     },
     hOneFacilities: {
         fontSize: 30,
         textAlign: 'center',
-        marginTop: '10%',
-        // fontWeight: 'bold'
+        marginTop: '6%',
     },
     facilitiesInput: {
         backgroundColor: 'white'
     },
     btnFacilities: {
-        marginTop: '18%',
-        backgroundColor: 'red',
-        borderRadius: 2,
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center'
+        marginTop: 10,
+        borderRadius: 5,
     },
     btnTextFacilities: {
         backgroundColor: "#00486D",
+        textAlign: 'center',
         padding: 15,
-        borderRadius: 4,
+        borderRadius: 5,
         color: 'white',
         fontWeight: 'bold',
         fontSize: 20
