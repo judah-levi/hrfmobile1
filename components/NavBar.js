@@ -19,10 +19,6 @@ export default function NavBar(){
     return(
         <Appbar.Header style={styles.headerWrapper}>
             <Appbar style={styles.column1}>
-            <Image
-                style={styles.image}
-                source={require("../pics/HeaderLogo_180x.png")}
-            />
             </Appbar>
             <Appbar style={styles.column2}>
             <TouchableOpacity onPress={() => navigation.navigate("MainPage")}>
@@ -31,6 +27,10 @@ export default function NavBar(){
             <TouchableOpacity onPress={() => navigation.navigate("PersonalPage")}>
                 <MaterialCommunityIcon name="account-outline" style={styles.icons}/>
             </TouchableOpacity>
+            <Image
+                style={styles.image}
+                source={require("../pics/HeaderLogo_180x.png")}
+            />
             <TouchableOpacity onPress={() => navigation.navigate("BusinessPage")}>
                 <MaterialCommunityIcon name="factory" style={styles.icons}/>
             </TouchableOpacity>
@@ -64,7 +64,7 @@ const styles = StyleSheet.create({
         alignItems: 'flex-end',
         justifyContent: 'space-around',
         flexDirection: 'row',
-        padding: 20,
+        paddingTop: 20,
         zIndex: 0
 
     },
