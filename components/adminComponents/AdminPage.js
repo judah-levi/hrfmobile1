@@ -4,8 +4,7 @@ import {StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 // import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 // import Entypo from 'react-native-vector-icons/Entypo'
 // import { useNavigation } from "@react-navigation/native";
-import AdminNavBar from './AdminNavBar'
-
+import AdminNavBar from './adminNavBar'
 export default function AdminPage() {
     return(
         <View>

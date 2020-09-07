@@ -1,6 +1,6 @@
 import React, {useState} from 'react'
 import {StyleSheet, TouchableOpacity, Text, Image, View} from "react-native";
-import AdminNavBar from './AdminNavBar';
+import AdminNavBar from './adminNavBar';
 import { TextInput } from 'react-native-paper';
 import ImagePicker from 'react-native-image-picker'
 
