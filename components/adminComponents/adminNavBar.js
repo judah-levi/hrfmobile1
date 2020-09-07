@@ -4,27 +4,18 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import { useNavigation } from "@react-navigation/native";
 import auth from '@react-native-firebase/auth'
-import {
-    StyleSheet,
-    TouchableOpacity,
-    Image,
-    View
-  } from "react-native";
+import { StyleSheet, TouchableOpacity, Image, View } from "react-native";
 
 
 export default function AdminNavBar(){
     const navigation = useNavigation();
-
 
     return(
         <Appbar.Header style={styles.headerWrapper}>
             <Appbar style={styles.column1}>
             </Appbar>
             <Appbar style={styles.column2}>
-            <TouchableOpacity onPress={() => navigation.navigate("MainPage")}>
-                <MaterialCommunityIcon name="newspaper" style={styles.icons}/>
-            </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigation.navigate("PersonalPage")}>
+            <TouchableOpacity onPress={() => navigation.navigate("FormCarousel")}>
                 <MaterialCommunityIcon name="account-outline" style={styles.icons}/>
             </TouchableOpacity>
             <Image

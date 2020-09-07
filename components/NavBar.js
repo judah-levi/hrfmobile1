@@ -4,12 +4,7 @@ import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIc
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
 import { useNavigation } from "@react-navigation/native";
 import auth from '@react-native-firebase/auth'
-import {
-    StyleSheet,
-    TouchableOpacity,
-    Image,
-    View
-  } from "react-native";
+import {StyleSheet, TouchableOpacity, Image, View} from "react-native";
 
 
 export default function NavBar(){

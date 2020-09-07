@@ -28,14 +28,14 @@ function Meetings(){
                 mode='outlined'
                 placeholder="Last name"
                 value={lastname}
-                onChangeText={lastname => setPhone(lastname)}
+                onChangeText={lastname => setLastname(lastname)}
             />
             <TextInput
                 style={styles.meetingInput}
                 mode='outlined'
                 placeholder="Phone"
                 value={phone}
-                onChangeText={phone => setLastname(phone)}
+                onChangeText={phone => setPhone(phone)}
             />
             <Picker style={styles.meetingPicker}>
                 <Picker.Item label='Ware house' value='ware house'/>
