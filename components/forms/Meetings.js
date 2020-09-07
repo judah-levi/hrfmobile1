@@ -20,7 +20,6 @@ function Meetings(){
                 style={styles.meetingInput}
                 mode='outlined'
                 placeholder="First name"
-                textContentType
                 value={firstname}
                 onChangeText={firstname => setFirstname(firstname)}
             />
