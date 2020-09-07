@@ -2,11 +2,12 @@ import React from 'react'
 import {StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import Entypo from 'react-native-vector-icons/Entypo';
+import { useNavigation } from "@react-navigation/native";
 import NavBar from './NavBar';
 
 
 export default function PersonalPage() {
+    const navigation = useNavigation();
 
 
     return(
@@ -14,19 +15,19 @@ export default function PersonalPage() {
         <NavBar/>
         <View style={styles.wrapper}>
             <View>
-                <TouchableOpacity style={styles.buttonavatar}>
+                <TouchableOpacity style={styles.buttonavatar} onPress={() => navigation.navigate("TimeOffForm")}>
                     <MaterialCommunityIcons style={styles.avatar} size={85} name="calendar-account" />
                 </TouchableOpacity>
                 <Text style={styles.avatartext}>TIME OFF</Text>
             </View>
             <View>
-                <TouchableOpacity style={styles.buttonavatar}>
+                <TouchableOpacity style={styles.buttonavatar} onPress={() => navigation.navigate("MeetingsForm")}>
                     <AntDesign style={styles.avatar} size={85} name='team'  />
                 </TouchableOpacity>
                 <Text style={styles.avatartext}>MEETINGS</Text>
             </View>
             <View>
-                <TouchableOpacity style={styles.buttonavatar}>
+                <TouchableOpacity style={styles.buttonavatar} onPress={() => navigation.navigate("SickDayForm")}>
                     <AntDesign style={styles.avatar} size={85} name='deleteuser' />
                 </TouchableOpacity>
                 <Text style={styles.avatartext}>SICK DAY</Text>
@@ -44,7 +45,7 @@ export default function PersonalPage() {
 
 const styles = StyleSheet.create({
     wrapper: {
-        marginTop: 50,
+        marginTop: 100,
         margin: 10,
         flexDirection: 'row',
         justifyContent: "space-around",
@@ -62,7 +63,4 @@ const styles = StyleSheet.create({
         textAlign: 'center',
         fontWeight: 'bold'
     },
-    buttonavatar: {
-        
-    }
 })

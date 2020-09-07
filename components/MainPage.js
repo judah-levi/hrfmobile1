@@ -4,7 +4,6 @@ import MyCarousel from './Carousel';
 import NavBar from './NavBar'
 import auth from '@react-native-firebase/auth'
 import { useNavigation } from "@react-navigation/native";
-
 import {
     StyleSheet,
     View,
