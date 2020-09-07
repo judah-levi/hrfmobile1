@@ -15,6 +15,7 @@ import EquipmentFailure from './components/forms/EquipmentFailure.js';
 import FacilitiesIssues from './components/forms/FacilitiesIssues.js';
 import MaterialsNeeded from './components/forms/MaterialsNeeded.js';
 import Suggestion from './components/forms/Suggestion.js';
+import AdminPage from './components/adminComponents/AdminPage.js'
 
 const Stack = createStackNavigator();
 
@@ -32,6 +33,7 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false,}}>
           <Stack.Screen name="Login" component={isEnter ? EnterPage : LoginPage} />
+          <Stack.Screen name="AdminPage" component={AdminPage} />
           <Stack.Screen name="Signup" component={SignupPage} />
           <Stack.Screen name="MainPage" component={MainPage} />  
           <Stack.Screen name="PersonalPage" component={PersonalPage} />

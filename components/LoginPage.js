@@ -16,10 +16,20 @@ export default function LoginPage() {
   const [email, onChangeEmail] = useState("");
   const [password, onChangePassword] = useState("");
   const navigation = useNavigation();
+  const admin = "kolamiti92@gmail.com"
+  const [role, setRole] = useState("")
 
   handleLogin = () =>  {
     auth().signInWithEmailAndPassword(email, password)
-    .then(() => navigation.navigate('MainPage'))
+    .then(() => {
+      if(email == admin)  {
+        setRole({role: "admin"})
+        navigation.navigate("AdminPage")
+      } else  {
+        setRole({role: "user"})
+        navigation.navigate("MainPage")
+      }
+    })
     .catch(error => setErrorMessage({ errorMessage: error.message }))
   }
 
