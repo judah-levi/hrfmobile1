@@ -5,10 +5,19 @@ import { useNavigation } from "@react-navigation/native";
 
 const EnterPage = () => {
 const navigation = useNavigation()
+const admin = "kolamiti92@gmail.com"
 
   useEffect( () =>  {
     auth().onAuthStateChanged(user =>  {
-      navigation.navigate(user ? 'MainPage' : 'Login')
+        if(user)  {
+          if(user.email == admin)  {
+            navigation.navigate('AdminPage')
+          } else  {
+            navigation.navigate('MainPage')
+          }
+        } else {
+          navigation.navigate('Login')
+        }
     })
   })
 
