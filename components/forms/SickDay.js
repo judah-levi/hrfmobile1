@@ -42,12 +42,14 @@ function SickDay(){
                     value={lastname}
                     onChangeText={lastname => setLastname(lastname)}
                 />
-                <TouchableOpacity onPress={handleLibraryPhoto}>
-                    <Text>Upload a picture</Text>
-                </TouchableOpacity>
-                <TouchableOpacity onPress={handleShootPhoto}>
-                    <Text>Take a picture</Text>
-                </TouchableOpacity>
+                <View style={styles.photos}>
+                    <TouchableOpacity onPress={handleLibraryPhoto}>
+                        <Text style={styles.left}>Upload a picture</Text>
+                    </TouchableOpacity>
+                    <TouchableOpacity onPress={handleShootPhoto}>
+                        <Text style={styles.right}>Take a picture</Text>
+                    </TouchableOpacity>
+                </View>
                 <CalendarTimeOff />
                 <TouchableOpacity style={styles.btnSickDay}>
                     <Text style={styles.btnTextSickDay}>Submit</Text>
@@ -75,6 +77,21 @@ const styles = StyleSheet.create({
     sickDayInput: {
         marginBottom: '1%',
         backgroundColor: 'white'
+    },
+    photos: {
+        marginBottom: 5,
+    },
+    left: {
+        color: 'black',
+        padding: 5,
+        fontWeight: 'bold',
+        fontSize: 17
+    },
+    right: {
+        color: 'black',
+        padding: 5,
+        fontWeight: 'bold',
+        fontSize: 17
     },
     btnSickDay: {
         marginTop: 10,

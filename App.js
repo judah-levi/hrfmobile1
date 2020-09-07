@@ -2,20 +2,21 @@ import * as React from 'react';
 import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import {useState, useEffect} from 'react';
-import EnterPage from './components/EnterPage.js';
-import MainPage from "./components/MainPage.js";
-import SignupPage from "./components/SignupPage.js";
-import LoginPage from "./components/LoginPage.js";
-import PersonalPage from './components/PersonalPage.js'
-import BusinessPage from './components/BusinessPage.js'
+import EnterPage from './components/EnterPage';
+import MainPage from "./components/MainPage";
+import SignupPage from "./components/SignupPage";
+import LoginPage from "./components/LoginPage";
+import PersonalPage from './components/PersonalPage'
+import BusinessPage from './components/BusinessPage'
 import TimeOff from './components/forms/TimeOff'
 import Meetings from './components/forms/Meetings'
-import SickDay from './components/forms/SickDay.js';
-import EquipmentFailure from './components/forms/EquipmentFailure.js';
-import FacilitiesIssues from './components/forms/FacilitiesIssues.js';
-import MaterialsNeeded from './components/forms/MaterialsNeeded.js';
-import Suggestion from './components/forms/Suggestion.js';
-import AdminPage from './components/adminComponents/AdminPage.js'
+import SickDay from './components/forms/SickDay';
+import EquipmentFailure from './components/forms/EquipmentFailure';
+import FacilitiesIssues from './components/forms/FacilitiesIssues';
+import MaterialsNeeded from './components/forms/MaterialsNeeded';
+import Suggestion from './components/forms/Suggestion';
+import AdminPage from './components/adminComponents/AdminPage'
+import FormCarousel from './components/adminComponents/FormCarousel';
 
 const Stack = createStackNavigator();
 
@@ -45,7 +46,8 @@ export default function App() {
           <Stack.Screen name="FacilitiesIssuesForm" component={FacilitiesIssues} />
           <Stack.Screen name="MaterialsNeededForm" component={MaterialsNeeded} />
           <Stack.Screen name="SuggestionForm" component={Suggestion} />
-        </Stack.Navigator>
+          <Stack.Screen name="FormCarousel" component={FormCarousel} />
+      </Stack.Navigator>
     </NavigationContainer>
   );
 }
