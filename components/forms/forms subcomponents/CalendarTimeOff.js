@@ -1,7 +1,8 @@
-import React, { Component } from 'react';
+import React, { Component,useContext } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
- 
+import Moment from 'moment';
+
 export default class CalendarTimeOff extends Component {
   constructor(props) {
     super(props);
@@ -25,6 +26,7 @@ export default class CalendarTimeOff extends Component {
   }
  
   render() {
+    Moment.locale('en')
     const { selectedStartDate, selectedEndDate } = this.state;
     const minDate = new Date();
     const maxDate = new Date(2090, 1, 1);
@@ -42,6 +44,10 @@ export default class CalendarTimeOff extends Component {
           selectedDayTextColor="#FFFFFF"
           onDateChange={this.onDateChange}
         />
+        <View>
+          <Text>Start Date: {Moment(startDate).format("M/D/YYYY")}</Text>
+          <Text>End Date: {Moment(endDate).format("M/D/YYYY")}</Text>
+        </View>
       </View>
     );
   }

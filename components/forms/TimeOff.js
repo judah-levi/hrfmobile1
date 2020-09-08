@@ -1,48 +1,93 @@
-import * as React from 'react';
-import {StyleSheet, ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import React from 'react';
+import {StyleSheet, ScrollView, Text, View, TouchableOpacity, Form } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import CalendarTimeOff from './forms subcomponents/CalendarTimeOff'
 import { TextInput } from 'react-native-paper';
 import Navbar from '../NavBar'
-
+import {Axios, db} from '../../firebase/firebaseConfig';
+import Context from '../Context'
 
 function TimeOff(){
     const [firstname, setFirstname] = React.useState('');
     const [lastname, setLastname] = React.useState('');
+    const [selectedValue, setSelectedValue] = React.useState('');
+    const [formData, setFormData] = React.useState({});
+    const [startDate, setStartDate] = React.useState("");
+    const [endDate, setEndDate] = React.useState("");
+
+
+    const handlePicker  = (role) =>  {
+        setSelectedValue(role),
+        setFormData({...formData, role})
+    }
+
+    const handleDateChange = () =>  {
+        setFormData({...formData, startDate, endDate})
+    }
+
+    const handleSubmit = event =>  {
+        event.preventDefault()
+        console.log(formData)
+        // sendEmail()
+        // setFormData({
+        //     firstname: '',
+        //     lastname: '',
+        //     role: '',
+        //     requestedDates: ''
+        // })
+    }
+
+    const sendEmail = () =>  {
+        Axios.post(
+            "https://us-central1-hrfmobile-5638b.cloudfunctions.net/submitTimeOff",
+            formData
+        )
+    }
 
     return(
+        <Context.Provider>
         <ScrollView showsVerticalScrollIndicator={false}>
             <Navbar />
             <Text style={styles.hOneTimeOff}>Schedule time off</Text>
             <View style={styles.timeOffWrapper}>
                 <TextInput
+                    name="firstname"
                     style={styles.timeOffInput}
                     mode='outlined'
                     placeholder="First name"
-                    value={firstname}
-                    onChangeText={firstname => setFirstname(firstname)}
+                    value={formData.firstname}
+                    onChangeText={firstname => setFormData({...formData, firstname})}
                 />
                 <TextInput
+                    name="lastname"
                     style={styles.timeOffInput}
                     mode='outlined'
                     placeholder="Last name"
-                    value={lastname}
-                    onChangeText={lastname => setLastname(lastname)}
+                    value={formData.lastname}
+                    onChangeText={lastname => setFormData({...formData, lastname})}
                 />
-                <Picker style={styles.timeOffPicker}>
-                    <Picker.Item label='Ware house' value='ware house'/>
+                <Picker 
+                name="role"
+                style={styles.timeOffPicker} 
+                value={formData.role}
+                selectedValue={selectedValue}
+                onValueChange={role => handlePicker(role)}
+                >
+                    <Picker.Item label="What's your role?" value=''/>
+                    <Picker.Item label='Warehouse' value='warehouse'/>
                     <Picker.Item label='Bakery' value='bakery'/>
                     <Picker.Item label='Dry pack' value='dry pack'/>
                     <Picker.Item label='Dry mix' value='dry mix'/>
                     <Picker.Item label='Maintenance' value='maintenance'/>
                     <Picker.Item label='Mechanical' value='mechanical'/>
                 </Picker>
-                <CalendarTimeOff />
-                <TouchableOpacity style={styles.btnTimeOff}>
+                <CalendarTimeOff onDateChange={handleDateChange}/>
+                <TouchableOpacity style={styles.btnTimeOff} onPress={handleSubmit}>
                     <Text style={styles.btnTextTimeOff}>Submit</Text>
                 </TouchableOpacity>
             </View>
         </ScrollView>
+        </Context.Provider>
         )
 }
 
