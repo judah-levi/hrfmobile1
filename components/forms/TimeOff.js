@@ -27,22 +27,19 @@ function TimeOff(){
 
     const handleSubmit = event =>  {
         event.preventDefault()
-        console.log(formData)
-        // sendEmail()
+        console.log({data: formData})
+        sendEmail()
         // setFormData({
         //     firstname: '',
         //     lastname: '',
-        //     role: '',
+        //     role: "What's your role?",
         //     requestedDates: ''
         // })
     }
 
     const sendEmail = () =>  {
-        Axios.post(
-            "https://us-central1-hrfmobile-5638b.cloudfunctions.net/submitTimeOff",
-            formData
-        )
-    }
+        Axios.post('https://us-central1-hrfmobile-5638b.cloudfunctions.net/submitTimeOff', formData)
+    };
 
     return(
         <Context.Provider>
@@ -74,12 +71,12 @@ function TimeOff(){
                 onValueChange={role => handlePicker(role)}
                 >
                     <Picker.Item label="What's your role?" value=''/>
-                    <Picker.Item label='Warehouse' value='warehouse'/>
-                    <Picker.Item label='Bakery' value='bakery'/>
-                    <Picker.Item label='Dry pack' value='dry pack'/>
-                    <Picker.Item label='Dry mix' value='dry mix'/>
-                    <Picker.Item label='Maintenance' value='maintenance'/>
-                    <Picker.Item label='Mechanical' value='mechanical'/>
+                    <Picker.Item label='Warehouse' value='Warehouse'/>
+                    <Picker.Item label='Bakery' value='Bakery'/>
+                    <Picker.Item label='Dry pack' value='Dry pack'/>
+                    <Picker.Item label='Dry mix' value='Dry mix'/>
+                    <Picker.Item label='Maintenance' value='Maintenance'/>
+                    <Picker.Item label='Mechanical' value='Mechanical'/>
                 </Picker>
                 <CalendarTimeOff onDateChange={handleDateChange}/>
                 <TouchableOpacity style={styles.btnTimeOff} onPress={handleSubmit}>
