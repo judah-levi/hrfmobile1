@@ -2,11 +2,26 @@ import React from 'react'
 import {StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import Navbar from '../NavBar'
+import {Axios} from '../../firebase/firebaseConfig';
+import { useNavigation } from "@react-navigation/native";
 
 function MaterialsNeeded(){
+    const navigation = useNavigation();
     const [stock, setStock] = React.useState('');
     const [descriptionStock, setDescriptionStock] = React.useState('');
     const [quantityShort, setQuantityShort] = React.useState('');
+    const [formData, setFormData] = React.useState({});
+
+    const sendEmail = () =>  {
+        Axios.post('https://us-central1-hrfmobile-5638b.cloudfunctions.net/submitMaterialRequest', formData)
+    };
+
+    const handleSubmit = event =>  {
+        event.preventDefault()
+        console.log({data: formData})
+        sendEmail()
+        navigation.navigate("MainPage")
+    }
 
     return(
         <View>
@@ -14,29 +29,32 @@ function MaterialsNeeded(){
             <Text style={styles.hOneMaterial}>Materials needed</Text>
             <View style={styles.materialWrapper}>
                 <TextInput
+                    name="stockCode"
                     style={styles.materialInput}
                     mode='outlined'
-                    placeholder="Stock code"
-                    value={stock}
-                    onChangeText={stock => setStock(stock)}
+                    placeholder="Stock Code"
+                    value={formData.stockCode}
+                    onChangeText={stockCode => setFormData({...formData, stockCode})}
                 />
                 <TextInput
+                    name="description"
                     style={styles.materialInput}
                     mode='outlined'
                     multiline={true}
                     placeholder="Description"
-                    value={descriptionStock}
-                    onChangeText={descriptionStock => setDescriptionStock(descriptionStock)}
+                    value={formData.description}
+                    onChangeText={description => setFormData({...formData, description})}
                 />
                 <TextInput
+                    name="quantityShort"
                     style={styles.materialInput}
                     mode='outlined'
                     multiline={true}
                     placeholder="Quantity short"
-                    value={quantityShort}
-                    onChangeText={quantityShort => setQuantityShort(quantityShort)}
+                    value={formData.quantityShort}
+                    onChangeText={quantityShort => setFormData({...formData, quantityShort})}
                 />
-                <TouchableOpacity style={styles.btnStock}>
+                <TouchableOpacity style={styles.btnStock} onPress={handleSubmit}>
                     <Text style={styles.btnTextStock}>Submit</Text>
                 </TouchableOpacity>
             </View>

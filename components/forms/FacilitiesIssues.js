@@ -2,9 +2,25 @@ import React from 'react'
 import {StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import Navbar from '../NavBar'
+import {Axios} from '../../firebase/firebaseConfig';
+import { useNavigation } from "@react-navigation/native";
+
 
 function FacilitiesIssues(){
+    const navigation = useNavigation();
     const [facilities, setFacilities] = React.useState('');
+    const [formData, setFormData] = React.useState({});
+
+    const handleSubmit = event =>  {
+        event.preventDefault()
+        console.log({data: formData})
+        sendEmail()
+        navigation.navigate("MainPage")
+    }
+
+    const sendEmail = () =>  {
+        Axios.post('https://us-central1-hrfmobile-5638b.cloudfunctions.net/submitFacilitiesIssue', formData)
+    };
 
     return(
         <View>
@@ -12,14 +28,15 @@ function FacilitiesIssues(){
             <Text style={styles.hOneFacilities}>Facilities issues</Text>
             <View style={styles.facilitiesWrapper}>
                 <TextInput
+                    name="description"
                     style={styles.facilitiesInput}
                     mode='outlined'
                     multiline={true}
                     placeholder="Facilities issues"
-                    value={facilities}
-                    onChangeText={facilities => setFacilities(facilities)}
+                    value={formData.description}
+                    onChangeText={description => setFormData({...formData, description})}
                 />
-                <TouchableOpacity style={styles.btnFacilities}>
+                <TouchableOpacity style={styles.btnFacilities} onPress={handleSubmit}>
                     <Text style={styles.btnTextFacilities}>Submit</Text>
                 </TouchableOpacity>
             </View>

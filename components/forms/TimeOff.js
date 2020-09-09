@@ -4,7 +4,7 @@ import {Picker} from '@react-native-community/picker';
 import CalendarTimeOff from './forms subcomponents/CalendarTimeOff'
 import { TextInput } from 'react-native-paper';
 import Navbar from '../NavBar'
-import {Axios, db} from '../../firebase/firebaseConfig';
+import {Axios} from '../../firebase/firebaseConfig';
 import Context from '../Context'
 
 function TimeOff(){

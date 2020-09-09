@@ -2,10 +2,27 @@ import React from 'react'
 import {StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import Navbar from '../NavBar'
+import {Axios} from '../../firebase/firebaseConfig';
+import { useNavigation } from "@react-navigation/native";
+
 
 function EquipmentFailure(){
-    const [line, setLine] = React.useState('');
+    const navigation = useNavigation();
+    const [lineNumber, setLineNumber] = React.useState('');
     const [description, setDescription] = React.useState('');
+    const [formData, setFormData] = React.useState({});
+
+    const handleSubmit = event =>  {
+        event.preventDefault()
+        console.log({data: formData})
+        sendEmail()
+        navigation.navigate("MainPage")
+    }
+
+    const sendEmail = () =>  {
+        Axios.post('https://us-central1-hrfmobile-5638b.cloudfunctions.net/submitEquipFailure', formData)
+    };
+
 
     return(
         <View>
@@ -13,21 +30,23 @@ function EquipmentFailure(){
             <Text style={styles.hOneEquipment}>Equipment failure</Text>
             <View style={styles.equipmentWrapper}>
                 <TextInput
+                    name="lineNumber"
                     style={styles.equipmentInput}
                     placeholder="Line number"
                     mode='outlined'
-                    value={line}
-                    onChangeText={line => setLine(line)}
+                    value={formData.lineNumber}
+                    onChangeText={lineNumber => setFormData({...formData, lineNumber})}
                 />
                 <TextInput
+                    name="description"
                     style={styles.equipmentInput}
-                    placeholder="Equipment description"
+                    placeholder="Describe which machine has failed, as well as the nature of the issue:"
                     mode='outlined'
                     multiline={true}
-                    value={description}
-                    onChangeText={description => setDescription(description)}
+                    value={formData.description}
+                    onChangeText={description => setFormData({...formData, description})}
                 />
-                <TouchableOpacity style={styles.btnEquipment}>
+                <TouchableOpacity style={styles.btnEquipment} onPress={handleSubmit}>
                     <Text style={styles.btnTextEquipment}>Submit</Text>
                 </TouchableOpacity>
             </View>

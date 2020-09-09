@@ -53,3 +53,158 @@ exports.submitTimeOff = functions.https.onRequest((req, res) => {
     });
   }
 });
+
+exports.submitEquipFailure = functions.https.onRequest((req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  res.set('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS');
+  res.set('Access-Control-Allow-Headers', '*');
+
+  if (req.method === 'OPTIONS') {
+    res.end();
+  } else {
+    cors(req, res, () => {
+      if (req.method !== 'POST') {
+        return;
+      }
+
+      const mailOptions = {
+        from: req.body.email,
+        replyTo: req.body.email,
+        to: gmailEmail,
+        subject: `Line ${req.body.lineNumber} has a fault that needs attention!`,
+        html: `<p>A production team member has declared that there is a failure on line: <b>${req.body.lineNumber}</b>. The issue is described as follows: <br> 
+                <b>Line Number:</b> ${req.body.lineNumber}<br>
+                <b>Description of failure:</b> ${req.body.description}<br>
+                <br>
+                Please contact the relevant production lead to coordinate repairs. <br>
+                <br>
+                This message has been delivered to you via the HRF Mobile App. 
+                </p>`,
+      };
+
+      return mailTransport.sendMail(mailOptions).then(() => {
+        console.log('New email sent to:', gmailEmail);
+        res.status(200).send({
+          isEmailSend: true,
+        });
+        return;
+      });
+    });
+  }
+});
+
+exports.submitFacilitiesIssue = functions.https.onRequest((req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  res.set('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS');
+  res.set('Access-Control-Allow-Headers', '*');
+
+  if (req.method === 'OPTIONS') {
+    res.end();
+  } else {
+    cors(req, res, () => {
+      if (req.method !== 'POST') {
+        return;
+      }
+
+      const mailOptions = {
+        from: req.body.email,
+        replyTo: req.body.email,
+        to: gmailEmail,
+        subject: `There is a facilities issue that needs attention!`,
+        html: `<p>An HRF team member has noticed that there is an issue with an HRF facility. The issue is described as follows: <br> 
+                <b>Description of failure:</b> ${req.body.description}<br>
+                <br>
+                Please assess the issue and coordinate repairs accordingly. <br>
+                <br>
+                This message has been delivered to you via the HRF Mobile App. 
+                </p>`,
+      };
+
+      return mailTransport.sendMail(mailOptions).then(() => {
+        console.log('New email sent to:', gmailEmail);
+        res.status(200).send({
+          isEmailSend: true,
+        });
+        return;
+      });
+    });
+  }
+});
+
+exports.submitSuggestion = functions.https.onRequest((req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  res.set('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS');
+  res.set('Access-Control-Allow-Headers', '*');
+
+  if (req.method === 'OPTIONS') {
+    res.end();
+  } else {
+    cors(req, res, () => {
+      if (req.method !== 'POST') {
+        return;
+      }
+
+      const mailOptions = {
+        from: req.body.email,
+        replyTo: req.body.email,
+        to: gmailEmail,
+        subject: `${req.body.firstname} ${req.body.lastname} has a suggestion for management.`,
+        html: `<p>An HRF team member has submitted a suggestion for consideration by management. The suggestion is described as follows: <br> 
+                <b>First name:</b> ${req.body.firstname}<br>
+                <b>Last name:</b> ${req.body.lastname}<br>
+                <b>Suggestion:</b> ${req.body.suggestion}<br>
+                <br>
+                Thank you for considering my suggestion. Feel free to discuss this with me further should there be any questions.<br>
+                <br>
+                This message has been delivered to you via the HRF Mobile App. 
+                </p>`,
+      };
+      return mailTransport.sendMail(mailOptions).then(() => {
+        console.log('New email sent to:', gmailEmail);
+        res.status(200).send({
+          isEmailSend: true,
+        });
+        return;
+      });
+    });
+  }
+});
+
+exports.submitMaterialRequest = functions.https.onRequest((req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  res.set('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS');
+  res.set('Access-Control-Allow-Headers', '*');
+
+  if (req.method === 'OPTIONS') {
+    res.end();
+  } else {
+    cors(req, res, () => {
+      if (req.method !== 'POST') {
+        return;
+      }
+
+      const mailOptions = {
+        from: req.body.email,
+        replyTo: req.body.email,
+        to: gmailEmail,
+        subject: `An HRF team member has noticed a material shortage!`,
+        html: `<p>An HRF team member has noticed that a material is in short supply. The material is described as follows: <br> 
+                <b>Stock Code:</b> ${req.body.stockCode}<br>
+                <b>Material Description:</b> ${req.body.description}<br>
+                <b>Qty Short:</b> ${req.body.quantityShort}<br>
+                <br>
+                Please urgently procure the above listed material(s) and notify the relevent stake holders in production and/or warehouse of any changes in production plan.<br>
+                <br>
+                This message has been delivered to you via the HRF Mobile App. 
+                </p>`,
+      };
+      return mailTransport.sendMail(mailOptions).then(() => {
+        console.log('New email sent to:', gmailEmail);
+        res.status(200).send({
+          isEmailSend: true,
+        });
+        return;
+      });
+    });
+  }
+});

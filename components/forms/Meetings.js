@@ -54,6 +54,7 @@ function Meetings(){
                 style={styles.meetingInput}
                 mode='outlined'
                 placeholder="Whats the meeting about?"
+                multiline={true}
                 value={meeting}
                 onChangeText={meeting => setMeeting(meeting)}
             />

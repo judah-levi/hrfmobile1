@@ -2,11 +2,26 @@ import React, {useState} from 'react'
 import {StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import Navbar from '../NavBar'
+import {Axios} from '../../firebase/firebaseConfig';
+import { useNavigation } from "@react-navigation/native";
 
 function Suggestion(){
+    const navigation = useNavigation();
     const [fn, setFn] = useState('');
     const [ln, setLn] = useState('');
-    const [suggestions, setSuggestions] = useState('');
+    const [suggestion, setSuggestion] = useState('');
+    const [formData, setFormData] = React.useState({});
+
+    const sendEmail = () =>  {
+        Axios.post('https://us-central1-hrfmobile-5638b.cloudfunctions.net/submitSuggestion', formData)
+    };
+
+    const handleSubmit = event =>  {
+        event.preventDefault()
+        console.log({data: formData})
+        sendEmail()
+        navigation.navigate("MainPage")
+    }
 
     return(
         <View>
@@ -14,28 +29,31 @@ function Suggestion(){
             <Text style={styles.hOneSuggestion}>Suggestion</Text>
             <View style={styles.suggestionWrapper}>
                <TextInput
+                    name="firstname"
                     style={styles.suggestionInput}
                     mode='outlined'
                     placeholder="First name"
-                    value={fn}
-                    onChangeText={fn => setFn(fn)}
+                    value={formData.firstname}
+                    onChangeText={firstname => setFormData({...formData, firstname})}
                 />
                 <TextInput
+                    name="lastname"
                     style={styles.suggestionInput}
                     mode='outlined'
                     placeholder="Last name"
-                    value={ln}
-                    onChangeText={ln => setLn(ln)}
+                    value={formData.lastname}
+                    onChangeText={lastname => setFormData({...formData, lastname})}
                 />
                 <TextInput
+                    name="suggestion"
                     style={styles.suggestionInput}
                     mode='outlined'
                     placeholder="Make your suggestion"
                     multiline={true}
-                    value={suggestions}
-                    onChangeText={suggestions => setSuggestions(suggestions)}
+                    value={formData.suggestion}
+                    onChangeText={suggestion => setFormData({...formData, suggestion})}
                 />
-                <TouchableOpacity style={styles.btnSuggestion}>
+                <TouchableOpacity style={styles.btnSuggestion} onPress={handleSubmit}>
                     <Text style={styles.btnTextSuggestion}>Submit</Text>
                 </TouchableOpacity>
             </View>
