@@ -65,4 +65,4 @@ buck-out/
 .env
 
 #google-services config
-./android/app/google-services.json
+*google-services.json
