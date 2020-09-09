@@ -34,10 +34,50 @@ exports.submitTimeOff = functions.https.onRequest((req, res) => {
         subject: `${req.body.firstname} ${req.body.lastname} just submitted a request for time off.`,
         html: `<p>${req.body.firstname} ${req.body.lastname}, a team member from the ${req.body.role} 
                 work center is requesting time off from work. The requested dates are as follows: <br> 
-                <b>Start Date:</b> ${req.body.startDate}<br>
-                <b>End Date:</b> ${req.body.endDate}<br>
+                <b>Start Date:</b> ${req.body.dateStart}<br>
+                <b>End Date:</b> ${req.body.dateEnd}<br>
                 
                 Please contact the employee's manager with approval or denial. <br>
+                <br>
+                This message has been delivered to you via the HRF Mobile App. 
+                </p>`,
+      };
+
+      return mailTransport.sendMail(mailOptions).then(() => {
+        console.log('New email sent to:', gmailEmail);
+        res.status(200).send({
+          isEmailSend: true,
+        });
+        return;
+      });
+    });
+  }
+});
+
+exports.submitSickDay = functions.https.onRequest((req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  res.set('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS');
+  res.set('Access-Control-Allow-Headers', '*');
+
+  if (req.method === 'OPTIONS') {
+    res.end();
+  } else {
+    cors(req, res, () => {
+      if (req.method !== 'POST') {
+        return;
+      }
+
+      const mailOptions = {
+        from: req.body.email,
+        replyTo: req.body.email,
+        to: gmailEmail,
+        subject: `${req.body.firstname} ${req.body.lastname} just declared of sick day.`,
+        html: `<p>${req.body.firstname} ${req.body.lastname}, a team member from the ${req.body.role} 
+                work center is sick and cannot come in to work. The details are as follows: <br> 
+                <b>Start Date:</b> ${req.body.dateStart}<br>
+                <b>End Date:</b> ${req.body.dateEnd}<br>
+                
+                Please ensure to record the absence in the employee's PTO file. <br>
                 <br>
                 This message has been delivered to you via the HRF Mobile App. 
                 </p>`,
