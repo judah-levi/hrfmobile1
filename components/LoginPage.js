@@ -3,21 +3,21 @@ import {
   StyleSheet,
   Text,
   View,
-  TextInput,
   TouchableOpacity,
   Image,
 } from "react-native";
 import auth from '@react-native-firebase/auth'
 import { useNavigation } from "@react-navigation/native";
+import {HelperText, TextInput} from 'react-native-paper'
 
 
 export default function LoginPage() {
-  const [errorMessage, setErrorMessage] = useState(null)
-  const [email, onChangeEmail] = useState("");
-  const [password, onChangePassword] = useState("");
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const navigation = useNavigation();
   const admin = "kolamiti92@gmail.com"
   const [role, setRole] = useState("")
+  const [error, setError] = useState(false)
 
   handleLogin = () =>  {
     auth().signInWithEmailAndPassword(email, password)
@@ -30,9 +30,8 @@ export default function LoginPage() {
         navigation.navigate("MainPage")
       }
     })
-    .catch(error => setErrorMessage({ errorMessage: error.message }))
-  }
-
+    .catch(() => setError(true))
+  } 
 
   return (
     <View style={styles.container}>
@@ -42,18 +41,20 @@ export default function LoginPage() {
           source={require("../pics/HeaderLogo_180x.png")} 
         />
         <TextInput
+          value={email}
           style={styles.input}
-          onChangeText={(email) => onChangeEmail(email)}
+          onChangeText={(email) => setEmail(email)}
           clearTextOnFocus
           placeholder='Email'
         />
         <TextInput
           style={styles.input}
-          onChangeText={(password) => onChangePassword(password)}
+          onChangeText={(password) => setPassword(password)}
           clearTextOnFocus
           secureTextEntry={true}
           placeholder= 'Password'
-        />
+          />
+        <Text style={styles.helperText}>{error ? "Login has failed. Please try again." : "" }</Text>
         <TouchableOpacity
           style={styles.loginButton}
           onPress={handleLogin}
@@ -151,4 +152,9 @@ const styles = StyleSheet.create({
     width: 125,
     marginBottom: 50,
   },
+  helperText:  {
+    marginTop: 10,
+    color: 'red',
+    fontWeight: 'bold'
+  }
 });
