@@ -94,6 +94,49 @@ exports.submitSickDay = functions.https.onRequest((req, res) => {
   }
 });
 
+exports.submitMeetingReq = functions.https.onRequest((req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  res.set('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS');
+  res.set('Access-Control-Allow-Headers', '*');
+
+  if (req.method === 'OPTIONS') {
+    res.end();
+  } else {
+    cors(req, res, () => {
+      if (req.method !== 'POST') {
+        return;
+      }
+
+      const mailOptions = {
+        from: req.body.email,
+        replyTo: req.body.email,
+        to: req.body.contactEmail,
+        subject: `${req.body.firstname} ${req.body.lastname} would like to schedule a meeting.`,
+        html: `<p>${req.body.firstname} ${req.body.lastname}, a team member from the ${req.body.role} work center
+                would like to schedule a meeting with you. The details are as follows: <br> 
+                <b>First Name:</b> ${req.body.firstname}<br>
+                <b>Last Name:</b> ${req.body.lastname}<br>
+                <b>Phone Number:</b> ${req.body.phoneNumber}<br>
+                <b>Work Center:</b> ${req.body.role}<br>
+                <b>Meeting Concept:</b> ${req.body.meetingDescription}<br>
+                <br>
+                Please feel free to contact your colleague at the above listed phone number to confirm a meeting.<br>
+                <br>
+                This message has been delivered to you via the HRF Mobile App. 
+                </p>`,
+      };
+
+      return mailTransport.sendMail(mailOptions).then(() => {
+        console.log('New email sent to:', gmailEmail);
+        res.status(200).send({
+          isEmailSend: true,
+        });
+        return;
+      });
+    });
+  }
+});
+
 exports.submitEquipFailure = functions.https.onRequest((req, res) => {
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS');
