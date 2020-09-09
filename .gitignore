@@ -63,3 +63,6 @@ buck-out/
 
 #env vars
 .env
+
+#google-services config
+./android/app/google-services.json
