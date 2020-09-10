@@ -5,7 +5,7 @@ import {TextInput} from 'react-native-paper';
 import Navbar from '../NavBar';
 import CalendarPicker from 'react-native-calendar-picker';
 import Moment from 'moment';
-import {Axios} from '../../firebase/firebaseConfig';
+import axios from 'axios';
 import { useNavigation } from "@react-navigation/native";
 
 class TimeOff extends React.Component {
@@ -46,7 +46,7 @@ class TimeOff extends React.Component {
   };
 
     sendEmail = () =>  {
-        Axios.post('https://us-central1-hrfmobile-5638b.cloudfunctions.net/submitTimeOff', this.state.formData)
+        axios.post('https://us-central1-hrfmobile-5638b.cloudfunctions.net/submitTimeOff', this.state.formData)    
     };
 
     

@@ -2,7 +2,7 @@ import React from 'react'
 import {StyleSheet, Text, View, TouchableOpacity } from 'react-native';
 import { TextInput } from 'react-native-paper';
 import Navbar from '../NavBar'
-import {Axios} from '../../firebase/firebaseConfig';
+import axios from 'axios';
 import { useNavigation } from "@react-navigation/native";
 
 
@@ -19,7 +19,7 @@ function FacilitiesIssues(){
     }
 
     const sendEmail = () =>  {
-        Axios.post('https://us-central1-hrfmobile-5638b.cloudfunctions.net/submitFacilitiesIssue', formData)
+        axios.post('https://us-central1-hrfmobile-5638b.cloudfunctions.net/submitFacilitiesIssue', formData)
     };
 
     return(

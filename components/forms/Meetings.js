@@ -3,7 +3,7 @@ import {StyleSheet, ScrollView, Text, View, TouchableOpacity } from 'react-nativ
 import {Picker} from '@react-native-community/picker';
 import { TextInput } from 'react-native-paper';
 import Navbar from '../NavBar'
-import {Axios} from '../../firebase/firebaseConfig';
+import axios from 'axios';
 import { useNavigation } from "@react-navigation/native";
 
 function Meetings(){
@@ -34,7 +34,7 @@ function Meetings(){
     }
 
     const sendEmail = () =>  {
-        Axios.post('https://us-central1-hrfmobile-5638b.cloudfunctions.net/submitMeetingReq', formData)
+        axios.post('https://us-central1-hrfmobile-5638b.cloudfunctions.net/submitMeetingReq', formData)
     };
 
     return(
