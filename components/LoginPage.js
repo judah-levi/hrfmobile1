@@ -15,14 +15,16 @@ export default function LoginPage() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
-  const admin = "kolamiti92@gmail.com"
+  const admin = "dan@hudsonriverfoods.com"
+  const admin2 = "kolamiti92@gmail.com"
+  const admin3 = "nicovg_95@hotmail.com"
   const [role, setRole] = useState("")
   const [error, setError] = useState(false)
 
   handleLogin = () =>  {
     auth().signInWithEmailAndPassword(email, password)
     .then(() => {
-      if(email == admin)  {
+      if(email == admin || admin2 || admin3)  {
         setRole({role: "admin"})
         navigation.navigate("AdminPage")
       } else  {
