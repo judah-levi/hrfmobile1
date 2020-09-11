@@ -23,7 +23,7 @@ export default function LoginPage() {
 
   handleSignUp = () =>  {
     auth().createUserWithEmailAndPassword(email, password)
-    .then(() => useNavigation.navigate('MainPage'))
+    .then(() => useNavigation.navigate('Login'))
     .catch(error => setErrorMessage({ errorMessage: error.message }))
     
   }
