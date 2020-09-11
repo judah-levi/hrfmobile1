@@ -71,10 +71,7 @@ function MainPage() {
             marginTop: 50,
             marginBottom: 10,
             padding: 11,
-            borderRadius: 8,
-            borderStyle: 'solid',
-            borderColor: 'grey',
-            borderWidth: 4,
+            borderRadius: 5,
             height: 500,
         },
         cardTitle: {
