@@ -1,11 +1,31 @@
 import React from 'react'
-import {StyleSheet, Text, View, TouchableOpacity } from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Title } from 'react-native';
 import AdminNavBar from './adminNavBar'
 export default function AdminPage() {
     return(
         <View>
             <AdminNavBar/>
-            <Text>This is the admin page</Text>
+            <View style={styles.fontwrapper}>
+                <Text style={styles.welcome}>
+                    Welcome to the admin console. 
+                    This is an early-stage 
+                    test version of your app. At this time you can only access 
+                    the news updating form. Whenenver you have an update for your organization 
+                    just click the button above and fill out the form!
+                </Text>
+            </View>
         </View>
     )
 }
+
+const styles = StyleSheet.create({
+    welcome:  {
+        fontWeight: 'bold',
+        lineHeight: 25,
+    },
+    fontwrapper: {
+        alignItems: 'center',
+        padding: 30,
+
+    }
+})

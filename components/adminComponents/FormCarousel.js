@@ -4,53 +4,55 @@ import AdminNavBar from './adminNavBar';
 import { TextInput } from 'react-native-paper';
 import ImagePicker from 'react-native-image-picker'
 import firestore from '@react-native-firebase/firestore'
-
-
+import storage from '@react-native-firebase/storage'
+import RNFetchBlob from 'rn-fetch-blob'
+import {useNavigation} from '@react-navigation/native'
 class FormCarousel extends React.Component {
     constructor(props)  {
         super(props)
         this.state = {
             title: '',
             content: '',
-            image: null
+            image: null,
+            timeStamp: new Date()
         }
     }
+
+    getPathForFirebaseStorage = async (uri) => {
+        const stat = await RNFetchBlob.fs.stat(uri)
+        // console.log(stat.path)
+        return stat.path
+    }
+      
+    uploadToStorage = (uploadFile) =>  {
+        const reference = storage().ref('/images'+ uploadFile)
+        const task = reference.putFile(uploadFile)
+        task.on('state_changed', taskSnapshot => {
+            console.log(`${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`);
+        });
+        task.then(() => {
+            console.log('Image uploaded to the bucket!');
+        });
+    }
+
 
     uploadPost = (post) => {
         const uploadData = {
             title: post.title,
             content: post.content,
-            image: post.image
+            image: post.image,
+            timeStamp: post.timeStamp
         }
         return firestore().collection('news-updates').doc().set(uploadData)
     }
 
-    handleLibraryPhoto = () => {
+    handleImagePicker = () => {
         const options = {
             storageOptions:  {
                 path: 'images',
             }
-          }
-          ImagePicker.launchImageLibrary(options, (response) => {
-            if (response.didCancel) {
-              console.log('User cancelled image picker')
-            } else if (response.error) {
-              console.log('ImagePicker Error: ', response.error)
-            } else if (response.customButton) {
-              console.log('User tapped custom button: ', response.customButton)
-            } else {
-              const source = {uri: response.uri};
-              this.setState({image: source});
-              console.log(this.state.image)
-            }
-          })
-    }
-
-    handleShootPhoto = () => { 
-        const options = {            
-            path: 'images'
-        };
-        ImagePicker.launchCamera(options, (response) => {
+        }
+        const pickMe = ImagePicker.launchImageLibrary(options, (response) => {
             if (response.didCancel) {
                 console.log('User cancelled image picker')
             } else if (response.error) {
@@ -58,9 +60,36 @@ class FormCarousel extends React.Component {
             } else if (response.customButton) {
                 console.log('User tapped custom button: ', response.customButton)
             } else {
-                const source = { uri: response.uri };
+                const source = {uri: response.uri};
                 this.setState({image: source})
+                // return source;
                 console.log(this.state.image)
+            }
+        })
+        // const androidPath = await this.getPathForFirebaseStorage(source.uri);
+        // this.setState({image: androidPath});
+        // console.log(this.state.image)
+        // this.uploadToStorage('/storage/emulated/0/DCIM/Camera/IMG_20200726_091113.jpg');
+    }
+
+
+    handleShootPhoto = () => { 
+        const options = {            
+            // path: 'images'
+        };
+        ImagePicker.launchCamera(options, (response) => {
+            if (response.didCancel) {
+                console.log('User cancelled camera')
+            } else if (response.error) {
+                console.log('ImagePicker Error: ', response.error)
+            } else if (response.customButton) {
+                console.log('User tapped custom button: ', response.customButton)
+            } else {
+                const source = { uri: response.uri };
+                const androidPath = this.getPathForFirebaseStorage(source.uri);
+                this.setState({image: androidPath});
+                console.log(this.state.image)
+
             }
         })
     }
@@ -69,7 +98,8 @@ class FormCarousel extends React.Component {
         const post = {
           image: this.state.image,
           title: this.state.title,
-          content: this.state.content
+          content: this.state.content,
+          timeStamp: this.state.timeStamp
         }
         this.uploadPost(post)
         
@@ -80,26 +110,32 @@ class FormCarousel extends React.Component {
     
 
     render()  {
+    const {navigation} = this.props
+    
     return(
         <View>
             <AdminNavBar />
             <Text style={styles.hOneCarousel}>Push company-wide news updates:</Text>
             <View style={styles.carouselWrapper}>
                 <TextInput
+                    maxLength={140}
                     style={styles.carouselInput}
                     mode='outlined'
                     placeholder="Title"
                     onChangeText={title => this.setState({title: title})}
                 />
                 <TextInput
+                    maxLength={140}
+                    multiline={true}
+                    numberOfLines={5}
                     style={styles.carouselInput}
                     mode='outlined'
                     placeholder="Content"
                     onChangeText={content => this.setState({content: content})}
                 />
-                <View>
+                {/* <View>
                     <TouchableOpacity 
-                        onPress={this.handleLibraryPhoto}
+                        onPress={this.handleImagePicker}
                         >
                         <Text style={styles.left}>Upload a picture</Text>
                     </TouchableOpacity>
@@ -108,15 +144,26 @@ class FormCarousel extends React.Component {
                     >
                         <Text style={styles.right}>Take a picture</Text>
                     </TouchableOpacity>
-                </View>
-                <TouchableOpacity style={styles.btnCarousel} onPress={this.handleSubmit}>
+                </View> */}
+                <TouchableOpacity 
+                    style={styles.btnCarousel} 
+                    onPress={() =>  {
+                        this.handleSubmit();
+                        navigation.navigate('AdminPage')
+                    }}
+                >
                     <Text style={styles.btnTextCarousel}>Submit</Text>
                 </TouchableOpacity>
             </View>
         </View>
-    )
-    }
+    )}
 }
+
+export default function(props) {
+    const navigation = useNavigation();
+  
+    return <FormCarousel {...props} navigation={navigation} />;
+  }
 
 const styles = StyleSheet.create({
     carouselWrapper:{
@@ -167,4 +214,3 @@ const styles = StyleSheet.create({
     },
 })
 
-export default FormCarousel

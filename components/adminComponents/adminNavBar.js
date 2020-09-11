@@ -16,7 +16,7 @@ export default function AdminNavBar(){
             </Appbar>
             <Appbar style={styles.column2}>
             <TouchableOpacity onPress={() => navigation.navigate("FormCarousel")}>
-                <MaterialCommunityIcon name="account-outline" style={styles.icons}/>
+                <MaterialCommunityIcon name="newspaper-plus" style={styles.icons}/>
             </TouchableOpacity>
             <Image
                 style={styles.image}
