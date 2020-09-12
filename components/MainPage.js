@@ -1,18 +1,12 @@
 import React, { useEffect } from 'react';
 import firestore from '@react-native-firebase/firestore'
+import Carousel from 'react-native-snap-carousel'
 import NavBar from './NavBar'
-import { StyleSheet, ScrollView, View, Text, Image, RefreshControl} from "react-native";
-  
-const wait = (timeout) => {
-    return new Promise(resolve => {
-      setTimeout(resolve, timeout);
-    });
-  }
+import { StyleSheet, View, Text, Image} from "react-native";
 
 function MainPage() {
     const [newsList, setNewsList] = React.useState([])
-    const [refreshing, setRefreshing] = React.useState(false);
-    const [time, setTime] = React.useState(Date(Date.now()).toString());
+    const [activeIndex, setActivateIndex] = React.useState(0)
 
     useEffect(() => {
         firestore().collection('news-updates').orderBy("timeStamp", "desc").limit(8).get()
@@ -25,69 +19,71 @@ function MainPage() {
         });
     }, [newsList]);
 
+    const renderItem = ({item,index}) => {
+        return (
+          <View style={styles.carouselGeneral}>
+            <Text style={styles.carouselTitle} key={index}>{item.title}</Text>
+            <Text style={styles.carouselContent} key={item.content}>{item.content}</Text>
+            <Image style={styles.carouselImage} source={require('../pics/0.png')}/>
+          </View>
 
-
-    const onRefresh = React.useCallback(() => {
-        setRefreshing(true);
-        setTime({ time: Date(Date.now()).toString() })
-        wait(800).then(() => setRefreshing(false));
-      }, []);
+        )
+    }
 
     return(
-            <ScrollView style={styles.mainWrapper} refreshControl={<RefreshControl refreshing={refreshing} onRefresh={onRefresh}/>}>
-                <NavBar />
-            <View style={styles.carousel}>
-                    {newsList.map(item => 
-                    <View style={styles.cardWrapper}>
-                        <Text style={styles.cardTitle} key={item.title}>{item.title} </Text>
-                        <Text style={styles.cardContent} key={item.content}>{item.content} </Text>
-                        {/* <Text style={styles.cardContent}>{item.timeStamp.toString()}</Text> */}
-                        <Image style={styles.image} source={require('../pics/0.png')}/>
-                    </View>
-                )}
-            </View>
-        </ScrollView>
+        
+        <View style={styles.mainWrapper}>
+        <NavBar />
+        <View style={styles.carouselWrapper}>
+            <Carousel
+              layout={"default"}
+              data={newsList}
+              sliderWidth={300}
+              itemWidth={300}
+              renderItem={renderItem}
+              onSnapToItem = { index => setActivateIndex({activeIndex:index}) } />
+        </View>
+      </View>
+              
     );
 }
 
     const styles = StyleSheet.create({
         mainWrapper: {
-            backgroundColor: '#00486D'
-        },
-        image: {
-            marginTop: 'auto',
-            marginLeft: 'auto',
-            opacity: 0.1,
-            width:300,
-            height: 300
-        },
-        carousel: {
             flex: 1,
-            flexDirection: 'column'
+            backgroundColor: '#00486D',
         },
-        cardWrapper: {
+        carouselWrapper: {
+            flex: 1,
+            flexDirection: 'row',
+            justifyContent: 'center',
+            paddingTop: 50,
+        },
+        carouselGeneral: {
             backgroundColor: 'white',
-            margin: 25,
-            marginTop: 50,
-            marginBottom: 10,
-            padding: 11,
-            borderRadius: 5,
-            height: 500,
+            borderRadius: 6,
+            height: 550,
+            width: 300,
+            padding: 30,
+            marginLeft: 30,
+            marginRight: 20,
         },
-        cardTitle: {
-            color: 'black',
+        carouselTitle: {
             fontWeight: 'bold',
-            fontSize: 33,
-            paddingBottom: 5,
+            paddingBottom: 20,
+            fontSize: 40
         },
-        cardContent: {
-            color: 'black',
-            fontSize: 22,
-            paddingBottom: 7,
+        carouselContent: {
+            fontSize: 25,
             zIndex: 1,
-            lineHeight: 28,
+            lineHeight: 35
         },
-        
+        carouselImage: {
+            marginTop: 'auto',
+            opacity: 0.2
+
+
+        }
     })
 
 export default MainPage
