@@ -34,9 +34,8 @@ export default function App() {
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false,}}>
           <Stack.Screen name="Login" component={isEnter ? EnterPage : LoginPage} />
-          <Stack.Screen name="AdminPage" component={AdminPage} />
-          <Stack.Screen name="Signup" component={SignupPage} />
           <Stack.Screen name="MainPage" component={MainPage} />  
+          <Stack.Screen name="Signup" component={SignupPage} />
           <Stack.Screen name="PersonalPage" component={PersonalPage} />
           <Stack.Screen name="BusinessPage" component={BusinessPage} />
           <Stack.Screen name="TimeOffForm" component={TimeOff} />
@@ -47,6 +46,7 @@ export default function App() {
           <Stack.Screen name="MaterialsNeededForm" component={MaterialsNeeded} />
           <Stack.Screen name="SuggestionForm" component={Suggestion} />
           <Stack.Screen name="FormCarousel" component={FormCarousel} />
+          <Stack.Screen name="AdminPage" component={AdminPage} />
       </Stack.Navigator>
     </NavigationContainer>
   );
