@@ -5,14 +5,16 @@ import { useNavigation } from "@react-navigation/native";
 
 const EnterPage = () => {
 const navigation = useNavigation()
-const admin = "kolamiti92@gmail.com"
+const admin = "dan@hudsonriverfoods.com"
+const admin2 = "kolamiti92@gmail.com"
+const admin3 = "nicovg_95@hotmail.com"
 
   useEffect( () =>  {
     auth().onAuthStateChanged(user =>  {
         if(user)  {
-          if(user.email == admin)  {
+          if(user.email == admin || user.email == admin2 || user.email == admin3)  {
             navigation.navigate('AdminPage')
-          } else  {
+          } else if(user.email !== admin)  {
             navigation.navigate('MainPage')
           }
         } else {
