@@ -30,7 +30,7 @@ exports.submitTimeOff = functions.https.onRequest((req, res) => {
       const mailOptions = {
         from: req.body.email,
         replyTo: req.body.email,
-        to: 'danratner@hudsonriverfoods.com, manuel@hudsonriverfoods.com, ambar@hudsonriverfoods.com',
+        to: 'victor@hudsonriverfoods.com',
         subject: `${req.body.firstname} ${req.body.lastname} just submitted a request for time off.`,
         html: `<p>${req.body.firstname} ${req.body.lastname}, a team member from the ${req.body.role} 
                 work center is requesting time off from work. The requested dates are as follows: <br> 
@@ -70,7 +70,7 @@ exports.submitSickDay = functions.https.onRequest((req, res) => {
       const mailOptions = {
         from: req.body.email,
         replyTo: req.body.email,
-        to: 'danratner@hudsonriverfoods.com, manuel@hudsonriverfoods.com, ambar@hudsonriverfoods.com',
+        to: 'victor@hudsonriverfoods.com',
         subject: `${req.body.firstname} ${req.body.lastname} just declared of sick day.`,
         html: `<p>${req.body.firstname} ${req.body.lastname}, a team member from the ${req.body.role} 
                 work center is sick and cannot come in to work. The details are as follows: <br> 
@@ -153,7 +153,7 @@ exports.submitEquipFailure = functions.https.onRequest((req, res) => {
       const mailOptions = {
         from: req.body.email,
         replyTo: req.body.email,
-        to: 'jerryhof@hudsonriverfoods.com, danratner@hudsonriverfoods.com, victor@hudsonriverfoods.com',
+        to: 'jerryhof@hudsonriverfoods.com',
         subject: `Line ${req.body.lineNumber} has a fault that needs attention!`,
         html: `<p>A production team member has declared that there is a failure on line: <b>${req.body.lineNumber}</b>. The issue is described as follows: <br> 
                 <b>Line Number:</b> ${req.body.lineNumber}<br>
@@ -192,7 +192,7 @@ exports.submitFacilitiesIssue = functions.https.onRequest((req, res) => {
       const mailOptions = {
         from: req.body.email,
         replyTo: req.body.email,
-        to: 'jerryhof@hudsonriverfoods.com, danratner@hudsonriverfoods.com, victor@hudsonriverfoods.com',
+        to: 'victor@hudsonriverfoods.com',
         subject: `There is a facilities issue that needs attention!`,
         html: `<p>An HRF team member has noticed that there is an issue with an HRF facility. The issue is described as follows: <br> 
                 <b>Description of failure:</b> ${req.body.description}<br>
@@ -230,7 +230,7 @@ exports.submitSuggestion = functions.https.onRequest((req, res) => {
       const mailOptions = {
         from: req.body.email,
         replyTo: req.body.email,
-        to: 'dan@hudsonriverfoods.com',
+        to: 'victor@hudsonriverfoods.com',
         subject: `${req.body.firstname} ${req.body.lastname} has a suggestion for management.`,
         html: `<p>An HRF team member has submitted a suggestion for consideration by management. The suggestion is described as follows: <br> 
                 <b>First name:</b> ${req.body.firstname}<br>
@@ -269,7 +269,7 @@ exports.submitMaterialRequest = functions.https.onRequest((req, res) => {
       const mailOptions = {
         from: req.body.email,
         replyTo: req.body.email,
-        to: 'phil@hudsonriverfoods.com, dan@hudsonriverfoods.com',
+        to: 'phil@hudsonriverfoods.com',
         subject: `An HRF team member has noticed a material shortage!`,
         html: `<p>An HRF team member has noticed that a material is in short supply. The material is described as follows: <br> 
                 <b>Stock Code:</b> ${req.body.stockCode}<br>
