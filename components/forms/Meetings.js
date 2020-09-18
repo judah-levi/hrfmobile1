@@ -94,8 +94,8 @@ function Meetings(){
                 <Picker.Item label='Maintenance Manager' value='jerryhof@hudsonriverfoods.com'/>
                 <Picker.Item label='Facilities Manager' value='victor@hudsonriverfoods.com'/>
                 <Picker.Item label='Purchasing Manager' value='phil@hudsonriverfoods.com'/>
-                <Picker.Item label='CEO' value='dan@hudsonriverfoods.com'/>
-                <Picker.Item label='Developer' value='app.hrf@gmail.com'/>
+                <Picker.Item label='Quality Assurance Manager' value='steve@hudsonriverfoods.com'/>
+                <Picker.Item label='Warehouse/DTC Manager' value='willis@hudsonriverfoods.com'/>
 
             </Picker>
             <TextInput
