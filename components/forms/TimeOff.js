@@ -9,12 +9,9 @@ import axios from 'axios';
 import { useNavigation } from "@react-navigation/native";
 
 class TimeOff extends React.Component {
-  constructor(props) {
-    super(props);
-    this.state = {
-      formData: '',
-    };
-  }
+  state = {
+    formData: '',
+  };
 
   onDateChange = (date, type) => {
     let state = this.state.formData;
