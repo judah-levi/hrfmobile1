@@ -65,6 +65,8 @@ function MainPage() {
             flexDirection: 'row',
             justifyContent: 'center',
             paddingTop: 10,
+            paddingLeft: 10,
+            paddingRight: 10
         },
         carouselGeneral: {
             backgroundColor: 'white',
@@ -72,19 +74,17 @@ function MainPage() {
             height: '90%',
             width: 300,
             padding: 30,
-            marginLeft: 30,
-            marginRight: 20,
             position: 'relative'
         },
         carouselTitle: {
             fontWeight: 'bold',
-            paddingBottom: 20,
-            fontSize: 40,
+            paddingBottom: 25,
+            fontSize: 30,
         },
         carouselContent: {
-            fontSize: 25,
+            fontSize: 22,
             zIndex: 1,
-            lineHeight: 35
+            lineHeight: 30
         },
         carouselImage: {
             position: 'absolute',
