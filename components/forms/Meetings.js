@@ -30,7 +30,7 @@ function Meetings(){
         event.preventDefault()
         console.log({data: formData})
         sendEmail()
-        // navigation.navigate("MainPage")
+        navigation.navigate("MainPage")
     }
 
     const sendEmail = () =>  {
