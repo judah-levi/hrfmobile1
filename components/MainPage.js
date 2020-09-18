@@ -34,7 +34,7 @@ function MainPage() {
         
         <View style={styles.mainWrapper}>
         <NavBar />
-        <Text style={styles.lastNews}>Last news</Text>
+        <Text style={styles.latestNews}>Latest News:</Text>
         <View style={styles.carouselWrapper}>
             <Carousel
               layout={"default"}
@@ -54,22 +54,22 @@ function MainPage() {
             flex: 1,
             backgroundColor: '#00486D',
         },
-        lastNews: {
+        latestNews: {
             color: 'white',
             textAlign: 'center',
-            fontSize: 50,
-            marginTop: 15
+            fontSize: 30,
+            marginTop: 10
         },
         carouselWrapper: {
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'center',
-            paddingTop: 25,
+            paddingTop: 10,
         },
         carouselGeneral: {
             backgroundColor: 'white',
             borderRadius: 6,
-            height: 550,
+            height: '90%',
             width: 300,
             padding: 30,
             marginLeft: 30,
