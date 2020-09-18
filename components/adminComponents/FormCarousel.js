@@ -118,7 +118,7 @@ class FormCarousel extends React.Component {
             <Text style={styles.hOneCarousel}>Push company-wide news updates:</Text>
             <View style={styles.carouselWrapper}>
                 <TextInput
-                    maxLength={140}
+                    maxLength={15}
                     style={styles.carouselInput}
                     mode='outlined'
                     placeholder="Title"

@@ -65,13 +65,13 @@ function MainPage() {
             flexDirection: 'row',
             justifyContent: 'center',
             paddingTop: 10,
-            paddingLeft: 10,
-            paddingRight: 10
+            paddingLeft: 5,
+            paddingRight: 5
         },
         carouselGeneral: {
             backgroundColor: 'white',
             borderRadius: 6,
-            height: '90%',
+            height: '95%',
             width: 300,
             padding: 30,
             position: 'relative'
