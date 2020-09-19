@@ -11,6 +11,7 @@ import BusinessPage from './components/BusinessPage'
 import TimeOff from './components/forms/TimeOff'
 import Meetings from './components/forms/Meetings'
 import SickDay from './components/forms/SickDay';
+import CovidForm from './components/forms/COVID-19';
 import EquipmentFailure from './components/forms/EquipmentFailure';
 import FacilitiesIssues from './components/forms/FacilitiesIssues';
 import MaterialsNeeded from './components/forms/MaterialsNeeded';
@@ -41,6 +42,7 @@ export default function App() {
           <Stack.Screen name="TimeOffForm" component={TimeOff} />
           <Stack.Screen name="MeetingsForm" component={Meetings} />
           <Stack.Screen name="SickDayForm" component={SickDay} />
+          <Stack.Screen name="CovidForm" component={CovidForm} />
           <Stack.Screen name="EquipmentFailuresForm" component={EquipmentFailure} />
           <Stack.Screen name="FacilitiesIssuesForm" component={FacilitiesIssues} />
           <Stack.Screen name="MaterialsNeededForm" component={MaterialsNeeded} />
