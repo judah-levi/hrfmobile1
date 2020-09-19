@@ -28,11 +28,15 @@ function FacilitiesIssues(){
             <Text style={styles.hOneFacilities}>Facilities issues</Text>
             <View style={styles.facilitiesWrapper}>
                 <TextInput
+                    theme={{ colors: { primary: "#00486D" }}}
+                    selectionColor={'white'}
+                    autoCapitalize="sentences"
+                    underlineColorAndroid={'#00486D'}
                     name="description"
                     style={styles.facilitiesInput}
-                    mode='outlined'
                     multiline={true}
-                    placeholder="Facilities issues"
+                    numberOfLines={7}
+                    placeholder="Describe the nature of the facilities issue that you have noticed:"
                     value={formData.description}
                     onChangeText={description => setFormData({...formData, description})}
                 />

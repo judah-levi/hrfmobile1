@@ -47,15 +47,16 @@ export default function NavBar(){
 const styles = StyleSheet.create({
     headerWrapper:  {
         height: 'auto',
-        backgroundColor: '#F9F7B7',
+        backgroundColor: '#fff',
         alignItems: 'flex-end',
         justifyContent: 'center',
         flexDirection: 'column',
+        width: '100%'
     },
     column1:  {
         height: 'auto',
         width: '100%',
-        backgroundColor: '#F9F7B7',
+        backgroundColor: '#fff',
         alignItems: 'flex-end',
         justifyContent: 'space-around',
         flexDirection: 'row',
@@ -66,7 +67,7 @@ const styles = StyleSheet.create({
     column2: {
         height: 'auto',
         width: '100%',
-        backgroundColor: '#F9F7B7',
+        backgroundColor: '#fff',
         alignItems: 'flex-end',
         justifyContent: 'space-around',
         flexDirection: 'row',
@@ -74,13 +75,13 @@ const styles = StyleSheet.create({
         zIndex: 0
     },
     icons:  {
-        backgroundColor: '#F9F7B7',
-        color: '#00486D',
+        backgroundColor: '#fff',
+        color: '#E6BE8A',
         fontSize: 30
     },
     image:  {
         width: 50,
         height: 50,
-        tintColor: '#00486D',
+        tintColor: '#E6BE8A',
     }
 })

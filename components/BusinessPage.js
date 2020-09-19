@@ -11,7 +11,7 @@ export default function BusinessPage() {
 
 
     return(
-        <View>
+        <View style={styles.pageWrapper}>
         <NavBar/>
         <View style={styles.wrapper}>
             <View>
@@ -44,6 +44,9 @@ export default function BusinessPage() {
 }
 
 const styles = StyleSheet.create({
+    pageWrapper:  {
+        height: '100%',
+    },
     wrapper: {
         marginTop: 100,
         margin: 10,
@@ -53,15 +56,15 @@ const styles = StyleSheet.create({
         alignItems: "center",
       },
     avatar: {
-        margin: 20,
-        padding: 25,
-        backgroundColor: '#00486D',
-        color: 'white',
-        borderRadius: 100,
+        marginRight: 20,
+        marginLeft: 20, 
+        paddingTop: 25,
+        color: '#E6BE8A',
     },
     avatartext: {
         textAlign: 'center',
-        fontWeight: 'bold'
+        fontWeight: 'bold',
+        color: '#00486D'
     },
     belows: {
         marginTop: 65

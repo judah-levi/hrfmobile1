@@ -31,10 +31,8 @@ function MainPage() {
     }
 
     return(
-        
         <View style={styles.mainWrapper}>
         <NavBar />
-        <Text style={styles.latestNews}>Latest News:</Text>
         <View style={styles.carouselWrapper}>
             <Carousel
               layout={"default"}
@@ -52,19 +50,13 @@ function MainPage() {
     const styles = StyleSheet.create({
         mainWrapper: {
             flex: 1,
-            backgroundColor: '#00486D',
-        },
-        latestNews: {
-            color: 'white',
-            textAlign: 'center',
-            fontSize: 30,
-            marginTop: 10
+            // backgroundColor: '#e6c68a',
         },
         carouselWrapper: {
             flex: 1,
             flexDirection: 'row',
             justifyContent: 'center',
-            paddingTop: 10,
+            paddingTop: 30,
             paddingLeft: 5,
             paddingRight: 5
         },
@@ -80,11 +72,13 @@ function MainPage() {
             fontWeight: 'bold',
             paddingBottom: 25,
             fontSize: 30,
+            color: '#00486D'
         },
         carouselContent: {
             fontSize: 22,
             zIndex: 1,
-            lineHeight: 30
+            lineHeight: 30,
+            color: '#00486D'
         },
         carouselImage: {
             position: 'absolute',

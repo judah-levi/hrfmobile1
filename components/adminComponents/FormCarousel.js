@@ -118,18 +118,24 @@ class FormCarousel extends React.Component {
             <Text style={styles.hOneCarousel}>Push company-wide news updates:</Text>
             <View style={styles.carouselWrapper}>
                 <TextInput
+                    theme={{ colors: { primary: "#00486D" }}}
+                    selectionColor={'white'}
+                    autoCapitalize="words"
+                    underlineColorAndroid={'#00486D'}
                     maxLength={15}
                     style={styles.carouselInput}
-                    mode='outlined'
                     placeholder="Title"
                     onChangeText={title => this.setState({title: title})}
                 />
                 <TextInput
+                    theme={{ colors: { primary: "#00486D" }}}
+                    selectionColor={'white'}
+                    autoCapitalize="sentances"
+                    underlineColorAndroid={'#00486D'}
                     maxLength={140}
                     multiline={true}
                     numberOfLines={5}
                     style={styles.carouselInput}
-                    mode='outlined'
                     placeholder="Content"
                     onChangeText={content => this.setState({content: content})}
                 />

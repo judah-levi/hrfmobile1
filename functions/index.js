@@ -291,3 +291,58 @@ exports.submitMaterialRequest = functions.https.onRequest((req, res) => {
     });
   }
 });
+
+exports.submitCovidForm = functions.https.onRequest((req, res) => {
+  res.set('Access-Control-Allow-Origin', '*');
+  res.set('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS');
+  res.set('Access-Control-Allow-Headers', '*');
+
+  if (req.method === 'OPTIONS') {
+    res.end();
+  } else {
+    cors(req, res, () => {
+      if (req.method !== 'POST') {
+        return;
+      }
+
+      const mailOptions = {
+        from: req.body.email,
+        replyTo: req.body.email,
+        to: gmailEmail,
+        subject: `${req.body.firstname} ${req.body.lastname} has submited their daily Health Declaration.`,
+        html: `<p>An HRF employee has signed their daily COVID-19 health declaration. <br> 
+                <br> 
+                <b>First Name:</b> ${req.body.firstname}<br>
+                <b>Last Name:</b> ${req.body.lastname}<br>
+                <b>Time Signed:</b> ${req.body.timeStamp}<br>
+                <b>START Health Declaration Agreement:</b><br>
+                <p>Hudson River Foods cares about the safety and health of it's entire workforce community. We are committed to 
+                ensuring that our facilities continue to support productive and healthy lifestyles for all of our staff. It is 
+                due to this that during the world-wide COVID-19 pandemic we ask that before arriving to work, you please verify your health status. <br>
+                <br>
+                By signing this form, you hereby delcare the following: <br>
+                <br>
+                1. Your temperature is not higher than 37C or 99F. <br>
+                2. You have not had a fever of 37C or 99F at any point during the last week. <br>
+                3. You do not have a cough (*except related to chronic asthma or allergies).<br>
+                4. You have not been in contact with someone with COVID-19 in the past 14 days. <br>
+                5. You take full responsibility for arriving to work during the COVID-19 epidemic, especially if you have a pre-existing health condition, 
+                    and hereby indemnify Hudson River Foods of any liability related to the health risks associated with COVID-19. <br>
+                6. If you come into contact with a carrier of COVID-19, from this day forward, you will immediately notify Hudson River Foods, and will remain in isloation. <br>
+                <br>
+                <b>END Health Declaration Agreement:</b><br>
+                <br>
+                <br>
+                This message has been delivered to you via the HRF Mobile App. 
+              </p>`,
+      };
+      return mailTransport.sendMail(mailOptions).then(() => {
+        console.log('New email sent to:', gmailEmail);
+        res.status(200).send({
+          isEmailSend: true,
+        });
+        return;
+      });
+    });
+  }
+});

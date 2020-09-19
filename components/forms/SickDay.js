@@ -60,9 +60,12 @@ class SickDay extends React.Component {
         <Text style={styles.hOneTimeOff}>Declare a Sick Day</Text>
         <View style={styles.timeOffWrapper}>
           <TextInput
+            theme={{ colors: { primary: "#00486D" }}}
+            selectionColor={'white'}
+            autoCapitalize="words"
+            underlineColorAndroid={'#00486D'}
             name="firstname"
             style={styles.timeOffInput}
-            mode="outlined"
             placeholder="First name"
             value={formData.firstname}
             onChangeText={(firstname) =>
@@ -70,9 +73,12 @@ class SickDay extends React.Component {
             }
           />
           <TextInput
+            theme={{ colors: { primary: "#00486D" }}}
+            selectionColor={'white'}
+            autoCapitalize="words"
+            underlineColorAndroid={'#00486D'}
             name="lastname"
             style={styles.timeOffInput}
-            mode="outlined"
             placeholder="Last name"
             value={formData.lastname}
             onChangeText={(lastname) => this.handleChange('lastname', lastname)}

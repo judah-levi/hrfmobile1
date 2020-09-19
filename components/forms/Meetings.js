@@ -43,25 +43,33 @@ function Meetings(){
         <Text style={styles.hOneMeeting}>Meetings</Text>
         <View style={styles.meetingWrapper}>
             <TextInput
+                theme={{ colors: { primary: "#00486D" }}}
+                selectionColor={'white'}
+                autoCapitalize="words"
+                underlineColorAndroid={'#00486D'}
                 name="firstname"
                 style={styles.meetingInput}
-                mode='outlined'
                 placeholder="First name"
                 value={formData.firstname}
                 onChangeText={firstname => setFormData({...formData, firstname})}
             />
             <TextInput
+                theme={{ colors: { primary: "#00486D" }}}
+                selectionColor={'white'}
+                autoCapitalize="words"
+                underlineColorAndroid={'#00486D'}
                 name="lastname"
                 style={styles.meetingInput}
-                mode='outlined'
                 placeholder="Last name"
                 value={formData.lastname}
                 onChangeText={lastname => setFormData({...formData, lastname})}
             />
             <TextInput
+                theme={{ colors: { primary: "#00486D" }}}
+                selectionColor={'white'}
+                underlineColorAndroid={'#00486D'}
                 name="phoneNumber"
                 style={styles.meetingInput}
-                mode='outlined'
                 placeholder="Phone"
                 value={formData.phoneNumber}
                 onChangeText={phoneNumber => setFormData({...formData, phoneNumber})}
@@ -99,10 +107,13 @@ function Meetings(){
 
             </Picker>
             <TextInput
+                theme={{ colors: { primary: "#00486D" }}}
+                selectionColor={'white'}
+                autoCapitalize="sentences"
+                underlineColorAndroid={'#00486D'}
                 name="meetingDescription"
                 style={styles.meetingInput}
-                mode='outlined'
-                placeholder="Whats the meeting about?"
+                placeholder="What's the meeting about?"
                 multiline={true}
                 value={formData.meetingDescription}
                 onChangeText={meetingDescription => setFormData({...formData, meetingDescription})}

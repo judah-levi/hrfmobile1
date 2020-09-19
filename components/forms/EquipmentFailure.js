@@ -30,19 +30,26 @@ function EquipmentFailure(){
             <Text style={styles.hOneEquipment}>Equipment failure</Text>
             <View style={styles.equipmentWrapper}>
                 <TextInput
+                    theme={{ colors: { primary: "#00486D" }}}
+                    selectionColor={'white'}
+                    autoCapitalize="words"
+                    underlineColorAndroid={'#00486D'}  
                     name="lineNumber"
                     style={styles.equipmentInput}
                     placeholder="Line number"
-                    mode='outlined'
                     value={formData.lineNumber}
                     onChangeText={lineNumber => setFormData({...formData, lineNumber})}
                 />
                 <TextInput
+                    theme={{ colors: { primary: "#00486D" }}}
+                    selectionColor={'white'}
+                    autoCapitalize="sentences"
+                    underlineColorAndroid={'#00486D'}
                     name="description"
                     style={styles.equipmentInput}
                     placeholder="Describe which machine has failed, as well as the nature of the issue:"
-                    mode='outlined'
                     multiline={true}
+                    numberOfLines={7}
                     value={formData.description}
                     onChangeText={description => setFormData({...formData, description})}
                 />

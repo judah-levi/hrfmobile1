@@ -60,9 +60,12 @@ class TimeOff extends React.Component {
         <Text style={styles.hOneTimeOff}>Schedule time off</Text>
         <View style={styles.timeOffWrapper}>
           <TextInput
+            theme={{ colors: { primary: "#00486D" }}}
+            selectionColor={'white'}
+            autoCapitalize="words"
+            underlineColorAndroid={'#00486D'}
             name="firstname"
             style={styles.timeOffInput}
-            mode="outlined"
             placeholder="First name"
             value={formData.firstname}
             onChangeText={(firstname) =>
@@ -70,14 +73,21 @@ class TimeOff extends React.Component {
             }
           />
           <TextInput
+            theme={{ colors: { primary: "#00486D" }}}
+            selectionColor={'white'}
+            autoCapitalize="words"
+            underlineColorAndroid={'#00486D'}
             name="lastname"
             style={styles.timeOffInput}
-            mode="outlined"
             placeholder="Last name"
             value={formData.lastname}
             onChangeText={(lastname) => this.handleChange('lastname', lastname)}
           />
           <Picker
+            theme={{ colors: { primary: "#00486D" }}}
+            selectionColor={'white'}
+            autoCapitalize="words"
+            underlineColorAndroid={'#00486D'}
             name="role"
             style={styles.timeOffPicker}
             value={formData.role}

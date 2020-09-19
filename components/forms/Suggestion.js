@@ -29,27 +29,37 @@ function Suggestion(){
             <Text style={styles.hOneSuggestion}>Suggestion</Text>
             <View style={styles.suggestionWrapper}>
                <TextInput
+                    theme={{ colors: { primary: "#00486D" }}}
+                    selectionColor={'white'}
+                    autoCapitalize="words"
+                    underlineColorAndroid={'#00486D'}
                     name="firstname"
                     style={styles.suggestionInput}
-                    mode='outlined'
                     placeholder="First name"
                     value={formData.firstname}
                     onChangeText={firstname => setFormData({...formData, firstname})}
                 />
                 <TextInput
+                    theme={{ colors: { primary: "#00486D" }}}
+                    selectionColor={'white'}
+                    autoCapitalize="words"
+                    underlineColorAndroid={'#00486D'}
                     name="lastname"
                     style={styles.suggestionInput}
-                    mode='outlined'
                     placeholder="Last name"
                     value={formData.lastname}
                     onChangeText={lastname => setFormData({...formData, lastname})}
                 />
                 <TextInput
+                    theme={{ colors: { primary: "#00486D" }}}
+                    selectionColor={'white'}
+                    autoCapitalize="sentences"
+                    underlineColorAndroid={'#00486D'}
                     name="suggestion"
                     style={styles.suggestionInput}
-                    mode='outlined'
-                    placeholder="Make your suggestion"
+                    placeholder="Describe your suggestion:"
                     multiline={true}
+                    numberOfLines={5}
                     value={formData.suggestion}
                     onChangeText={suggestion => setFormData({...formData, suggestion})}
                 />

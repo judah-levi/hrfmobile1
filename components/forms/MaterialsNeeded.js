@@ -29,26 +29,35 @@ function MaterialsNeeded(){
             <Text style={styles.hOneMaterial}>Materials needed</Text>
             <View style={styles.materialWrapper}>
                 <TextInput
+                    theme={{ colors: { primary: "#00486D" }}}
+                    selectionColor={'white'}
+                    autoCapitalize="words"
+                    underlineColorAndroid={'#00486D'}
                     name="stockCode"
                     style={styles.materialInput}
-                    mode='outlined'
                     placeholder="Stock Code"
                     value={formData.stockCode}
                     onChangeText={stockCode => setFormData({...formData, stockCode})}
                 />
                 <TextInput
+                    theme={{ colors: { primary: "#00486D" }}}
+                    selectionColor={'white'}
+                    autoCapitalize="words"
+                    underlineColorAndroid={'#00486D'}
                     name="description"
                     style={styles.materialInput}
-                    mode='outlined'
                     multiline={true}
                     placeholder="Description"
                     value={formData.description}
                     onChangeText={description => setFormData({...formData, description})}
                 />
                 <TextInput
+                    theme={{ colors: { primary: "#00486D" }}}
+                    selectionColor={'white'}
+                    autoCapitalize="words"
+                    underlineColorAndroid={'#00486D'}
                     name="quantityShort"
                     style={styles.materialInput}
-                    mode='outlined'
                     multiline={true}
                     placeholder="Quantity short"
                     value={formData.quantityShort}
