@@ -9,14 +9,20 @@ function MainPage() {
     const [activeIndex, setActivateIndex] = React.useState(0)
 
     useEffect(() => {
+        let mounted = true;
         firestore().collection('news-updates').orderBy("timeStamp", "desc").limit(8).get()
         .then(snapshot => {
-           setNewsList(snapshot.docs.map(doc => doc.data()))
-           return newsList
+            if(mounted){
+                setNewsList(snapshot.docs.map(doc => doc.data()))
+                return newsList
+            }
         })
         .catch(err => {
             console.log('Error getting documents', err);
         });
+
+        return () => mounted = false;
+        
     }, [newsList]);
 
     const renderItem = ({item,index}) => {
