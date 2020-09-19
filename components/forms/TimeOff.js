@@ -16,16 +16,10 @@ class TimeOff extends React.Component {
   onDateChange = (date, type) => {
     let state = this.state.formData;
     if (type === 'END_DATE') {
-      (state.dateEnd = date),
-        this.setState({
-          formData: state,
-        });
+      (state.dateEnd = date)
     } else {
       state.dateStart = date;
       state.dateEnd = null;
-      this.setState({
-        formData: state,
-      });
     }
   };
 
@@ -51,7 +45,7 @@ class TimeOff extends React.Component {
         Moment.locale('en');
         const {formData} = this.state;
         const minDate = new Date();
-        const maxDate = new Date(2090, 1, 1);
+        const maxDate = new Date(2090, 0, 1);
         const { navigation } = this.props;
         
    return (

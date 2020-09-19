@@ -51,7 +51,7 @@ class SickDay extends React.Component {
         Moment.locale('en');
         const {formData} = this.state;
         const minDate = new Date();
-        const maxDate = new Date(2090, 1, 1);
+        const maxDate = new Date(2090, 0, 1);
         const { navigation } = this.props;
         
    return (

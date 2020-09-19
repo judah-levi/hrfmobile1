@@ -29,7 +29,7 @@ export default class CalendarTimeOff extends Component {
     Moment.locale('en')
     const { selectedStartDate, selectedEndDate } = this.state;
     const minDate = new Date();
-    const maxDate = new Date(2090, 1, 1);
+    const maxDate = new Date(2090, 0, 1);
     const startDate  =  selectedStartDate ? selectedStartDate.toString() : '';
     const endDate = selectedEndDate ? selectedEndDate.toString() : '';
  
