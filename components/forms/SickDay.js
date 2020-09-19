@@ -16,16 +16,9 @@ class SickDay extends React.Component {
   onDateChange = (date, type) => {
     let state = this.state.formData;
     if (type === 'END_DATE') {
-      (state.dateEnd = date),
-        this.setState({
-          formData: state,
-        });
+      (state.dateEnd = date)
     } else {
       state.dateStart = date;
-    //   state.dateEnd = "";
-      this.setState({
-        formData: state,
-      });
     }
   };
 
