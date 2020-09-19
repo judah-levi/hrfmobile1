@@ -130,7 +130,7 @@ class FormCarousel extends React.Component {
                 <TextInput
                     theme={{ colors: { primary: "#00486D" }}}
                     selectionColor={'white'}
-                    autoCapitalize="sentances"
+                    autoCapitalize="sentences"
                     underlineColorAndroid={'#00486D'}
                     maxLength={140}
                     multiline={true}
