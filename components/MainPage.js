@@ -1,12 +1,17 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, addEventListener } from 'react';
 import firestore from '@react-native-firebase/firestore'
 import Carousel from 'react-native-snap-carousel'
 import NavBar from './NavBar'
 import { StyleSheet, View, Text, Image} from "react-native";
+import { useAndroidBackHandler } from "react-navigation-backhandler";
 
 function MainPage() {
     const [newsList, setNewsList] = React.useState([])
-    const [activeIndex, setActivateIndex] = React.useState(0)
+    const [activeIndex, setActivateIndex] = React.useState()
+
+    useAndroidBackHandler(()=> {
+        return true
+    });
 
     useEffect(() => {
         let mounted = true;
@@ -48,8 +53,7 @@ function MainPage() {
               renderItem={renderItem}
               onSnapToItem = { index => setActivateIndex({activeIndex:index}) } />
         </View>
-      </View>
-              
+      </View>     
     );
 }
 

@@ -1,7 +1,13 @@
 import React from 'react'
 import {StyleSheet, Text, View, TouchableOpacity, Title } from 'react-native';
 import AdminNavBar from './adminNavBar'
+import { useAndroidBackHandler } from "react-navigation-backhandler";
+
 export default function AdminPage() {
+    useAndroidBackHandler(()=> {
+        return true
+    });
+
     return(
         <View>
             <AdminNavBar/>
