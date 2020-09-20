@@ -71,26 +71,27 @@ function MainPage() {
             borderRadius: 6,
             height: '95%',
             width: 300,
-            padding: 30,
+            padding: 18,
             position: 'relative'
         },
         carouselTitle: {
             fontWeight: 'bold',
             paddingBottom: 25,
             fontSize: 30,
-            color: '#00486D'
+            color: 'black',
         },
         carouselContent: {
             fontSize: 22,
             zIndex: 1,
             lineHeight: 30,
-            color: '#00486D'
+            color: 'black',
+            // fontWeight: 'bold'
         },
         carouselImage: {
             position: 'absolute',
-            start: 50,
-            top: 180,
-            opacity: 0.2
+            start: 100,
+            top: 400,
+            opacity: 0.03
         }
     })
 
