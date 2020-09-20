@@ -66,3 +66,5 @@ buck-out/
 
 #google-services config
 *google-services.json
+
+build.gradle
