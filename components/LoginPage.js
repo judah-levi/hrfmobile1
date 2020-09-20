@@ -16,9 +16,20 @@ export default function LoginPage() {
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
   const [error, setError] = useState(false)
+  const admin = "dan@hudsonriverfoods.com"
+  const admin2 = "kolamiti92@gmail.com"
+  const admin3 = "nicovg_95@hotmail.com"
+
 
   handleLogin = () =>  {
     auth().signInWithEmailAndPassword(email, password)
+    .then(()=> {
+      if(email == admin || email == admin2 || email == admin3) {
+        navigation.navigate("AdminPage")
+      } else  {
+        navigation.navigate("MainPage")
+      }
+    }) 
     .catch(() => setError(true))
   } 
 
