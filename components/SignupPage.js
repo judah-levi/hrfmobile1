@@ -33,7 +33,7 @@ export default function LoginPage() {
       <View style={styles.card}>
         <Image
           style={styles.logo}
-          source={require("../pics/HeaderLogo_180x.png")} 
+          source={require("../pics/HeaderLogo_180x.webp")} 
         />
         <Title style={styles.titleText}>
             Welcome to the team!

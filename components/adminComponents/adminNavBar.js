@@ -20,7 +20,7 @@ export default function AdminNavBar(){
             </TouchableOpacity>
             <Image
                 style={styles.image}
-                source={require("../../pics/HeaderLogo_180x.png")}
+                source={require("../../pics/HeaderLogo_180x.webp")}
             />
             <TouchableOpacity onPress={() => auth().signOut()}>
                 <MaterialCommunityIcon name="logout" style={styles.icons}/>

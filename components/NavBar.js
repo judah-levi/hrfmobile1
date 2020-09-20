@@ -24,7 +24,7 @@ export default function NavBar(){
             </TouchableOpacity>
             <Image
                 style={styles.image}
-                source={require("../pics/HeaderLogo_180x.png")}
+                source={require("../pics/HeaderLogo_180x.webp")}
             />
             <TouchableOpacity onPress={() => navigation.navigate("BusinessPage")}>
                 <MaterialCommunityIcon name="factory" style={styles.icons}/>
