@@ -8,9 +8,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 
 function CovidForm(){
     const navigation = useNavigation();
-    const [fn, setFn] = useState('');
-    const [ln, setLn] = useState('');
-    const [suggestion, setSuggestion] = useState('');
     const [formData, setFormData] = useState({ timeStamp:new Date()});
     const [value1, setValue1] = useState('');
     const [value2, setValue2] = useState('');
