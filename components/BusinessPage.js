@@ -56,8 +56,8 @@ const styles = StyleSheet.create({
         alignItems: "center",
       },
     avatar: {
-        marginRight: 20,
-        marginLeft: 20, 
+        marginRight: 25,
+        marginLeft: 25, 
         paddingTop: 25,
         color: '#E6BE8A',
     },
