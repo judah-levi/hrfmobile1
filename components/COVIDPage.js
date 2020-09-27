@@ -28,7 +28,6 @@ function CovidPage(){
                 Hudson River Foods cares about the safety and health of it's entire workforce community. We are committed to 
                 ensuring that our facilities continue to support productive and healthy lifestyles for all of our staff. It is 
                 due to this that during the world-wide COVID-19 pandemic we ask that before arriving to work, you please verify your health status. {"\n"}
-                {"\n"}
             </Text>
             <Text style={styles.p}>
                 Hudson River Foods se preocupa por la seguridad y la salud de toda su comunidad laboral. Estamos comprometidos a asegurar que nuestras instalaciones continúen 
@@ -53,7 +52,7 @@ const styles = StyleSheet.create({
     p: {
         fontSize: 15,
         textAlign: 'left',
-        margin: 25, 
+        margin: 20, 
         marginBottom: 0
     },
     btnText: {
