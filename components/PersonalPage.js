@@ -33,7 +33,7 @@ export default function PersonalPage() {
                     <Text style={styles.avatartext}>SICK DAY</Text>
                 </View>
                 <View style={styles.belows}>
-                    <TouchableOpacity style={styles.buttonavatar} onPress={() => navigation.navigate("CovidForm")}>
+                    <TouchableOpacity style={styles.buttonavatar} onPress={() => navigation.navigate("CovidPage")}>
                         <MaterialCommunityIcons style={styles.avatar} size={85} name='doctor'  />
                     </TouchableOpacity>
                     <Text style={styles.avatartext}>COVID-19</Text>

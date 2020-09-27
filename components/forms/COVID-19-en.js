@@ -6,7 +6,7 @@ import axios from 'axios';
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from 'react-native-gesture-handler';
 
-function CovidForm(){
+function CovidFormEn(){
     const navigation = useNavigation();
     const [formData, setFormData] = useState({ timeStamp:new Date()});
     const [value1, setValue1] = useState('');
@@ -17,7 +17,7 @@ function CovidForm(){
     const [value6, setValue6] = useState('');
     const [value7, setValue7] = useState('');
     const [value8, setValue8] = useState('');
-    const [value9, setValue9] = useState('');
+    const [certify, setCertify] = useState('');
 
     const sendEmail = () =>  {
         axios.post('https://us-central1-hrfmobile-5638b.cloudfunctions.net/submitCovidForm', formData)
@@ -26,8 +26,8 @@ function CovidForm(){
     const handleSubmit = event =>  {
         event.preventDefault()
         console.log({data: formData})
-        // sendEmail()
-        // navigation.navigate("MainPage")
+        sendEmail()
+        navigation.navigate("MainPage")
     }
 
     const handleValue1  = (value1) =>  {
@@ -70,9 +70,9 @@ function CovidForm(){
         setFormData({...formData, value8})
     }
 
-    const handleValue9  = (value9) =>  {
-        setValue9(value9),
-        setFormData({...formData, value9})
+    const handleCertify  = (certify) =>  {
+        setCertify(certify),
+        setFormData({...formData, certify})
     }
 
     return(
@@ -92,7 +92,7 @@ function CovidForm(){
             </Text>
             <View>
                 <Text style={styles.p}>
-                    1. Is your temperature higher than 99F today? {"\n"}
+                    1. Is your temperature higher than 99°F today? {"\n"}
                 </Text>
                 <RadioButton.Group value={formData.value1}>
                     <View style={styles.radioGroup}>
@@ -107,7 +107,7 @@ function CovidForm(){
             </View>
             <View>
                 <Text style={styles.p}>
-                    2. Have you had a fever above 99F at any point during the last week? {"\n"}
+                    2. Have you had a fever above 99°F at any point during the last week? {"\n"}
                 </Text>
                 <RadioButton.Group value={formData.value2}>
                     <View style={styles.radioGroup}>
@@ -137,7 +137,7 @@ function CovidForm(){
             </View>
             <View>
                 <Text style={styles.p}>
-                    4. Have youn been in contact with a carrier of COVID-19 within the last 14 days? {"\n"}
+                    4. Have you been in contact with a carrier of COVID-19 within the last 14 days? {"\n"}
                 </Text>
                 <RadioButton.Group value={formData.value4}>
                     <View style={styles.radioGroup}>
@@ -182,7 +182,7 @@ function CovidForm(){
             </View>
             <View>
                 <Text style={styles.p}>
-                    7. Do you live with anyone currently or recently in quarentine? {"\n"}
+                    7. Do you live with anyone currently or recently in quarantine? {"\n"}
                 </Text>
                 <RadioButton.Group value={formData.value7}>
                     <View style={styles.radioGroup}>
@@ -197,7 +197,7 @@ function CovidForm(){
             </View>
             <View>
                 <Text style={styles.p}>
-                    8. Do you agree to immediately notify Hudson River Foods and remain in isloation if you are exposed to COVID-19?{"\n"}
+                    8. Do you agree to immediately notify Hudson River Foods and remain in isolation if you are exposed to COVID-19?{"\n"}
                 </Text>
                 <RadioButton.Group value={formData.value8}>
                     <View style={styles.radioGroup}>
@@ -235,16 +235,15 @@ function CovidForm(){
                     onChangeText={lastname => setFormData({...formData, lastname})}
                 />
                 <View>
-                    <Text style={styles.p1}>
-                        I certify that the information submitted in this application is true and correct to the best of my knowledge. {"\n"}
-                    </Text>
-                    <RadioButton.Group value={formData.value9}>
+                    <RadioButton.Group value={formData.certify}>
                         <View style={styles.radioGroup}>
-                            <View style={styles.col1}>
-                                <RadioButton.Item value="yes" label="Yes" style={styles.radiobutton} onPress={() => handleValue9('yes')}/>
+                            <View style={styles.col3}>
+                                <RadioButton.Item value="yes" style={styles.radiobutton} onPress={() => handleCertify('yes')}/>
                             </View>
-                            <View style={styles.col2}>
-                                <RadioButton.Item value="no" label="No" style={styles.radiobutton} onPress={() => handleValue9('no')}/>
+                            <View style={styles.col4}>
+                                <Text style={styles.p1}>
+                                    I certify that the information submitted in this application is true and correct to the best of my knowledge. {"\n"}
+                                </Text>
                             </View>
                         </View>
                     </RadioButton.Group>
@@ -316,7 +315,13 @@ const styles = StyleSheet.create({
     }, 
     col2:  {
         width: '50%'
+    },
+    col3:  {
+        width:'10%'    
+    }, 
+    col4:  {
+        width: '90%'
     }
 })
 
-export default CovidForm
+export default CovidFormEn

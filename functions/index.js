@@ -308,7 +308,7 @@ exports.submitCovidForm = functions.https.onRequest((req, res) => {
       const mailOptions = {
         from: req.body.email,
         replyTo: req.body.email,
-        to: 'victor@hudsonriverfoods.com, danratner@gmail.com',
+        to: gmailEmail,
         subject: `${req.body.firstname} ${req.body.lastname} has submited their daily Health Declaration.`,
         html: `<p>An HRF employee has signed their daily COVID-19 health declaration. <br> 
                 <br> 
@@ -320,15 +320,27 @@ exports.submitCovidForm = functions.https.onRequest((req, res) => {
                 ensuring that our facilities continue to support productive and healthy lifestyles for all of our staff. It is 
                 due to this that during the world-wide COVID-19 pandemic we ask that before arriving to work, you please verify your health status. <br>
                 <br>
-                By signing this form, you hereby delcare the following: <br>
+                Please answer the following: <br>
                 <br>
-                1. Your temperature is not higher than 37C or 99F. <br>
-                2. You have not had a fever of 37C or 99F at any point during the last week. <br>
-                3. You do not have a cough (*except related to chronic asthma or allergies).<br>
-                4. You have not been in contact with someone with COVID-19 in the past 14 days. <br>
-                5. You take full responsibility for arriving to work during the COVID-19 epidemic, especially if you have a pre-existing health condition, 
-                    and hereby indemnify Hudson River Foods of any liability related to the health risks associated with COVID-19. <br>
-                6. If you come into contact with a carrier of COVID-19, from this day forward, you will immediately notify Hudson River Foods, and will remain in isloation. <br>
+                1. Is your temperature higher than 99F today? <br>
+                  [Employee Response]: <b>${req.body.value1}</b><br>
+                2. Have you had a fever above 99F at any point during the last week? <br>
+                  [Employee Response]: <b>${req.body.value2}</b><br>
+                3. Do you have a cough or any flu-like symptoms? <br>
+                  [Employee Response]: <b>${req.body.value3}</b><br>
+                4. Have you been in contact with a carrier of COVID-19 within the last 14 days? <br>
+                  [Employee Response]: <b>${req.body.value4}</b><br>
+                5. Have you been to a multi-participant gathering or event in the past week? <br>
+                  [Employee Response]: <b>${req.body.value5}</b><br>
+                6. Have you traveled outside of New York state in the past two weeks? <br>
+                  [Employee Response]: <b>${req.body.value6}</b><br>
+                7. Do you live with anyone currently or recently in quarantine? <br>
+                  [Employee Response]: <b>${req.body.value7}</b><br>
+                8. Do you agree to immediately notify Hudson River Foods and remain in isolation if you are exposed to COVID-19? <br>
+                  [Employee Response]: <b>${req.body.value8}</b><br>
+                <br>
+                I certify that the information submitted in this application is true and correct to the best of my knowledge. <br>
+                  [Employee Response]: <b>${req.body.certify}</b><br>
                 <br>
                 <b>END Health Declaration Agreement:</b><br>
                 <br>
