@@ -40,7 +40,7 @@ function CovidPage(){
                     <Text style={styles.btnText}>Form in English</Text>
                 </TouchableOpacity>
                 <TouchableOpacity style={styles.col2} onPress={() => navigation.navigate('CovidFormEs')}>
-                    <Text style={styles.btnText}>Forma en Español</Text>
+                    <Text style={styles.btnText}>Form en Español</Text>
                 </TouchableOpacity>
             </View>
         </View>

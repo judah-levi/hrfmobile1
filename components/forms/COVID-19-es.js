@@ -79,7 +79,7 @@ function CovidFormEs(){
         <ScrollView>
         <View>
             <Navbar />
-            <Text style={styles.hOneSuggestion}>HRF COVID-19 DECLARACIÓN DE SALUD</Text>
+            <Text style={styles.hOneSuggestion}>HRF COVID-19 {'\n'} DECLARACIÓN DE SALUD</Text>
             {/* <Text style={styles.p}>
                 Hudson River Foods cares about the safety and health of it's entire workforce community. We are committed to 
                 ensuring that our facilities continue to support productive and healthy lifestyles for all of our staff. It is 
@@ -275,7 +275,7 @@ const styles = StyleSheet.create({
         marginLeft: 15, 
         marginRight: 15,
         fontWeight: 'bold',
-        marginBottom: 0
+        marginBottom: -20
     },
     p1: {
         fontSize: 15,
@@ -283,7 +283,6 @@ const styles = StyleSheet.create({
         marginTop: '6%',
         marginLeft: 15, 
         marginRight: 15,
-        // fontWeight: 'bold'
     },
     suggestionInput: {
         backgroundColor: 'white',
@@ -305,16 +304,9 @@ const styles = StyleSheet.create({
     },
     radioGroup: {
         flexDirection: 'row',
-        justifyContent: 'space-between',
     },
     radiobutton:  {
         flexDirection: 'column',
-    },
-    col1:  {
-        width:'50%'    
-    }, 
-    col2:  {
-        width: '50%'
     },
     col3:  {
         width:'10%'    
