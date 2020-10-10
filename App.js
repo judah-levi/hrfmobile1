@@ -39,13 +39,14 @@ const translate = memoize(
 const setI18nConfig = () => {
   const fallback = { languageTag: 'en' }
   const { languageTag } =
-  RNLocalize.findBestAvailableLanguage(Object.keys(translationGetters)) ||
-  fallback
+    RNLocalize.findBestAvailableLanguage(Object.keys(translationGetters)) ||
+    fallback
 
   translate.cache.clear()
 
   i18n.translations = { [languageTag]: translationGetters[languageTag]() }
   i18n.locale = languageTag
+  console.log(languageTag)
 }
 
 export default class App extends React.Component {
@@ -56,10 +57,11 @@ export default class App extends React.Component {
       isEnter: true
     }
   }
-  // state  
-  // const [isEnter, setIsEnter] = useState(true);
 
-  componentDidMount() {
+  componentDidMount = () => {
+    setTimeout( () =>  {
+      this.setState({isEnter: false})
+    }, 2000)
     RNLocalize.addEventListener('change', this.handleLocalizationChange)
   }
 
@@ -68,29 +70,15 @@ export default class App extends React.Component {
   }
 
   handleLocalizationChange = () => {
-    this.state.setI18nConfig
-    .then(() => forceUpdate())
-    .catch(error => {
-        console.error(error)
-    })
+    setI18nConfig();
+    this.forceUpdate();
   }
-
-
-  // useEffect(() =>  {
-  //     RNLocalize.addEventListener('change', handleLocalizationChange)
-  // }, []);  
-  
-  // useEffect( () =>  {
-  //   setTimeout( () =>  {
-  //     setIsEnter(false)
-  //   }, 2000)
-  // }, []);
 
   render()  {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false,}}>
-          {/* <Stack.Screen name="Login" component={isEnter ? EnterPage : LoginPage} /> */}
+      <Stack.Navigator screenOptions={{headerShown: false,}} handleTranslate={translate}>
+          <Stack.Screen name="Login" component={this.state.isEnter ? EnterPage : LoginPage} />
           <Stack.Screen name="MainPage" component={MainPage} />  
           <Stack.Screen name="Signup" component={SignupPage} />
           <Stack.Screen name="PersonalPage" component={PersonalPage} />
