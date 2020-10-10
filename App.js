@@ -31,7 +31,7 @@ const translationGetters = {
   es: () => require('./translations/es.json')
 }
 
-const translate = memoize(
+const doTranslate = memoize(
   (key, config) => i18n.t(key, config),
   (key, config) => (config ? key + JSON.stringify(config) : key)
 )
@@ -42,7 +42,7 @@ const setI18nConfig = () => {
     RNLocalize.findBestAvailableLanguage(Object.keys(translationGetters)) ||
     fallback
 
-  translate.cache.clear()
+  doTranslate.cache.clear()
 
   i18n.translations = { [languageTag]: translationGetters[languageTag]() }
   i18n.locale = languageTag
@@ -53,8 +53,9 @@ export default class App extends React.Component {
   constructor(props) {
     super(props)
     setI18nConfig()
+    doTranslate
     this.state =  {
-      isEnter: true
+      isEnter: true,
     }
   }
 
@@ -77,11 +78,11 @@ export default class App extends React.Component {
   render()  {
   return (
     <NavigationContainer>
-      <Stack.Navigator screenOptions={{headerShown: false,}} handleTranslate={translate}>
+      <Stack.Navigator screenOptions={{headerShown: false,}} >
           <Stack.Screen name="Login" component={this.state.isEnter ? EnterPage : LoginPage} />
           <Stack.Screen name="MainPage" component={MainPage} />  
           <Stack.Screen name="Signup" component={SignupPage} />
-          <Stack.Screen name="PersonalPage" component={PersonalPage} />
+          <Stack.Screen name="PersonalPage" component={PersonalPage} handleTranslate={doTranslate}/>
           <Stack.Screen name="BusinessPage" component={BusinessPage} />
           <Stack.Screen name="TimeOffForm" component={TimeOff} />
           <Stack.Screen name="MeetingsForm" component={Meetings} />

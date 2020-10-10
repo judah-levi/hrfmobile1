@@ -18,7 +18,7 @@ export default function PersonalPage({handleTranslate}) {
                     <TouchableOpacity style={styles.buttonavatar} onPress={() => navigation.navigate("TimeOffForm")}>
                         <MaterialCommunityIcons style={styles.avatar} size={85} name="calendar-account" />
                     </TouchableOpacity>
-                    <Text style={styles.avatartext}>{handleTranslate("TIME OFF")}</Text>
+                    <Text style={styles.avatartext}>{handleTranslate("Time Off")}</Text>
                 </View>
                 <View>
                     <TouchableOpacity style={styles.buttonavatar} onPress={() => navigation.navigate("MeetingsForm")}>
