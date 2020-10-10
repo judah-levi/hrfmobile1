@@ -20,23 +20,77 @@ import MaterialsNeeded from './components/forms/MaterialsNeeded';
 import Suggestion from './components/forms/Suggestion';
 import AdminPage from './components/adminComponents/AdminPage'
 import FormCarousel from './components/adminComponents/FormCarousel';
+import * as RNLocalize from 'react-native-localize'
+import i18n from 'i18n-js'
+import memoize from 'lodash.memoize'
 
 const Stack = createStackNavigator();
 
-export default function App() {
-  const [isEnter, setIsEnter] = useState(true);
+const translationGetters = {
+  en: () => require('./translations/en.json'),
+  es: () => require('./translations/es.json')
+}
+
+const translate = memoize(
+  (key, config) => i18n.t(key, config),
+  (key, config) => (config ? key + JSON.stringify(config) : key)
+)
+
+const setI18nConfig = () => {
+  const fallback = { languageTag: 'en' }
+  const { languageTag } =
+  RNLocalize.findBestAvailableLanguage(Object.keys(translationGetters)) ||
+  fallback
+
+  translate.cache.clear()
+
+  i18n.translations = { [languageTag]: translationGetters[languageTag]() }
+  i18n.locale = languageTag
+}
+
+export default class App extends React.Component {
+  constructor(props) {
+    super(props)
+    setI18nConfig()
+    this.state =  {
+      isEnter: true
+    }
+  }
+  // state  
+  // const [isEnter, setIsEnter] = useState(true);
+
+  componentDidMount() {
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+  }
+
+  componentWillUnmount() {
+    RNLocalize.removeEventListener('change', this.handleLocalizationChange)
+  }
+
+  handleLocalizationChange = () => {
+    this.state.setI18nConfig
+    .then(() => forceUpdate())
+    .catch(error => {
+        console.error(error)
+    })
+  }
+
+
+  // useEffect(() =>  {
+  //     RNLocalize.addEventListener('change', handleLocalizationChange)
+  // }, []);  
   
-  useEffect( () =>  {
-    setTimeout( () =>  {
-      setIsEnter(false)
-    }, 2000)
-  }, []);
+  // useEffect( () =>  {
+  //   setTimeout( () =>  {
+  //     setIsEnter(false)
+  //   }, 2000)
+  // }, []);
 
-
+  render()  {
   return (
     <NavigationContainer>
       <Stack.Navigator screenOptions={{headerShown: false,}}>
-          <Stack.Screen name="Login" component={isEnter ? EnterPage : LoginPage} />
+          {/* <Stack.Screen name="Login" component={isEnter ? EnterPage : LoginPage} /> */}
           <Stack.Screen name="MainPage" component={MainPage} />  
           <Stack.Screen name="Signup" component={SignupPage} />
           <Stack.Screen name="PersonalPage" component={PersonalPage} />
@@ -55,5 +109,5 @@ export default function App() {
           <Stack.Screen name="AdminPage" component={AdminPage} />
       </Stack.Navigator>
     </NavigationContainer>
-  );
+  )};
 }

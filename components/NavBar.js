@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useEffect} from "react";
 import { Appbar, Avatar, Title } from 'react-native-paper';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons'
@@ -6,11 +6,10 @@ import { useNavigation } from "@react-navigation/native";
 import auth from '@react-native-firebase/auth'
 import {StyleSheet, TouchableOpacity, Image, View} from "react-native";
 
-
 export default function NavBar(){
+
     const navigation = useNavigation();
-
-
+      
     return(
         <Appbar.Header style={styles.headerWrapper}>
             <Appbar style={styles.column1}>
