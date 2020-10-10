@@ -44,6 +44,18 @@ const setI18nConfig = () => {
 
   translate.cache.clear();
 
+  const fallback = { languageTag: 'en' }
+  const { languageTag } =
+    RNLocalize.findBestAvailableLanguage(Object.keys(translationGetters)) ||
+    fallback
+
+  translate.cache.clear()
+
+  i18n.translations = { [languageTag]: translationGetters[languageTag]() }
+  i18n.locale = languageTag
+  console.log(languageTag)
+}
+
   i18n.translations = {[languageTag]: translationGetters[languageTag]()};
   i18n.locale = languageTag;
 };
@@ -55,17 +67,26 @@ export default class App extends React.Component {
       isEnter: true,
     };
   }
+
   // const [isEnter, setIsEnter] = useState(true);
 
   // componentDidMount() {
   //   RNLocalize.addEventListener('change', this.handleLocalizationChange);
   // }
 
+  componentDidMount = () => {
+    setTimeout( () =>  {
+      this.setState({isEnter: false})
+    }, 2000)
+    RNLocalize.addEventListener('change', this.handleLocalizationChange)
+  }
+
   // componentWillUnmount() {
   //   RNLocalize.removeEventListener('change', this.handleLocalizationChange);
   // }
 
   handleLocalizationChange = () => {
+<<<<<<< HEAD
     setI18nConfig()
       .then(() => forceUpdate())
       .catch((error) => {
@@ -89,6 +110,18 @@ export default class App extends React.Component {
         <Stack.Navigator screenOptions={{headerShown: false}}>
           {/* <Stack.Screen name="Login" component={isEnter ? EnterPage : LoginPage} /> */}
           <Stack.Screen name="MainPage" component={MainPage} />
+=======
+    setI18nConfig();
+    this.forceUpdate();
+  }
+
+  render()  {
+  return (
+    <NavigationContainer>
+      <Stack.Navigator screenOptions={{headerShown: false,}} handleTranslate={translate}>
+          <Stack.Screen name="Login" component={this.state.isEnter ? EnterPage : LoginPage} />
+          <Stack.Screen name="MainPage" component={MainPage} />  
+>>>>>>> 7552d33c0af7b4ee8df0c0a64af10c45c9ffbebf
           <Stack.Screen name="Signup" component={SignupPage} />
           <Stack.Screen name="PersonalPage" component={PersonalPage} />
           <Stack.Screen name="BusinessPage" component={BusinessPage} />

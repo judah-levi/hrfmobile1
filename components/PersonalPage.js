@@ -6,9 +6,9 @@ import { useNavigation } from "@react-navigation/native";
 import NavBar from './NavBar';
 
 
-export default function PersonalPage() {
+export default function PersonalPage({handleTranslate}) {
     const navigation = useNavigation();
-
+    console.log({handleTranslate})
 
     return(
         <View style={styles.pageWrapper}>
@@ -18,7 +18,7 @@ export default function PersonalPage() {
                     <TouchableOpacity style={styles.buttonavatar} onPress={() => navigation.navigate("TimeOffForm")}>
                         <MaterialCommunityIcons style={styles.avatar} size={85} name="calendar-account" />
                     </TouchableOpacity>
-                    <Text style={styles.avatartext}>TIME OFF</Text>
+                    <Text style={styles.avatartext}>{handleTranslate("TIME OFF")}</Text>
                 </View>
                 <View>
                     <TouchableOpacity style={styles.buttonavatar} onPress={() => navigation.navigate("MeetingsForm")}>
