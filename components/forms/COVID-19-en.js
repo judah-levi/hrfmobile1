@@ -116,7 +116,7 @@ function CovidFormEn(){
             </View>
             <View>
                 <Text style={styles.p}>
-                    3. Do you have a cough or any flu-like symptoms? {"\n"}
+                    3. Do you have a cough, chills, nausea, muscle-soreness, loss of smell or taste? {"\n"}
                 </Text>
                 <RadioButton.Group value={formData.value3}>
                     <View style={styles.radioGroup}>
@@ -131,7 +131,7 @@ function CovidFormEn(){
             </View>
             <View>
                 <Text style={styles.p}>
-                    4. Have you been in contact with a carrier of COVID-19 within the last 14 days? {"\n"}
+                    4. Have you been in contact with someone who is COVID-19 positive, within the last 14 days? {"\n"}
                 </Text>
                 <RadioButton.Group value={formData.value4}>
                     <View style={styles.radioGroup}>
@@ -161,7 +161,7 @@ function CovidFormEn(){
             </View>
             <View>
                 <Text style={styles.p}>
-                    6. Have you traveled outside of New York state in the past two weeks? {"\n"}
+                    6. Have you traveled outside of Albany in the past two weeks? {"\n"}
                 </Text>
                 <RadioButton.Group value={formData.value6}>
                     <View style={styles.radioGroup}>
