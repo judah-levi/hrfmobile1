@@ -9,17 +9,6 @@ import { ScrollView } from 'react-native-gesture-handler';
 function CovidPage(){
     const navigation = useNavigation();
 
-    const sendEmail = () =>  {
-        axios.post('https://us-central1-hrfmobile-5638b.cloudfunctions.net/submitCovidForm', formData)
-    };
-
-    const handleSubmit = event =>  {
-        event.preventDefault()
-        console.log({data: formData})
-        sendEmail()
-        navigation.navigate("MainPage")
-    }
-
     return(
         <ScrollView>
         <View>

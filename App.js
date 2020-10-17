@@ -26,6 +26,8 @@ const Stack = createStackNavigator();
 export default class App extends React.Component {
   constructor(props) {
     super(props);
+    setI18nConfig();
+    doTranslate;
     this.state = {
       isEnter: true,
     };
@@ -46,8 +48,13 @@ export default class App extends React.Component {
             component={this.state.isEnter ? EnterPage : LoginPage}
           />
           <Stack.Screen name="MainPage" component={MainPage} />
+
           <Stack.Screen name="Signup" component={SignupPage} />
-          <Stack.Screen name="PersonalPage" component={PersonalPage} />
+          <Stack.Screen
+            name="PersonalPage"
+            component={PersonalPage}
+            handleTranslate={doTranslate}
+          />
           <Stack.Screen name="BusinessPage" component={BusinessPage} />
           <Stack.Screen name="TimeOffForm" component={TimeOff} />
           <Stack.Screen name="MeetingsForm" component={Meetings} />
