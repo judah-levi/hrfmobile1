@@ -13,6 +13,9 @@ import {HelperText, TextInput} from 'react-native-paper'
 
 export default function LoginPage() {
   const [email, setEmail] = useState("");
+  const [phoneNumber, setPhoneNumber] = useState('')
+  const [confirm, setConfirm] = useState(null);
+  const [code, setCode] = useState('');
   const [password, setPassword] = useState("");
   const navigation = useNavigation();
   const [error, setError] = useState(false)
@@ -20,6 +23,18 @@ export default function LoginPage() {
   const admin2 = "kolamiti92@gmail.com"
   const admin3 = "nicovg_95@hotmail.com"
 
+  async function signInWithPhoneNumber(phoneNumber) {
+    const confirmation = await auth().signInWithPhoneNumber(phoneNumber);
+    setConfirm(confirmation);
+  }
+
+  async function confirmCode() {
+    try {
+      await confirm.confirm(code);
+    } catch (error) {
+      console.log('Invalid code.');
+    }
+  }
 
   handleLogin = () =>  {
     auth().signInWithEmailAndPassword(email, password)
@@ -33,6 +48,7 @@ export default function LoginPage() {
     .catch(() => setError(true))
   } 
 
+  if (!confirm) {
   return (
     <View style={styles.container}>
       <View style={styles.card}>
@@ -41,35 +57,45 @@ export default function LoginPage() {
           source={require("../pics/HeaderLogo_180x.webp")} 
         />
         <TextInput
-          value={email}
+          value={phoneNumber}
           style={styles.input}
-          onChangeText={(email) => setEmail(email)}
+          onChangeText={(num) => setPhoneNumber(num)}
           clearTextOnFocus
-          placeholder='Email'
+          placeholder='Phone Number'
+        />
+        <Text style={styles.helperText}>{error ? "Login has failed. Please try again." : "" }</Text>
+        <TouchableOpacity
+          style={styles.loginButton}
+          onPress={() => signInWithPhoneNumber(phoneNumber)}
+        >
+          <Text style={styles.buttonText}>Sign in</Text>
+        </TouchableOpacity>
+      </View>
+    </View>
+  );
+  }
+  return (
+    <View style={styles.container}>
+      <View style={styles.card}>
+        <Image
+          style={styles.logo}
+          source={require("../pics/HeaderLogo_180x.webp")} 
         />
         <TextInput
+          value={code}
           style={styles.input}
-          onChangeText={(password) => setPassword(password)}
+          onChangeText={(code) => setCode(code)}
           clearTextOnFocus
           secureTextEntry={true}
-          placeholder= 'Password'
+          placeholder= 'Verification Code'
           />
         <Text style={styles.helperText}>{error ? "Login has failed. Please try again." : "" }</Text>
         <TouchableOpacity
           style={styles.loginButton}
-          onPress={handleLogin}
+          onPress={() => confirmCode()}
         >
-          <Text style={styles.buttonText}>Login</Text>
+          <Text style={styles.buttonText}>Confirm verification code</Text>
         </TouchableOpacity>
-        <View style={styles.signupView}>
-          <Text style={styles.buttonText}>Don't have an account?</Text>
-          <TouchableOpacity
-            style={styles.signupButton}
-            onPress={() => navigation.navigate("Signup")}
-          >
-            <Text style={styles.signupButtonText}>Signup</Text>
-          </TouchableOpacity>
-        </View>
       </View>
     </View>
   );
