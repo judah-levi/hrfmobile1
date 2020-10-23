@@ -92,7 +92,7 @@ function CovidFormEs(){
             </Text>
             <View>
                 <Text style={styles.p}>
-                1. ¿Es hoy su temperatura mayor a los 99°F (37°C)? {"\n"}
+                1. ¿Es hoy su temperatura mayor a los 99°F? {"\n"}
                 </Text>
                 <RadioButton.Group value={formData.value1}>
                     <View style={styles.radioGroup}>
@@ -107,7 +107,7 @@ function CovidFormEs(){
             </View>
             <View>
                 <Text style={styles.p}>
-                    2. ¿Ha tenido fiebre por encima de los 99°F (37°C) en algún momento durante la última semana? {"\n"}
+                    2. ¿Ha tenido fiebre por encima de los 99°F en algún momento durante la última semana? {"\n"}
                 </Text>
                 <RadioButton.Group value={formData.value2}>
                     <View style={styles.radioGroup}>
@@ -122,7 +122,7 @@ function CovidFormEs(){
             </View>
             <View>
                 <Text style={styles.p}>
-                    3. ¿Tiene tos o algún síntoma similar a la gripe? {"\n"}
+                    3. ¿Tiene tos, escalofríos, nauseas, dolor muscular, pérdida del olfato o gusto? {"\n"}
                 </Text>
                 <RadioButton.Group value={formData.value3}>
                     <View style={styles.radioGroup}>
@@ -137,7 +137,7 @@ function CovidFormEs(){
             </View>
             <View>
                 <Text style={styles.p}>
-                    4. ¿Ha estado en contacto con un portador de COVID-19 en los últimos 14 días? {"\n"}
+                    4. ¿Ha estado en contacto con alguien que sea COVID-19 positivo en los últimos 14 días? {"\n"}
                 </Text>
                 <RadioButton.Group value={formData.value4}>
                     <View style={styles.radioGroup}>
@@ -167,7 +167,7 @@ function CovidFormEs(){
             </View>
             <View>
                 <Text style={styles.p}>
-                    6. ¿Ha viajado fuera del estado de Nueva York en las últimas dos semanas? {"\n"}
+                    6. ¿Ha viajado fuera de Albany en las últimas dos semanas? {"\n"}
                 </Text>
                 <RadioButton.Group value={formData.value6}>
                     <View style={styles.radioGroup}>

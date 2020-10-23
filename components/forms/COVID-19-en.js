@@ -116,7 +116,7 @@ function CovidFormEn(){
             </View>
             <View>
                 <Text style={styles.p}>
-                    3. Do you have a cough, chills, nausea, muscle-soreness, loss of smell or taste? {"\n"}
+                    3. Do you have a cough, chills, nausea, muscle soreness, loss of smell or taste? {"\n"}
                 </Text>
                 <RadioButton.Group value={formData.value3}>
                     <View style={styles.radioGroup}>
