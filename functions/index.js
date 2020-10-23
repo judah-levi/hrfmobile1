@@ -1,3 +1,6 @@
+const admin = require('firebase-admin')
+admin.initializeApp();
+
 const functions = require('firebase-functions');
 const nodemailer = require('nodemailer');
 const cors = require('cors')({
@@ -305,16 +308,36 @@ exports.submitCovidForm = functions.https.onRequest((req, res) => {
         return;
       }
 
+      const db = admin.firestore()
+
+      const writeToDB = () => {
+        const uploadData = {
+          first_name: req.body.firstname,
+          last_name: req.body.lastname,
+          date: req.body.date,
+          high_temp_today: req.body.value1,
+          high_temp_week: req.body.value2,
+          cough_symptoms: req.body.value3,
+          contact_w_carrier: req.body.value4,
+          big_gathering: req.body.value5,
+          traveled: req.body.value6,
+          live_w_quarentiner: req.body.value7,
+          agree_to_isolate: req.body.value8,
+          certify_truth: req.body.certify,
+        };
+        return db.collection('covid_submissions').doc().set(uploadData);
+      };
+
       const mailOptions = {
         from: req.body.email,
         replyTo: req.body.email,
-        to: 'dan@hudsonriverfoods.com, victor@hudsonriverfoods.com',
+        to: gmailEmail /*today@hudsonriverfoods.com*/,
         subject: `${req.body.firstname} ${req.body.lastname} has submited their daily Health Declaration.`,
         html: `<p>An HRF employee has signed their daily COVID-19 health declaration. <br> 
                 <br> 
                 <b>First Name:</b> ${req.body.firstname}<br>
                 <b>Last Name:</b> ${req.body.lastname}<br>
-                <b>Time Signed:</b> ${req.body.timeStamp}<br>
+                <b>Time Signed:</b> ${req.body.date}<br>
                 <b>START Health Declaration Agreement:</b><br>
                 <p>Hudson River Foods cares about the safety and health of it's entire workforce community. We are committed to 
                 ensuring that our facilities continue to support productive and healthy lifestyles for all of our staff. It is 
@@ -349,6 +372,7 @@ exports.submitCovidForm = functions.https.onRequest((req, res) => {
               </p>`,
       };
       return mailTransport.sendMail(mailOptions).then(() => {
+        writeToDB();
         console.log('New email sent to:', gmailEmail);
         res.status(200).send({
           isEmailSend: true,

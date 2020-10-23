@@ -5,10 +5,13 @@ import Navbar from '../NavBar'
 import axios from 'axios';
 import { useNavigation } from "@react-navigation/native";
 import { ScrollView } from 'react-native-gesture-handler';
+import moment from 'moment-timezone';
+
+const formattedDate = moment.tz('America/New_York').format('l')
 
 function CovidFormEn(){
     const navigation = useNavigation();
-    const [formData, setFormData] = useState({ timeStamp:new Date()});
+    const [formData, setFormData] = useState({date: formattedDate});
     const [value1, setValue1] = useState('');
     const [value2, setValue2] = useState('');
     const [value3, setValue3] = useState('');
