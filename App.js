@@ -20,44 +20,7 @@ import MaterialsNeeded from './components/forms/MaterialsNeeded';
 import Suggestion from './components/forms/Suggestion';
 import AdminPage from './components/adminComponents/AdminPage';
 import FormCarousel from './components/adminComponents/FormCarousel';
-import * as RNLocalize from 'react-native-localize';
-import i18n from 'i18n-js';
-import memoize from 'lodash.memoize';
 
-// export const AppStateContext = React.createContext();
-
-// const AppStateProvider = (props) => {
-//   const translate = memoize(
-//     (key, config) => i18n.t(key, config),
-//     (key, config) => (config ? key + JSON.stringify(config) : key),
-//   );
-
-//   const translationGetters = {
-//     en: () => require('../translations/en.json'),
-//     es: () => require('../translations/es.json'),
-//   };
-
-//   const translate = memoize(
-//     (key, config) => i18n.t(key, config),
-//     (key, config) => (config ? key + JSON.stringify(config) : key),
-//   );
-
-//   const setI18nConfig = () => {
-//     const fallback = {languageTag: 'en'};
-//     const {languageTag} =
-//       RNLocalize.findBestAvailableLanguage(Object.keys(translationGetters)) ||
-//       fallback;
-//     translate.cache.clear();
-//     i18n.translations = {[languageTag]: translationGetters[languageTag]()};
-//     i18n.locale = languageTag;
-//   };
-
-//   return (
-//     <AppStateContext.Provider value={translate, translationGetters, setI18nConfig}>
-//       {props.children}
-//     </AppStateContext.Provider>
-//   );
-// };
 
 const Stack = createStackNavigator();
 
