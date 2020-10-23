@@ -23,9 +23,13 @@
     "@react-navigation/stack": "^5.9.0",
     "axios": "^0.20.0",
     "cors": "^2.8.5",
+<<<<<<< HEAD
     "eslint": "^7.11.0",
     "firebase-admin": "^9.2.0",
     "i18n-js": "^3.7.1",
+=======
+    "i18n-js": "^3.8.0",
+>>>>>>> lang
     "lodash.memoize": "^4.1.2",
     "moment": "^2.27.0",
     "moment-timezone": "^0.5.31",
