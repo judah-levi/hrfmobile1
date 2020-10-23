@@ -29,7 +29,7 @@ const setI18nConfig = () => {
   i18n.locale = languageTag;
 };
 
-export default class BusinessPage extends React.Component {
+class BusinessPage extends React.Component {
   constructor(props) {
     super(props);
     setI18nConfig();
@@ -51,6 +51,8 @@ export default class BusinessPage extends React.Component {
   };
 
   render() {
+    const { navigation } = this.props;
+
     return (
       <View style={styles.pageWrapper}>
         <NavBar />
@@ -58,7 +60,7 @@ export default class BusinessPage extends React.Component {
           <View>
             <TouchableOpacity
               style={styles.buttonavatar}
-              onPress={() => useNavigation().navigate('EquipmentFailuresForm')}>
+              onPress={() => navigation.navigate('EquipmentFailuresForm')}>
               <MaterialCommunityIcon
                 style={styles.avatar}
                 size={85}
@@ -72,7 +74,7 @@ export default class BusinessPage extends React.Component {
           <View>
             <TouchableOpacity
               style={styles.buttonavatar}
-              onPress={() => useNavigation().navigate('FacilitiesIssuesForm')}>
+              onPress={() => navigation.navigate('FacilitiesIssuesForm')}>
               <Entypo style={styles.avatar} size={85} name="tools" />
             </TouchableOpacity>
             <Text style={styles.avatartext}>
@@ -82,7 +84,7 @@ export default class BusinessPage extends React.Component {
           <View style={styles.belows}>
             <TouchableOpacity
               style={styles.buttonavatar}
-              onPress={() => useNavigation().navigate('MaterialsNeededForm')}>
+              onPress={() => navigation.navigate('MaterialsNeededForm')}>
               <MaterialIcon
                 style={styles.avatar}
                 size={85}
@@ -96,7 +98,7 @@ export default class BusinessPage extends React.Component {
           <View style={styles.belows}>
             <TouchableOpacity
               style={styles.buttonavatar}
-              onPress={() => useNavigation().navigate('SuggestionForm')}>
+              onPress={() => navigation.navigate('SuggestionForm')}>
               <Entypo style={styles.avatar} size={85} name="light-bulb" />
             </TouchableOpacity>
             <Text style={styles.avatartext}>{translate('Suggestions')}</Text>
@@ -105,6 +107,12 @@ export default class BusinessPage extends React.Component {
       </View>
     );
   }
+}
+
+export default function(props) {
+  const navigation = useNavigation();
+
+  return <BusinessPage {...props} navigation={navigation} />
 }
 
 const styles = StyleSheet.create({
