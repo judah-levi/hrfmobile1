@@ -1,12 +1,19 @@
-import React, {Component} from 'react';
-import { StyleSheet, ScrollView, Text, View, TouchableOpacity } from 'react-native';
+import React from 'react';
+import {
+  StyleSheet,
+  ScrollView,
+  Text,
+  View,
+  TouchableOpacity,
+} from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import {TextInput} from 'react-native-paper';
 import Navbar from '../NavBar';
 import CalendarPicker from 'react-native-calendar-picker';
 import Moment from 'moment';
 import axios from 'axios';
-import { useNavigation } from "@react-navigation/native";
+import {useNavigation} from '@react-navigation/native';
+import * as RNLocalize from 'react-native-localize';
 
 class TimeOff extends React.Component {
   state = {
@@ -16,7 +23,7 @@ class TimeOff extends React.Component {
   onDateChange = (date, type) => {
     let state = this.state.formData;
     if (type === 'END_DATE') {
-      (state.dateEnd = date)
+      state.dateEnd = date;
     } else {
       state.dateStart = date;
       state.dateEnd = null;
@@ -36,25 +43,27 @@ class TimeOff extends React.Component {
     });
   };
 
-    sendEmail = () =>  {
-        axios.post('https://us-central1-hrfmobile-5638b.cloudfunctions.net/submitTimeOff', this.state.formData)    
-    };
+  sendEmail = () => {
+    axios.post(
+      'https://us-central1-hrfmobile-5638b.cloudfunctions.net/submitTimeOff',
+      this.state.formData,
+    );
+  };
 
-    
-    render() {
-        Moment.locale('en');
-        const {formData} = this.state;
-        const minDate = new Date();
-        const maxDate = new Date(2090, 0, 1);
-        const { navigation } = this.props;
-        
-   return (
+  render() {
+    Moment.locale('en');
+    const {formData} = this.state;
+    const minDate = new Date();
+    const maxDate = new Date(2090, 0, 1);
+    const {navigation} = this.props;
+
+    return (
       <ScrollView showsVerticalScrollIndicator={false}>
         <Navbar />
         <Text style={styles.hOneTimeOff}>Schedule time off</Text>
         <View style={styles.timeOffWrapper}>
           <TextInput
-            theme={{ colors: { primary: "#00486D" }}}
+            theme={{colors: {primary: '#00486D'}}}
             selectionColor={'white'}
             autoCapitalize="words"
             underlineColorAndroid={'#00486D'}
@@ -67,7 +76,7 @@ class TimeOff extends React.Component {
             }
           />
           <TextInput
-            theme={{ colors: { primary: "#00486D" }}}
+            theme={{colors: {primary: '#00486D'}}}
             selectionColor={'white'}
             autoCapitalize="words"
             underlineColorAndroid={'#00486D'}
@@ -78,7 +87,7 @@ class TimeOff extends React.Component {
             onChangeText={(lastname) => this.handleChange('lastname', lastname)}
           />
           <Picker
-            theme={{ colors: { primary: "#00486D" }}}
+            theme={{colors: {primary: '#00486D'}}}
             selectionColor={'white'}
             autoCapitalize="words"
             underlineColorAndroid={'#00486D'}
@@ -109,9 +118,9 @@ class TimeOff extends React.Component {
           <TouchableOpacity
             style={styles.btnTimeOff}
             onPress={(event) => {
-                event.preventDefault();
-                this.sendEmail();
-                navigation.navigate("MainPage");            
+              event.preventDefault();
+              this.sendEmail();
+              navigation.navigate('MainPage');
             }}>
             <Text style={styles.btnTextTimeOff}>Submit</Text>
           </TouchableOpacity>
@@ -119,13 +128,13 @@ class TimeOff extends React.Component {
       </ScrollView>
     );
   }
-};
+}
 
-export default function(props) {
-    const navigation = useNavigation();
-  
-    return <TimeOff {...props} navigation={navigation} />;
-  }
+export default function (props) {
+  const navigation = useNavigation();
+
+  return <TimeOff {...props} navigation={navigation} />;
+}
 
 const styles = StyleSheet.create({
   timeOffWrapper: {

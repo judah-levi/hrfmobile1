@@ -42,6 +42,7 @@ class BusinessPage extends React.Component {
   componentWillUnmount() {
     RNLocalize.removeEventListener('change', this.handleLocalizationChange);
   }
+
   handleLocalizationChange = () => {
     setI18nConfig()
       .then(() => this.forceUpdate())
@@ -51,7 +52,7 @@ class BusinessPage extends React.Component {
   };
 
   render() {
-    const { navigation } = this.props;
+    const {navigation} = this.props;
 
     return (
       <View style={styles.pageWrapper}>
@@ -109,10 +110,10 @@ class BusinessPage extends React.Component {
   }
 }
 
-export default function(props) {
+export default function (props) {
   const navigation = useNavigation();
 
-  return <BusinessPage {...props} navigation={navigation} />
+  return <BusinessPage {...props} navigation={navigation} />;
 }
 
 const styles = StyleSheet.create({

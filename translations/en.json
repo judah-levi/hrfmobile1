@@ -15,7 +15,7 @@
     "Bakery": "Bakery",
     "Dry Pack": "Dry Pack",
     "Dry Mix": "Dry Mix",
-    "Mainenance": "Mainenance",
+    "Maintenance": "Maintenance",
     "Mechanical": "Mechanical",
     "Previous btn": "Previous",
     "Next btn": "Next",
@@ -40,6 +40,20 @@
     "Stock Code": "Stock Code",
     "Material Description": "Description",
     "Quantity Short": "Quantity Short",
-    "Suggestion desc": "Describe your suggestion:"
+    "Suggestion desc": "Describe your suggestion:",
+    "Form": "Form",
+    "Covid Statement": "Hudson River Foods cares about the safety and health of it's entire workforce community. We are committed to ensuring that our facilities continue to support productive and healthy lifestyles for all of our staff. It is due to this that during the world-wide COVID-19 pandemic we ask that before arriving to work, you please verify your health status.",
+    "Covid Health Dec": "HRF COVID-19 HEALTH DECLARATION",
+    "Yes": "Yes",
+    "Please answer": "Please answer the following:",
+    "Covid question 1": "1. Is your temperature higher than 99°F today?",
+    "Covid question 2": "2. Have you had a fever above 99°F at any point during the last week?",
+    "Covid question 3": "3. Do you have a cough, chills, nausea, muscle soreness, loss of smell or taste?",
+    "Covid question 4": "4. Have you been in contact with someone who is COVID-19 positive, within the last 14 days?",
+    "Covid question 5": "5. Have you been to a multi-participant gathering or event in the past week?",
+    "Covid question 6": "6. Have you traveled outside of Albany in the past two weeks?",
+    "Covid question 7": "7. Do you live with anyone currently or recently in quarantine?",
+    "Covid question 8": "8. Do you agree to immediately notify Hudson River Foods and remain in isolation if you are exposed to COVID-19?",
+    "Covid certify": "I certify that the information submitted in this application is true and correct to the best of my knowledge."
 }
 

@@ -1,5 +1,5 @@
-import React, { Component,useContext } from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import React, {Component} from 'react';
+import {StyleSheet, Text, View} from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
 import Moment from 'moment';
 
@@ -11,7 +11,7 @@ export default class CalendarTimeOff extends Component {
       selectedEndDate: null,
     };
   }
- 
+
   onDateChange = (date, type) => {
     if (type === 'END_DATE') {
       this.setState({
@@ -23,16 +23,16 @@ export default class CalendarTimeOff extends Component {
         selectedEndDate: null,
       });
     }
-  }
- 
+  };
+
   render() {
-    Moment.locale('en')
-    const { selectedStartDate, selectedEndDate } = this.state;
+    Moment.locale('en');
+    const {selectedStartDate, selectedEndDate} = this.state;
     const minDate = new Date();
     const maxDate = new Date(2090, 0, 1);
-    const startDate  =  selectedStartDate ? selectedStartDate.toString() : '';
+    const startDate = selectedStartDate ? selectedStartDate.toString() : '';
     const endDate = selectedEndDate ? selectedEndDate.toString() : '';
- 
+
     return (
       <View style={styles.container}>
         <CalendarPicker
@@ -45,14 +45,14 @@ export default class CalendarTimeOff extends Component {
           onDateChange={this.onDateChange}
         />
         <View>
-          <Text>Start Date: {Moment(startDate).format("M/D/YYYY")}</Text>
-          <Text>End Date: {Moment(endDate).format("M/D/YYYY")}</Text>
+          <Text>Start Date: {Moment(startDate).format('M/D/YYYY')}</Text>
+          <Text>End Date: {Moment(endDate).format('M/D/YYYY')}</Text>
         </View>
       </View>
     );
   }
 }
- 
+
 const styles = StyleSheet.create({
   container: {
     // flex: 1,

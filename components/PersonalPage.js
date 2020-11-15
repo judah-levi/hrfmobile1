@@ -1,16 +1,26 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
 import NavBar from './NavBar';
+import {stateContext} from './context';
+import * as RNLocalize from 'react-native-localize';
 
 export default function PersonalPage() {
   const navigation = useNavigation();
-  //   console.log(setI18nConfig());
+  const {translate, handleLocalizationChange} = useContext(stateContext);
+
+  useEffect(() => {
+    RNLocalize.addEventListener('change', handleLocalizationChange);
+    setTimeout(() => {
+      RNLocalize.removeEventListener('change', handleLocalizationChange);
+    }, 2000);
+  }, []);
 
   return (
     <View style={styles.pageWrapper}>
+      {/* {dwada} */}
       <NavBar />
       <View style={styles.wrapper}>
         <View>
@@ -23,7 +33,7 @@ export default function PersonalPage() {
               name="calendar-account"
             />
           </TouchableOpacity>
-          <Text style={styles.avatartext}>TIME OFF</Text>
+          <Text style={styles.avatartext}>{translate('Time Off')}</Text>
         </View>
         <View>
           <TouchableOpacity
@@ -31,7 +41,7 @@ export default function PersonalPage() {
             onPress={() => navigation.navigate('MeetingsForm')}>
             <AntDesign style={styles.avatar} size={85} name="team" />
           </TouchableOpacity>
-          <Text style={styles.avatartext}>MEETINGS</Text>
+          <Text style={styles.avatartext}>{translate('Meetings')}</Text>
         </View>
         <View style={styles.belows}>
           <TouchableOpacity
@@ -39,7 +49,7 @@ export default function PersonalPage() {
             onPress={() => navigation.navigate('SickDayForm')}>
             <AntDesign style={styles.avatar} size={85} name="deleteuser" />
           </TouchableOpacity>
-          <Text style={styles.avatartext}>SICK DAY</Text>
+          <Text style={styles.avatartext}>{translate('Sick Day')}</Text>
         </View>
         <View style={styles.belows}>
           <TouchableOpacity
@@ -51,7 +61,7 @@ export default function PersonalPage() {
               name="doctor"
             />
           </TouchableOpacity>
-          <Text style={styles.avatartext}>COVID-19</Text>
+          <Text style={styles.avatartext}>{translate('Covid-19')}</Text>
         </View>
       </View>
     </View>
