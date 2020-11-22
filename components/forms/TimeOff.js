@@ -14,11 +14,28 @@ import Moment from 'moment';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import * as RNLocalize from 'react-native-localize';
+import {stateContext} from '../context';
 
 class TimeOff extends React.Component {
+  static contextType = stateContext;
   state = {
     formData: '',
   };
+
+  componentDidMount() {
+    this.context.setI18nConfig();
+    RNLocalize.addEventListener(
+      'change',
+      this.context.handleLocalizationChange,
+    );
+  }
+
+  componentWillUnmount() {
+    RNLocalize.removeEventListener(
+      'change',
+      this.context.handleLocalizationChange,
+    );
+  }
 
   onDateChange = (date, type) => {
     let state = this.state.formData;
@@ -51,6 +68,7 @@ class TimeOff extends React.Component {
   };
 
   render() {
+    const {translate} = this.context;
     Moment.locale('en');
     const {formData} = this.state;
     const minDate = new Date();
@@ -60,7 +78,7 @@ class TimeOff extends React.Component {
     return (
       <ScrollView showsVerticalScrollIndicator={false}>
         <Navbar />
-        <Text style={styles.hOneTimeOff}>Schedule time off</Text>
+        <Text style={styles.hOneTimeOff}>{translate('Schedule Time Off')}</Text>
         <View style={styles.timeOffWrapper}>
           <TextInput
             theme={{colors: {primary: '#00486D'}}}
@@ -69,7 +87,7 @@ class TimeOff extends React.Component {
             underlineColorAndroid={'#00486D'}
             name="firstname"
             style={styles.timeOffInput}
-            placeholder="First name"
+            placeholder={translate('First Name')}
             value={formData.firstname}
             onChangeText={(firstname) =>
               this.handleChange('firstname', firstname)
@@ -82,7 +100,7 @@ class TimeOff extends React.Component {
             underlineColorAndroid={'#00486D'}
             name="lastname"
             style={styles.timeOffInput}
-            placeholder="Last name"
+            placeholder={translate('Last Name')}
             value={formData.lastname}
             onChangeText={(lastname) => this.handleChange('lastname', lastname)}
           />
@@ -96,13 +114,13 @@ class TimeOff extends React.Component {
             value={formData.role}
             selectedValue={formData.role}
             onValueChange={(role) => this.handleChange('role', role)}>
-            <Picker.Item label="What's your role?" value="" />
-            <Picker.Item label="Warehouse" value="Warehouse" />
-            <Picker.Item label="Bakery" value="Bakery" />
-            <Picker.Item label="Dry pack" value="Dry pack" />
-            <Picker.Item label="Dry mix" value="Dry mix" />
-            <Picker.Item label="Maintenance" value="Maintenance" />
-            <Picker.Item label="Mechanical" value="Mechanical" />
+            <Picker.Item label={translate('Role selector')} value="" />
+            <Picker.Item label={translate('Warehouse')} value="Warehouse" />
+            <Picker.Item label={translate('Bakery')} value="Bakery" />
+            <Picker.Item label={translate('Dry Pack')} value="Dry pack" />
+            <Picker.Item label={translate('Dry Mix')} value="Dry mix" />
+            <Picker.Item label={translate('Maintenance')} value="Maintenance" />
+            <Picker.Item label={translate('Mechanical')} value="Mechanical" />
           </Picker>
           <View style={styles.container}>
             <CalendarPicker
@@ -122,7 +140,7 @@ class TimeOff extends React.Component {
               this.sendEmail();
               navigation.navigate('MainPage');
             }}>
-            <Text style={styles.btnTextTimeOff}>Submit</Text>
+            <Text style={styles.btnTextTimeOff}>{translate('Submit btn')}</Text>
           </TouchableOpacity>
         </View>
       </ScrollView>

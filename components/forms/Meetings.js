@@ -16,12 +16,8 @@ import {stateContext} from '../context';
 
 function Meetings() {
   const navigation = useNavigation();
-  const [firstname, setFirstname] = useState('');
-  const [lastname, setLastname] = useState('');
-  const [phone, setPhone] = useState('');
   const [selectedRoleValue, setSelectedRoleValue] = React.useState('');
   const [selectedEmailValue, setSelectedEmailValue] = React.useState('');
-  const [meeting, setMeeting] = useState('');
   const [formData, setFormData] = React.useState({});
   const {translate, handleLocalizationChange} = useContext(stateContext);
 

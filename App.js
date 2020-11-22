@@ -66,7 +66,7 @@ function App() {
   return (
     <NavigationContainer>
       <stateContext.Provider
-        value={{translate, translationGetters, handleLocalizationChange}}>
+        value={{translate, setI18nConfig, handleLocalizationChange}}>
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen
             name="Login"

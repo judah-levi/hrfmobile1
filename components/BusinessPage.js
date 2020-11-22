@@ -1,119 +1,77 @@
-import React from 'react';
+import React, {useContext, useEffect} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 import NavBar from './NavBar';
+import {stateContext} from './context';
 import * as RNLocalize from 'react-native-localize';
-import i18n from 'i18n-js';
-import memoize from 'lodash.memoize';
 
-const translationGetters = {
-  en: () => require('../translations/en.json'),
-  es: () => require('../translations/es.json'),
-};
+export default function BusinessPage() {
+  const navigation = useNavigation();
+  const {translate, setI18nConfig, handleLocalizationChange} = useContext(
+    stateContext,
+  );
 
-const translate = memoize(
-  (key, config) => i18n.t(key, config),
-  (key, config) => (config ? key + JSON.stringify(config) : key),
-);
+  setI18nConfig();
 
-const setI18nConfig = () => {
-  const fallback = {languageTag: 'en'};
-  const {languageTag} =
-    RNLocalize.findBestAvailableLanguage(Object.keys(translationGetters)) ||
-    fallback;
-  translate.cache.clear();
-  i18n.translations = {[languageTag]: translationGetters[languageTag]()};
-  i18n.locale = languageTag;
-};
+  useEffect(() => {
+    RNLocalize.addEventListener('change', handleLocalizationChange);
+    return RNLocalize.removeEventListener('change', handleLocalizationChange);
+  }, []);
 
-class BusinessPage extends React.Component {
-  constructor(props) {
-    super(props);
-    setI18nConfig();
-  }
-
-  componentDidMount() {
-    RNLocalize.addEventListener('change', this.handleLocalizationChange);
-  }
-
-  componentWillUnmount() {
-    RNLocalize.removeEventListener('change', this.handleLocalizationChange);
-  }
-
-  handleLocalizationChange = () => {
-    setI18nConfig()
-      .then(() => this.forceUpdate())
-      .catch((error) => {
-        console.error(error);
-      });
-  };
-
-  render() {
-    const {navigation} = this.props;
-
-    return (
-      <View style={styles.pageWrapper}>
-        <NavBar />
-        <View style={styles.wrapper}>
-          <View>
-            <TouchableOpacity
-              style={styles.buttonavatar}
-              onPress={() => navigation.navigate('EquipmentFailuresForm')}>
-              <MaterialCommunityIcon
-                style={styles.avatar}
-                size={85}
-                name="robot-industrial"
-              />
-            </TouchableOpacity>
-            <Text style={styles.avatartext}>
-              {translate('Equipment Failure')}
-            </Text>
-          </View>
-          <View>
-            <TouchableOpacity
-              style={styles.buttonavatar}
-              onPress={() => navigation.navigate('FacilitiesIssuesForm')}>
-              <Entypo style={styles.avatar} size={85} name="tools" />
-            </TouchableOpacity>
-            <Text style={styles.avatartext}>
-              {translate('Facilities Issues')}
-            </Text>
-          </View>
-          <View style={styles.belows}>
-            <TouchableOpacity
-              style={styles.buttonavatar}
-              onPress={() => navigation.navigate('MaterialsNeededForm')}>
-              <MaterialIcon
-                style={styles.avatar}
-                size={85}
-                name="add-shopping-cart"
-              />
-            </TouchableOpacity>
-            <Text style={styles.avatartext}>
-              {translate('Materials Needed')}
-            </Text>
-          </View>
-          <View style={styles.belows}>
-            <TouchableOpacity
-              style={styles.buttonavatar}
-              onPress={() => navigation.navigate('SuggestionForm')}>
-              <Entypo style={styles.avatar} size={85} name="light-bulb" />
-            </TouchableOpacity>
-            <Text style={styles.avatartext}>{translate('Suggestions')}</Text>
-          </View>
+  return (
+    <View style={styles.pageWrapper}>
+      <NavBar />
+      <View style={styles.wrapper}>
+        <View>
+          <TouchableOpacity
+            style={styles.buttonavatar}
+            onPress={() => navigation.navigate('EquipmentFailuresForm')}>
+            <MaterialCommunityIcon
+              style={styles.avatar}
+              size={85}
+              name="robot-industrial"
+            />
+          </TouchableOpacity>
+          <Text style={styles.avatartext}>
+            {translate('Equipment Failure')}
+          </Text>
+        </View>
+        <View>
+          <TouchableOpacity
+            style={styles.buttonavatar}
+            onPress={() => navigation.navigate('FacilitiesIssuesForm')}>
+            <Entypo style={styles.avatar} size={85} name="tools" />
+          </TouchableOpacity>
+          <Text style={styles.avatartext}>
+            {translate('Facilities Issues')}
+          </Text>
+        </View>
+        <View style={styles.belows}>
+          <TouchableOpacity
+            style={styles.buttonavatar}
+            onPress={() => navigation.navigate('MaterialsNeededForm')}>
+            <MaterialIcon
+              style={styles.avatar}
+              size={85}
+              name="add-shopping-cart"
+            />
+          </TouchableOpacity>
+          <Text style={styles.avatartext}>{translate('Materials Needed')}</Text>
+        </View>
+        <View style={styles.belows}>
+          <TouchableOpacity
+            style={styles.buttonavatar}
+            onPress={() => navigation.navigate('SuggestionForm')}>
+            <Entypo style={styles.avatar} size={85} name="light-bulb" />
+          </TouchableOpacity>
+          <Text style={styles.avatartext}>{translate('Suggestions')}</Text>
         </View>
       </View>
-    );
-  }
-}
-
-export default function (props) {
-  const navigation = useNavigation();
-
-  return <BusinessPage {...props} navigation={navigation} />;
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({

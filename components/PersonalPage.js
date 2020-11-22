@@ -9,18 +9,19 @@ import * as RNLocalize from 'react-native-localize';
 
 export default function PersonalPage() {
   const navigation = useNavigation();
-  const {translate, handleLocalizationChange} = useContext(stateContext);
+  const {translate, setI18nConfig, handleLocalizationChange} = useContext(
+    stateContext,
+  );
+
+  setI18nConfig();
 
   useEffect(() => {
     RNLocalize.addEventListener('change', handleLocalizationChange);
-    setTimeout(() => {
-      RNLocalize.removeEventListener('change', handleLocalizationChange);
-    }, 2000);
+    return RNLocalize.removeEventListener('change', handleLocalizationChange);
   }, []);
 
   return (
     <View style={styles.pageWrapper}>
-      {/* {dwada} */}
       <NavBar />
       <View style={styles.wrapper}>
         <View>
