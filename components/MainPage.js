@@ -1,4 +1,4 @@
-import React, {useEffect, addEventListener} from 'react';
+import React, {useEffect, useState} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import Carousel from 'react-native-snap-carousel';
 import NavBar from './NavBar';
@@ -6,8 +6,8 @@ import {StyleSheet, View, Text, Image} from 'react-native';
 import {useAndroidBackHandler} from 'react-navigation-backhandler';
 
 function MainPage() {
-  const [newsList, setNewsList] = React.useState([]);
-  const [activeIndex, setActivateIndex] = React.useState();
+  const [newsList, setNewsList] = useState([]);
+  const [activeIndex, setActivateIndex] = useState();
 
   useAndroidBackHandler(() => {
     return true;
@@ -67,7 +67,6 @@ function MainPage() {
 const styles = StyleSheet.create({
   mainWrapper: {
     flex: 1,
-    // backgroundColor: '#e6c68a',
   },
   carouselWrapper: {
     flex: 1,
@@ -96,7 +95,6 @@ const styles = StyleSheet.create({
     zIndex: 1,
     lineHeight: 30,
     color: 'black',
-    // fontWeight: 'bold'
   },
   carouselImage: {
     position: 'absolute',

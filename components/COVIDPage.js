@@ -1,8 +1,6 @@
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useEffect, useContext} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {TextInput, RadioButton} from 'react-native-paper';
 import Navbar from './NavBar';
-import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
 import {ScrollView} from 'react-native-gesture-handler';
 import * as RNLocalize from 'react-native-localize';
@@ -21,7 +19,6 @@ function CovidPage() {
 
   return (
     <ScrollView>
-      {/* {dwdwa} */}
       <View>
         <Navbar />
         <Text style={styles.p}>{translate('Covid Statement')}</Text>

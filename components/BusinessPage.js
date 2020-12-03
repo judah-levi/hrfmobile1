@@ -1,8 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import Entypo from 'react-native-vector-icons/Entypo';
 import {useNavigation} from '@react-navigation/native';
 import NavBar from './NavBar';
 import {stateContext} from './context';
@@ -34,40 +32,50 @@ export default function BusinessPage() {
               size={85}
               name="robot-industrial"
             />
+            <Text style={styles.avatartext}>
+              {translate('Equipment Failure')}
+            </Text>
           </TouchableOpacity>
-          <Text style={styles.avatartext}>
-            {translate('Equipment Failure')}
-          </Text>
         </View>
         <View>
           <TouchableOpacity
             style={styles.buttonavatar}
             onPress={() => navigation.navigate('FacilitiesIssuesForm')}>
-            <Entypo style={styles.avatar} size={85} name="tools" />
+            <MaterialCommunityIcon
+              style={styles.avatar}
+              size={85}
+              name="hammer-wrench"
+            />
+            <Text style={styles.avatartext}>
+              {translate('Facilities Issues')}
+            </Text>
           </TouchableOpacity>
-          <Text style={styles.avatartext}>
-            {translate('Facilities Issues')}
-          </Text>
         </View>
         <View style={styles.belows}>
           <TouchableOpacity
             style={styles.buttonavatar}
             onPress={() => navigation.navigate('MaterialsNeededForm')}>
-            <MaterialIcon
+            <MaterialCommunityIcon
               style={styles.avatar}
               size={85}
-              name="add-shopping-cart"
+              name="cart-plus"
             />
+            <Text style={styles.avatartext}>
+              {translate('Materials Needed')}
+            </Text>
           </TouchableOpacity>
-          <Text style={styles.avatartext}>{translate('Materials Needed')}</Text>
         </View>
         <View style={styles.belows}>
           <TouchableOpacity
             style={styles.buttonavatar}
             onPress={() => navigation.navigate('SuggestionForm')}>
-            <Entypo style={styles.avatar} size={85} name="light-bulb" />
+            <MaterialCommunityIcon
+              style={styles.avatar}
+              size={85}
+              name="lightbulb-outline"
+            />
+            <Text style={styles.avatartext}>{translate('Suggestions')}</Text>
           </TouchableOpacity>
-          <Text style={styles.avatartext}>{translate('Suggestions')}</Text>
         </View>
       </View>
     </View>

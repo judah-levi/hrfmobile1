@@ -1,5 +1,5 @@
 import React, {useEffect} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Title} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import AdminNavBar from './adminNavBar';
 import {useAndroidBackHandler} from 'react-navigation-backhandler';
 import firestore from '@react-native-firebase/firestore';

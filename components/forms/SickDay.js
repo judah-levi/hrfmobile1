@@ -1,11 +1,10 @@
-import React, {Component} from 'react';
+import React from 'react';
 import {
   StyleSheet,
   ScrollView,
   Text,
   View,
   TouchableOpacity,
-  Form,
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import {TextInput} from 'react-native-paper';

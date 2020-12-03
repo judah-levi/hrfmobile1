@@ -1,7 +1,6 @@
 import React, {useContext, useEffect} from 'react';
 import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
 import NavBar from './NavBar';
 import {stateContext} from './context';
@@ -33,24 +32,32 @@ export default function PersonalPage() {
               size={85}
               name="calendar-account"
             />
+            <Text style={styles.avatartext}>{translate('Time Off')}</Text>
           </TouchableOpacity>
-          <Text style={styles.avatartext}>{translate('Time Off')}</Text>
         </View>
         <View>
           <TouchableOpacity
             style={styles.buttonavatar}
             onPress={() => navigation.navigate('MeetingsForm')}>
-            <AntDesign style={styles.avatar} size={85} name="team" />
+            <MaterialCommunityIcons
+              style={styles.avatar}
+              size={85}
+              name="account-supervisor-outline"
+            />
+            <Text style={styles.avatartext}>{translate('Meetings')}</Text>
           </TouchableOpacity>
-          <Text style={styles.avatartext}>{translate('Meetings')}</Text>
         </View>
         <View style={styles.belows}>
           <TouchableOpacity
             style={styles.buttonavatar}
             onPress={() => navigation.navigate('SickDayForm')}>
-            <AntDesign style={styles.avatar} size={85} name="deleteuser" />
+            <MaterialCommunityIcons
+              style={styles.avatar}
+              size={85}
+              name="account-cancel-outline"
+            />
+            <Text style={styles.avatartext}>{translate('Sick Day')}</Text>
           </TouchableOpacity>
-          <Text style={styles.avatartext}>{translate('Sick Day')}</Text>
         </View>
         <View style={styles.belows}>
           <TouchableOpacity
@@ -61,8 +68,8 @@ export default function PersonalPage() {
               size={85}
               name="doctor"
             />
+            <Text style={styles.avatartext}>{translate('Covid-19')}</Text>
           </TouchableOpacity>
-          <Text style={styles.avatartext}>{translate('Covid-19')}</Text>
         </View>
       </View>
     </View>
