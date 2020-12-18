@@ -12,8 +12,21 @@ function Nav() {
       <View style={styles.iconsWrapper}>
         <TouchableOpacity
           style={styles.iconBtn}
-          onPress={() => navigation.navigate('FormCarousel')}>
-          <MaterialCommunityIcon name="pencil" style={styles.icon} />
+          onPress={() => navigation.navigate('MainPage')}>
+          <MaterialCommunityIcon
+            name="calendar-text-outline"
+            style={styles.icon}
+          />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.iconBtn}
+          onPress={() => navigation.navigate('PersonalPage')}>
+          <MaterialCommunityIcon name="account-outline" style={styles.icon} />
+        </TouchableOpacity>
+        <TouchableOpacity
+          style={styles.iconBtn}
+          onPress={() => navigation.navigate('BusinessPage')}>
+          <MaterialCommunityIcon name="cog-outline" style={styles.icon} />
         </TouchableOpacity>
         <TouchableOpacity
           style={styles.iconBtn}
@@ -21,14 +34,15 @@ function Nav() {
           <MaterialCommunityIcon name="logout" style={styles.icon} />
         </TouchableOpacity>
       </View>
+
       <AntDesign
         name="left"
         style={styles.arrow}
-        onPress={() => navigation.navigate('AdminNav')}
+        onPress={() => navigation.navigate('MainMenu')}
       />
       <Image
         style={styles.image}
-        source={require('../../pics/HeaderLogo_180x.webp')}
+        source={require('../pics/HeaderLogo_180x.webp')}
       />
     </View>
   );

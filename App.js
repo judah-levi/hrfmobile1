@@ -2,24 +2,23 @@ import * as React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 import {useState, useEffect} from 'react';
-import EnterPage from './components/EnterPage';
-import MainPage from './components/MainPage';
-import SignupPage from './components/SignupPage';
+import AdminNav from './components/adminComponents/AdminNav';
+import MainPage from './components/messages/MainPage';
 import LoginPage from './components/LoginPage';
-import PersonalPage from './components/PersonalPage';
-import BusinessPage from './components/BusinessPage';
-import TimeOff from './components/forms/TimeOff';
-import Meetings from './components/forms/Meetings';
-import SickDay from './components/forms/SickDay';
-import CovidPage from './components/COVIDPage';
-import CovidFormEn from './components/forms/COVID-19-en';
-import EquipmentFailure from './components/forms/EquipmentFailure';
-import FacilitiesIssues from './components/forms/FacilitiesIssues';
-import MaterialsNeeded from './components/forms/MaterialsNeeded';
-import Suggestion from './components/forms/Suggestion';
-import AdminPage from './components/adminComponents/AdminPage';
+import PersonalPage from './components/mainForms/PersonalPage';
+import BusinessPage from './components/mainForms/BusinessPage';
+import TimeOff from './components/personalForms/TimeOff';
+import Meetings from './components/personalForms/Meetings';
+import SickDay from './components/personalForms/SickDay';
+import CovidPage from './components/personalForms/COVIDPage';
+import CovidFormEn from './components/personalForms/COVID-19-en';
+import EquipmentFailure from './components/factoryForms/EquipmentFailure';
+import FacilitiesIssues from './components/factoryForms/FacilitiesIssues';
+import MaterialsNeeded from './components/factoryForms/MaterialsNeeded';
+import Suggestion from './components/factoryForms/Suggestion';
 import FormCarousel from './components/adminComponents/FormCarousel';
-import {stateContext} from './components/context';
+import {stateContext} from './components/context/context';
+import MainMenu from './components/MainMenu';
 import * as RNLocalize from 'react-native-localize';
 import i18n from 'i18n-js';
 import memoize from 'lodash.memoize';
@@ -59,7 +58,7 @@ function App() {
 
   useEffect(() => {
     setTimeout(() => {
-      setIsEnter({isEnter: false});
+      setIsEnter(false);
     }, 2000);
   }, []);
 
@@ -70,10 +69,12 @@ function App() {
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen
             name="Login"
-            component={isEnter ? EnterPage : LoginPage}
+            // component={isEnter ? EnterPage : LoginPage}
+            component={LoginPage}
           />
+          <Stack.Screen name="AdminNav" component={AdminNav} />
           <Stack.Screen name="MainPage" component={MainPage} />
-          <Stack.Screen name="Signup" component={SignupPage} />
+          <Stack.Screen name="MainMenu" component={MainMenu} />
           <Stack.Screen
             name="PersonalPage"
             component={PersonalPage}
@@ -99,7 +100,6 @@ function App() {
           />
           <Stack.Screen name="SuggestionForm" component={Suggestion} />
           <Stack.Screen name="FormCarousel" component={FormCarousel} />
-          <Stack.Screen name="AdminPage" component={AdminPage} />
         </Stack.Navigator>
       </stateContext.Provider>
     </NavigationContainer>

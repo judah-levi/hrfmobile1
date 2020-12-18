@@ -22,7 +22,7 @@ export default function NavBar() {
         </TouchableOpacity>
         <Image
           style={styles.image}
-          source={require('../pics/HeaderLogo_180x.webp')}
+          source={require('../../pics/HeaderLogo_180x.webp')}
         />
         <TouchableOpacity onPress={() => navigation.navigate('BusinessPage')}>
           <MaterialCommunityIcon name="cog-outline" style={styles.icons} />

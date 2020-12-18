@@ -1,14 +1,24 @@
 import React from 'react';
-import {StyleSheet, TouchableOpacity, Text, View} from 'react-native';
+import {
+  StyleSheet,
+  TouchableOpacity,
+  Text,
+  TextInput,
+  ImageBackground,
+  View,
+} from 'react-native';
 import AdminNavBar from './adminNavBar';
-import {TextInput} from 'react-native-paper';
 import ImagePicker from 'react-native-image-picker';
 import firestore from '@react-native-firebase/firestore';
 import storage from '@react-native-firebase/storage';
 import RNFetchBlob from 'rn-fetch-blob';
 import {useNavigation} from '@react-navigation/native';
+import * as RNLocalize from 'react-native-localize';
+import {stateContext} from '../context/context';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 class FormCarousel extends React.Component {
+  static contextType = stateContext;
   constructor(props) {
     super(props);
     this.state = {
@@ -17,6 +27,21 @@ class FormCarousel extends React.Component {
       image: null,
       timeStamp: new Date(),
     };
+  }
+
+  componentDidMount() {
+    this.context.setI18nConfig();
+    RNLocalize.addEventListener(
+      'change',
+      this.context.handleLocalizationChange,
+    );
+  }
+
+  componentWillUnmount() {
+    RNLocalize.removeEventListener(
+      'change',
+      this.context.handleLocalizationChange,
+    );
   }
 
   getPathForFirebaseStorage = async (uri) => {
@@ -68,23 +93,23 @@ class FormCarousel extends React.Component {
     });
   };
 
-  handleShootPhoto = () => {
-    const options = {};
-    ImagePicker.launchCamera(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled camera');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        const source = {uri: response.uri};
-        const androidPath = this.getPathForFirebaseStorage(source.uri);
-        this.setState({image: androidPath});
-        console.log(this.state.image);
-      }
-    });
-  };
+  // handleShootPhoto = () => {
+  //   const options = {};
+  //   ImagePicker.launchCamera(options, (response) => {
+  //     if (response.didCancel) {
+  //       console.log('User cancelled camera');
+  //     } else if (response.error) {
+  //       console.log('ImagePicker Error: ', response.error);
+  //     } else if (response.customButton) {
+  //       console.log('User tapped custom button: ', response.customButton);
+  //     } else {
+  //       const source = {uri: response.uri};
+  //       const androidPath = this.getPathForFirebaseStorage(source.uri);
+  //       this.setState({image: androidPath});
+  //       console.log(this.state.image);
+  //     }
+  //   });
+  // };
 
   handleSubmit = async () => {
     const post = {
@@ -97,43 +122,56 @@ class FormCarousel extends React.Component {
   };
 
   render() {
+    const {translate} = this.context;
     const {navigation} = this.props;
 
     return (
-      <View>
+      <View style={styles.mainWrapper}>
         <AdminNavBar />
-        <Text style={styles.hOneCarousel}>Push company-wide news updates:</Text>
-        <View style={styles.carouselWrapper}>
-          <TextInput
-            theme={{colors: {primary: '#00486D'}}}
-            selectionColor={'white'}
-            autoCapitalize="words"
-            underlineColorAndroid={'#00486D'}
-            maxLength={15}
-            style={styles.carouselInput}
-            placeholder="Title"
-            onChangeText={(title) => this.setState({title: title})}
-          />
-          <TextInput
-            theme={{colors: {primary: '#00486D'}}}
-            selectionColor={'white'}
-            autoCapitalize="sentences"
-            underlineColorAndroid={'#00486D'}
-            maxLength={140}
-            multiline={true}
-            numberOfLines={5}
-            style={styles.carouselInput}
-            placeholder="Content"
-            onChangeText={(content) => this.setState({content: content})}
-          />
-          <TouchableOpacity
-            style={styles.btnCarousel}
-            onPress={() => {
-              this.handleSubmit();
-              navigation.navigate('AdminPage');
-            }}>
-            <Text style={styles.btnTextCarousel}>Submit</Text>
-          </TouchableOpacity>
+        <View style={styles.rightWrapper}>
+          <ImageBackground
+            source={require('../../pics/fondos-2.png')}
+            style={styles.rightBackground}>
+            <View style={styles.titleWrapper}>
+              <MaterialCommunityIcons
+                name="pencil"
+                style={styles.mainTitleIcon}
+              />
+              <Text style={styles.mainTitle}>
+                {translate('Create Message')}
+              </Text>
+            </View>
+          </ImageBackground>
+          <View style={styles.carouselWrapper}>
+            <TextInput
+              selectionColor={'white'}
+              autoCapitalize="words"
+              maxLength={15}
+              style={styles.carouselInput}
+              placeholder={translate('Title')}
+              onChangeText={(title) => this.setState({title: title})}
+            />
+            <TextInput
+              selectionColor={'white'}
+              autoCapitalize="sentences"
+              maxLength={140}
+              multiline={true}
+              numberOfLines={7}
+              style={styles.carouselTextTarea}
+              placeholder={translate('Content')}
+              onChangeText={(content) => this.setState({content: content})}
+            />
+            <TouchableOpacity
+              style={styles.btnCarousel}
+              onPress={() => {
+                this.handleSubmit();
+                navigation.navigate('AdminPage');
+              }}>
+              <Text style={styles.btnTextCarousel}>
+                {translate('Submit btn')}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
     );
@@ -147,50 +185,73 @@ export default function (props) {
 }
 
 const styles = StyleSheet.create({
-  carouselWrapper: {
-    marginTop: '4%',
-    marginLeft: 15,
-    marginRight: 15,
+  mainWrapper: {
+    flexDirection: 'row',
+    height: '100%',
   },
-  hOneCarousel: {
-    fontSize: 22,
-    textAlign: 'center',
-    marginTop: '6%',
+  rightWrapper: {
+    width: '85%',
+    backgroundColor: 'rgb(218, 218, 218)',
+  },
+  rightBackground: {
+    width: '100%',
+    height: '70%',
+    resizeMode: 'cover',
+  },
+  titleWrapper: {
+    marginTop: 65,
+    marginLeft: 25,
+  },
+  mainTitleIcon: {
+    color: 'white',
+    fontSize: 38,
+    marginLeft: -6,
+  },
+  mainTitle: {
+    color: 'white',
+    fontSize: 27,
+  },
+  carouselWrapper: {
+    marginTop: -380,
+    marginLeft: 20,
+    marginRight: 20,
   },
   carouselInput: {
-    marginBottom: '1%',
+    marginBottom: '3%',
+    paddingLeft: 10,
     backgroundColor: 'white',
+    height: 55,
+    borderRadius: 10,
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 3,
   },
-  photo: {
-    flex: 1,
-    justifyContent: 'space-around',
-    marginBottom: 40,
-    marginTop: 15,
-  },
-  left: {
-    color: 'black',
-    padding: 10,
-    fontWeight: 'bold',
-    fontSize: 17,
-  },
-  right: {
-    textAlign: 'right',
-    color: 'black',
-    padding: 10,
-    fontWeight: 'bold',
-    fontSize: 17,
+  carouselTextTarea: {
+    marginBottom: '3%',
+    paddingLeft: 10,
+    backgroundColor: 'white',
+    textAlignVertical: 'top',
+    borderRadius: 10,
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 3,
   },
   btnCarousel: {
-    marginTop: 20,
-    borderRadius: 5,
+    marginTop: '6%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    width: '50%',
   },
   btnTextCarousel: {
-    backgroundColor: '#00486D',
+    backgroundColor: '#0db4e8',
     textAlign: 'center',
     padding: 15,
-    borderRadius: 5,
+    borderRadius: 30,
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 20,
+    fontSize: 18,
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 3,
   },
 });
