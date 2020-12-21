@@ -1,6 +1,7 @@
 const admin = require('firebase-admin')
-admin.initializeApp();
+const mongoose = require('mongoose');
 
+admin.initializeApp();
 const functions = require('firebase-functions');
 const nodemailer = require('nodemailer');
 const cors = require('cors')({
@@ -9,6 +10,19 @@ const cors = require('cors')({
 const gmailEmail = functions.config().gmail.email;
 const gmailPassword = functions.config().gmail.password;
 
+mongoose.connect(process.env.MONGODB_URI, {
+  useNewUrlParser: true,
+  useCreateIndex: true,
+  useUnifiedTopology: true,
+});
+
+const conn = mongoose.connection;
+conn.once("open", () => {
+  console.log("mongoDB connected");
+});
+
+
+
 const mailTransport = nodemailer.createTransport({
   service: 'gmail',
   auth: {
@@ -16,6 +30,10 @@ const mailTransport = nodemailer.createTransport({
     pass: gmailPassword,
   },
 });
+
+
+
+
 
 exports.submitTimeOff = functions.https.onRequest((req, res) => {
   res.set('Access-Control-Allow-Origin', '*');
