@@ -1,7 +1,6 @@
 const admin = require('firebase-admin')
-const mongoose = require('mongoose');
-
 admin.initializeApp();
+
 const functions = require('firebase-functions');
 const nodemailer = require('nodemailer');
 const cors = require('cors')({
@@ -9,18 +8,6 @@ const cors = require('cors')({
 });
 const gmailEmail = functions.config().gmail.email;
 const gmailPassword = functions.config().gmail.password;
-
-mongoose.connect(process.env.MONGODB_URI, {
-  useNewUrlParser: true,
-  useCreateIndex: true,
-  useUnifiedTopology: true,
-});
-
-const conn = mongoose.connection;
-conn.once("open", () => {
-  console.log("mongoDB connected");
-});
-
 
 
 const mailTransport = nodemailer.createTransport({
@@ -326,26 +313,6 @@ exports.submitCovidForm = functions.https.onRequest((req, res) => {
         return;
       }
 
-      const db = admin.firestore()
-
-      const writeToDB = () => {
-        const uploadData = {
-          first_name: req.body.firstname,
-          last_name: req.body.lastname,
-          date: req.body.date,
-          high_temp_today: req.body.value1,
-          high_temp_week: req.body.value2,
-          cough_symptoms: req.body.value3,
-          contact_w_carrier: req.body.value4,
-          big_gathering: req.body.value5,
-          traveled: req.body.value6,
-          live_w_quarentiner: req.body.value7,
-          agree_to_isolate: req.body.value8,
-          certify_truth: req.body.certify,
-        };
-        return db.collection('covid_submissions').doc().set(uploadData);
-      };
-
       const mailOptions = {
         from: req.body.email,
         replyTo: req.body.email,
@@ -390,7 +357,6 @@ exports.submitCovidForm = functions.https.onRequest((req, res) => {
               </p>`,
       };
       return mailTransport.sendMail(mailOptions).then(() => {
-        writeToDB();
         console.log('New email sent to:', gmailEmail);
         res.status(200).send({
           isEmailSend: true,
