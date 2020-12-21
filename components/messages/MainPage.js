@@ -1,14 +1,20 @@
 import React, {useEffect, useState, useContext} from 'react';
 import firestore from '@react-native-firebase/firestore';
 import Carousel from 'react-native-snap-carousel';
-import {StyleSheet, View, Text, ImageBackground} from 'react-native';
+import {
+  StyleSheet,
+  View,
+  Text,
+  ImageBackground,
+  ScrollView,
+} from 'react-native';
 import {useAndroidBackHandler} from 'react-navigation-backhandler';
 import moment from 'moment';
 import Nav from '../Nav';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {stateContext} from '../context/context';
 import * as RNLocalize from 'react-native-localize';
-import {ActivityIndicator, Colors} from 'react-native-paper';
+import {ActivityIndicator} from 'react-native-paper';
 
 function MainPage() {
   const [loading, setLoading] = useState(false);
@@ -69,9 +75,9 @@ function MainPage() {
   return (
     <View style={styles.mainWrapper}>
       <Nav />
-      <View style={styles.rightWrapper}>
+      <ScrollView style={styles.rightWrapper}>
         <ImageBackground
-          source={require('../../pics/fondos-2.png')}
+          source={require('../../pics/ballena.png')}
           style={styles.rightBackground}>
           <View style={styles.titleWrapper}>
             <MaterialCommunityIcons
@@ -80,29 +86,29 @@ function MainPage() {
             />
             <Text style={styles.mainTitle}>{translate('Messages')}</Text>
           </View>
-        </ImageBackground>
-        <View style={styles.carouselWrapper}>
-          {loading ? (
-            <Carousel
-              layout={'default'}
-              data={newsList}
-              sliderWidth={300}
-              itemWidth={300}
-              renderItem={renderItem}
-              onSnapToItem={(index) => setActivateIndex({activeIndex: index})}
-            />
-          ) : (
-            <View style={styles.spinner}>
-              <ActivityIndicator
-                animating={true}
-                size={50}
-                color={'#00486e'}
-                style={styles.spinner}
+          <View style={styles.carouselWrapper}>
+            {loading ? (
+              <Carousel
+                layout={'default'}
+                data={newsList}
+                sliderWidth={300}
+                itemWidth={300}
+                renderItem={renderItem}
+                onSnapToItem={(index) => setActivateIndex({activeIndex: index})}
               />
-            </View>
-          )}
-        </View>
-      </View>
+            ) : (
+              <View style={styles.spinner}>
+                <ActivityIndicator
+                  animating={true}
+                  size={50}
+                  color={'#00486e'}
+                  style={styles.spinner}
+                />
+              </View>
+            )}
+          </View>
+        </ImageBackground>
+      </ScrollView>
     </View>
   );
 }
@@ -138,7 +144,7 @@ const styles = StyleSheet.create({
   carouselWrapper: {
     flex: 1,
     flexDirection: 'row',
-    marginTop: -380,
+    marginTop: 50,
     marginRight: 0,
     width: '100%',
     paddingLeft: 10,
@@ -155,7 +161,6 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.5,
     elevation: 3,
   },
-
   carouselTitle: {
     fontWeight: 'bold',
     paddingBottom: 25,

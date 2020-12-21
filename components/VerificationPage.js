@@ -14,9 +14,9 @@ import {stateContext} from './context/context';
 import * as RNLocalize from 'react-native-localize';
 import axios from 'axios';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
-export default function LoginPage() {
+export default function VerificationPage() {
+  const [verificationCode, setVerificationCode] = useState('');
   const navigation = useNavigation();
   const [error, setError] = useState(false);
   const {
@@ -24,9 +24,7 @@ export default function LoginPage() {
     setI18nConfig,
     handleLocalizationChange,
     userInfo,
-    setUserInfo,
     phoneNumber,
-    setPhoneNumber,
   } = useContext(stateContext);
 
   setI18nConfig();
@@ -36,20 +34,25 @@ export default function LoginPage() {
     return RNLocalize.removeEventListener('change', handleLocalizationChange);
   }, []);
 
-  const phoneNumberLogin = (phoneNumber) => {
+  const enterWebsite = (verificationCode) => {
     axios
       .post(
-        `https://hrf-api-auth-kdrukbtfra-ue.a.run.app/sms-login/${phoneNumber}`,
+        `https://hrf-api-auth-kdrukbtfra-ue.a.run.app/verify-login/${phoneNumber}/${verificationCode}`,
       )
       .then((res) => {
+        if (userInfo.role === 'user') {
+          navigation.navigate('MainMenu');
+        } else {
+          navigation.navigate('AdminNav');
+        }
         setError(false);
-        setUserInfo(res.data);
-        setPhoneNumber(phoneNumber);
-        navigation.navigate('Verification');
       })
-      .catch((err) => console.log(err), setError(true), setPhoneNumber(''));
+      .catch(
+        (err) => console.log(err),
+        setError(true),
+        setVerificationCode(''),
+      );
   };
-
   return (
     <ScrollView
       style={styles.loginWrapper}
@@ -70,24 +73,27 @@ export default function LoginPage() {
             />
             <TextInput
               onKeyPress={() => setError(false)}
-              value={phoneNumber}
+              value={verificationCode}
               style={error ? styles.inputError : styles.input}
-              onChangeText={(num) => setPhoneNumber(num)}
+              onChangeText={(code) => setVerificationCode(code)}
               clearTextOnFocus
-              placeholder={translate('Phone Number')}
+              secureTextEntry={true}
+              placeholder={translate('Verification Code')}
               placeholderTextColor="white"
             />
             <TouchableOpacity
               style={styles.loginButton}
-              onPress={() => phoneNumberLogin(phoneNumber)}>
-              <Text style={styles.buttonText}>{translate('Signin')}</Text>
+              onPress={() => enterWebsite(verificationCode)}>
+              <Text style={styles.buttonText}>
+                {translate('Conf Verification Code')}
+              </Text>
             </TouchableOpacity>
             <View>
               {error ? (
                 <View style={styles.errorWrapper}>
                   <MaterialIcons name="warning" style={styles.warningIcon} />
                   <Text style={styles.helperText}>
-                    {translate('Phone Error')}
+                    {translate('Code Error')}
                   </Text>
                 </View>
               ) : null}
@@ -111,9 +117,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#00486e',
   },
   loginSubWrapper: {
+    height: '90%',
     borderBottomRightRadius: 40,
     borderBottomLeftRadius: 40,
-    height: '90%',
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.7,
     elevation: 18,
@@ -135,7 +141,7 @@ const styles = StyleSheet.create({
   logo: {
     height: 125,
     width: 125,
-    marginBottom: 80,
+    marginBottom: 50,
   },
   input: {
     height: 70,
@@ -191,6 +197,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     padding: 10,
     maxWidth: 260,
+    marginTop: '10%',
     color: 'white',
     fontSize: 15,
     fontWeight: '500',

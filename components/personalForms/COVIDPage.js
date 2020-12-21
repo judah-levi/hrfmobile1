@@ -5,6 +5,7 @@ import {
   View,
   TouchableOpacity,
   ImageBackground,
+  ScrollView,
 } from 'react-native';
 import Nav from '../Nav';
 import {useNavigation} from '@react-navigation/native';
@@ -23,12 +24,19 @@ function CovidPage() {
     }, 2000);
   }, []);
 
+  // const j = () => {
+  //   navigation.navigate('MeetingsForm');
+  //   console.log('press');
+  // };
+
   return (
     <View style={styles.mainWrapper}>
       <Nav />
-      <View style={styles.rightWrapper}>
+      <ScrollView
+        style={styles.rightWrapper}
+        showsVerticalScrollIndicator={false}>
         <ImageBackground
-          source={require('../../pics/fondos-2.png')}
+          source={require('../../pics/ballena.png')}
           style={styles.rightBackground}>
           <View style={styles.titleWrapper}>
             <MaterialCommunityIcons
@@ -37,16 +45,22 @@ function CovidPage() {
             />
             <Text style={styles.mainTitle}>{translate('Covid-192')}</Text>
           </View>
+          <View style={styles.wrapperText}>
+            <Text style={styles.declaration}>
+              {translate('Covid Statement')}
+            </Text>
+          </View>
         </ImageBackground>
-        <View style={styles.wrapperText}>
-          <Text style={styles.declaration}>{translate('Covid Statement')}</Text>
-          <TouchableOpacity
-            style={styles.buttonWrapper}
-            onPress={() => navigation.navigate('CovidFormEn')}>
-            <Text style={styles.btnText}>{translate('Form')}</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+        <TouchableOpacity
+          style={styles.buttonWrapper}
+          onPress={() => navigation.navigate('CovidForm')}>
+          <Text
+            style={styles.btnText}
+            onPress={() => navigation.navigate('CovidForm')}>
+            {translate('Form')}{' '}
+          </Text>
+        </TouchableOpacity>
+      </ScrollView>
     </View>
   );
 }
@@ -62,7 +76,7 @@ const styles = StyleSheet.create({
   },
   rightBackground: {
     width: '100%',
-    height: '70%',
+    height: '73%',
     resizeMode: 'cover',
   },
   titleWrapper: {
@@ -79,7 +93,7 @@ const styles = StyleSheet.create({
     fontSize: 27,
   },
   wrapperText: {
-    marginTop: -380,
+    marginTop: 50,
     marginLeft: 20,
     marginRight: 20,
   },
@@ -95,10 +109,11 @@ const styles = StyleSheet.create({
     elevation: 3,
   },
   buttonWrapper: {
-    marginTop: '9%',
+    marginTop: '15%',
     marginLeft: 'auto',
     marginRight: 'auto',
     width: '55%',
+    marginBottom: 30,
   },
   btnText: {
     backgroundColor: '#0db4e8',

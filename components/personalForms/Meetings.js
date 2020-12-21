@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   ImageBackground,
+  ScrollView,
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import axios from 'axios';
@@ -55,9 +56,11 @@ function Meetings() {
   return (
     <View style={styles.mainWrapper}>
       <Nav />
-      <View style={styles.rightWrapper}>
+      <ScrollView
+        style={styles.rightWrapper}
+        showsVerticalScrollIndicator={false}>
         <ImageBackground
-          source={require('../../pics/fondos-2.png')}
+          source={require('../../pics/ballena.png')}
           style={styles.rightBackground}>
           <View style={styles.titleWrapper}>
             <MaterialCommunityIcons
@@ -66,101 +69,110 @@ function Meetings() {
             />
             <Text style={styles.mainTitle}>{translate('Meetings2')}</Text>
           </View>
+          <View style={styles.meetingWrapper}>
+            <TextInput
+              selectionColor={'white'}
+              autoCapitalize="words"
+              name="firstname"
+              style={styles.meetingInput}
+              placeholder={translate('First Name')}
+              value={formData.firstname}
+              onChangeText={(firstname) =>
+                setFormData({...formData, firstname})
+              }
+            />
+            <TextInput
+              selectionColor={'white'}
+              autoCapitalize="words"
+              name="lastname"
+              style={styles.meetingInput}
+              placeholder={translate('Last Name')}
+              value={formData.lastname}
+              onChangeText={(lastname) => setFormData({...formData, lastname})}
+            />
+            <View style={styles.pickerWrapper}>
+              <Picker
+                style={styles.meetingPicker}
+                name="role"
+                value={formData.role}
+                selectedValue={selectedRoleValue}
+                onValueChange={(role) => handleRolePicker(role)}>
+                <Picker.Item label={translate('Role selector')} value="" />
+                <Picker.Item label={translate('Warehouse')} value="Warehouse" />
+                <Picker.Item label={translate('Bakery')} value="Bakery" />
+                <Picker.Item label={translate('Dry Pack')} value="Dry pack" />
+                <Picker.Item label={translate('Dry Mix')} value="Dry mix" />
+                <Picker.Item
+                  label={translate('Maintenance')}
+                  value="Maintenance"
+                />
+                <Picker.Item
+                  label={translate('Mechanical')}
+                  value="Mechanical"
+                />
+              </Picker>
+            </View>
+            <View style={styles.pickerWrapper}>
+              <Picker
+                style={styles.meetingPicker}
+                name="contactEmail"
+                value={formData.contactEmail}
+                selectedValue={selectedEmailValue}
+                onValueChange={(contactEmail) =>
+                  handleEmailPicker(contactEmail)
+                }>
+                <Picker.Item label={translate('Meeting selector')} value="" />
+                <Picker.Item
+                  label={translate('Dry Mix/Pack Supervisor')}
+                  value="manuel@hudsonriverfoods.com"
+                />
+                <Picker.Item
+                  label={translate('Bakery Supervisor')}
+                  value="ambar@hudsonriverfoods.com"
+                />
+                <Picker.Item
+                  label={translate('Maintenance Manager')}
+                  value="jerryhof@hudsonriverfoods.com"
+                />
+                <Picker.Item
+                  label={translate('Facilities Manager')}
+                  value="victor@hudsonriverfoods.com"
+                />
+                <Picker.Item
+                  label={translate('Purchasing Manager')}
+                  value="phil@hudsonriverfoods.com"
+                />
+                <Picker.Item
+                  label={translate('Quality Assurance Manager')}
+                  value="steve@hudsonriverfoods.com"
+                />
+                <Picker.Item
+                  label={translate('Warehouse/DTC Manager')}
+                  value="willis@hudsonriverfoods.com"
+                />
+              </Picker>
+            </View>
+            <TextInput
+              selectionColor={'white'}
+              autoCapitalize="sentences"
+              name="meetingDescription"
+              style={styles.textTareaInput}
+              placeholder={translate('Meeting desc')}
+              multiline={true}
+              numberOfLines={7}
+              value={formData.meetingDescription}
+              onChangeText={(meetingDescription) =>
+                setFormData({...formData, meetingDescription})
+              }
+            />
+            <TouchableOpacity style={styles.btnMeeting} onPress={handleSubmit}>
+              <Text style={styles.btnTextMeeting}>
+                {translate('Submit btn')}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </ImageBackground>
-        <View style={styles.meetingWrapper}>
-          <TextInput
-            selectionColor={'white'}
-            autoCapitalize="words"
-            name="firstname"
-            style={styles.meetingInput}
-            placeholder={translate('First Name')}
-            value={formData.firstname}
-            onChangeText={(firstname) => setFormData({...formData, firstname})}
-          />
-          <TextInput
-            selectionColor={'white'}
-            autoCapitalize="words"
-            name="lastname"
-            style={styles.meetingInput}
-            placeholder={translate('Last Name')}
-            value={formData.lastname}
-            onChangeText={(lastname) => setFormData({...formData, lastname})}
-          />
-          <View style={styles.pickerWrapper}>
-            <Picker
-              style={styles.meetingPicker}
-              name="role"
-              value={formData.role}
-              selectedValue={selectedRoleValue}
-              onValueChange={(role) => handleRolePicker(role)}>
-              <Picker.Item label={translate('Role selector')} value="" />
-              <Picker.Item label={translate('Warehouse')} value="Warehouse" />
-              <Picker.Item label={translate('Bakery')} value="Bakery" />
-              <Picker.Item label={translate('Dry Pack')} value="Dry pack" />
-              <Picker.Item label={translate('Dry Mix')} value="Dry mix" />
-              <Picker.Item
-                label={translate('Maintenance')}
-                value="Maintenance"
-              />
-              <Picker.Item label={translate('Mechanical')} value="Mechanical" />
-            </Picker>
-          </View>
-          <View style={styles.pickerWrapper}>
-            <Picker
-              style={styles.meetingPicker}
-              name="contactEmail"
-              value={formData.contactEmail}
-              selectedValue={selectedEmailValue}
-              onValueChange={(contactEmail) => handleEmailPicker(contactEmail)}>
-              <Picker.Item label={translate('Meeting selector')} value="" />
-              <Picker.Item
-                label={translate('Dry Mix/Pack Supervisor')}
-                value="manuel@hudsonriverfoods.com"
-              />
-              <Picker.Item
-                label={translate('Bakery Supervisor')}
-                value="ambar@hudsonriverfoods.com"
-              />
-              <Picker.Item
-                label={translate('Maintenance Manager')}
-                value="jerryhof@hudsonriverfoods.com"
-              />
-              <Picker.Item
-                label={translate('Facilities Manager')}
-                value="victor@hudsonriverfoods.com"
-              />
-              <Picker.Item
-                label={translate('Purchasing Manager')}
-                value="phil@hudsonriverfoods.com"
-              />
-              <Picker.Item
-                label={translate('Quality Assurance Manager')}
-                value="steve@hudsonriverfoods.com"
-              />
-              <Picker.Item
-                label={translate('Warehouse/DTC Manager')}
-                value="willis@hudsonriverfoods.com"
-              />
-            </Picker>
-          </View>
-          <TextInput
-            selectionColor={'white'}
-            autoCapitalize="sentences"
-            name="meetingDescription"
-            style={styles.textTareaInput}
-            placeholder={translate('Meeting desc')}
-            multiline={true}
-            numberOfLines={7}
-            value={formData.meetingDescription}
-            onChangeText={(meetingDescription) =>
-              setFormData({...formData, meetingDescription})
-            }
-          />
-          <TouchableOpacity style={styles.btnMeeting} onPress={handleSubmit}>
-            <Text style={styles.btnTextMeeting}>{translate('Submit btn')}</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </ScrollView>
     </View>
   );
 }
@@ -193,7 +205,7 @@ const styles = StyleSheet.create({
     fontSize: 27,
   },
   meetingWrapper: {
-    marginTop: -355,
+    marginTop: 50,
     marginLeft: 20,
     marginRight: 20,
   },
@@ -235,6 +247,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     width: '50%',
+    marginBottom: 30,
   },
   btnTextMeeting: {
     backgroundColor: '#0db4e8',

@@ -17,8 +17,9 @@ import FacilitiesIssues from './components/factoryForms/FacilitiesIssues';
 import MaterialsNeeded from './components/factoryForms/MaterialsNeeded';
 import Suggestion from './components/factoryForms/Suggestion';
 import FormCarousel from './components/adminComponents/FormCarousel';
-import {stateContext} from './components/context/context';
+import VerificationPage from './components/VerificationPage';
 import MainMenu from './components/MainMenu';
+import {stateContext} from './components/context/context';
 import * as RNLocalize from 'react-native-localize';
 import i18n from 'i18n-js';
 import memoize from 'lodash.memoize';
@@ -27,6 +28,8 @@ const Stack = createStackNavigator();
 
 function App() {
   const [isEnter, setIsEnter] = useState(true);
+  const [userInfo, setUserInfo] = useState();
+  const [phoneNumber, setPhoneNumber] = useState();
 
   const translationGetters = {
     en: () => require('./translations/en.json'),
@@ -65,13 +68,22 @@ function App() {
   return (
     <NavigationContainer>
       <stateContext.Provider
-        value={{translate, setI18nConfig, handleLocalizationChange}}>
+        value={{
+          translate,
+          setI18nConfig,
+          handleLocalizationChange,
+          userInfo,
+          setUserInfo,
+          phoneNumber,
+          setPhoneNumber,
+        }}>
         <Stack.Navigator screenOptions={{headerShown: false}}>
           <Stack.Screen
             name="Login"
             // component={isEnter ? EnterPage : LoginPage}
             component={LoginPage}
           />
+          <Stack.Screen name="Verification" component={VerificationPage} />
           <Stack.Screen name="AdminNav" component={AdminNav} />
           <Stack.Screen name="MainPage" component={MainPage} />
           <Stack.Screen name="MainMenu" component={MainMenu} />
@@ -85,7 +97,7 @@ function App() {
           <Stack.Screen name="MeetingsForm" component={Meetings} />
           <Stack.Screen name="SickDayForm" component={SickDay} />
           <Stack.Screen name="CovidPage" component={CovidPage} />
-          <Stack.Screen name="CovidFormEn" component={CovidFormEn} />
+          <Stack.Screen name="CovidForm" component={CovidFormEn} />
           <Stack.Screen
             name="EquipmentFailuresForm"
             component={EquipmentFailure}

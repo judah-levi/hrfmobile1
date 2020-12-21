@@ -1,13 +1,21 @@
 import React, {useState, useContext, useEffect} from 'react';
-import {StyleSheet, Text, View, TouchableOpacity} from 'react-native';
-import {TextInput, RadioButton} from 'react-native-paper';
-import Navbar from '../dontDelete/NavBar';
+import {
+  StyleSheet,
+  Text,
+  View,
+  TouchableOpacity,
+  ScrollView,
+  ImageBackground,
+  TextInput,
+} from 'react-native';
+import {RadioButton} from 'react-native-paper';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
-import {ScrollView} from 'react-native-gesture-handler';
 import moment from 'moment-timezone';
 import * as RNLocalize from 'react-native-localize';
 import {stateContext} from '../context/context';
+import Nav from '../Nav';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 const formattedDate = moment.tz('America/New_York').format('l');
 
@@ -83,242 +91,254 @@ function CovidFormEn() {
   };
 
   return (
-    <ScrollView>
-      <View>
-        <Navbar />
-        <Text style={styles.hOneSuggestion}>
-          {translate('Covid Health Dec')}
-        </Text>
-        <Text style={styles.p1}>
-          {translate('Please answer')} {'\n'}
-          {'\n'}
-        </Text>
-        <View>
-          <Text style={styles.p}>
-            {translate('Covid question 1')} {'\n'}
-          </Text>
-          <RadioButton.Group value={formData.value1}>
-            <View style={styles.radioGroup}>
-              <View style={styles.col1}>
-                <RadioButton.Item
-                  value="yes"
-                  label={translate('Yes')}
-                  style={styles.radiobutton}
-                  onPress={() => handleValue1('yes')}
-                />
-              </View>
-              <View style={styles.col2}>
-                <RadioButton.Item
-                  value="no"
-                  label="No"
-                  style={styles.radiobutton}
-                  onPress={() => handleValue1('no')}
-                />
-              </View>
+    <View style={styles.mainWrapper}>
+      <Nav />
+      <ScrollView
+        style={styles.rightWrapper}
+        showsVerticalScrollIndicator={false}>
+        <ImageBackground
+          source={require('../../pics/ballena.png')}
+          style={styles.rightBackground}>
+          <View style={styles.titleWrapper}>
+            <MaterialCommunityIcons
+              name="account-outline"
+              style={styles.mainTitleIcon}
+            />
+            <Text style={styles.mainTitle}>{translate('Covid-192')}</Text>
+          </View>
+          <View style={styles.formWrapper}>
+            <Text style={styles.healthDec}>
+              {translate('Covid Health Dec')}
+            </Text>
+            <Text style={styles.pleaseAnswer}>
+              {translate('Please answer')} {'\n'}
+            </Text>
+            <View>
+              <Text style={styles.p}>
+                {translate('Covid question 1')} {'\n'}
+              </Text>
+              <RadioButton.Group value={formData.value1}>
+                <View style={styles.radioGroup}>
+                  <View>
+                    <RadioButton.Item
+                      value="yes"
+                      label={translate('Yes')}
+                      style={styles.radiobutton}
+                      onPress={() => handleValue1('yes')}
+                    />
+                  </View>
+                  <View>
+                    <RadioButton.Item
+                      value="no"
+                      label="No"
+                      style={styles.radiobutton}
+                      onPress={() => handleValue1('no')}
+                    />
+                  </View>
+                </View>
+              </RadioButton.Group>
             </View>
-          </RadioButton.Group>
-        </View>
-        <View>
-          <Text style={styles.p}>
-            {translate('Covid question 2')} {'\n'}
-          </Text>
-          <RadioButton.Group value={formData.value2}>
-            <View style={styles.radioGroup}>
-              <View style={styles.col1}>
-                <RadioButton.Item
-                  value="yes"
-                  label={translate('Yes')}
-                  style={styles.radiobutton}
-                  onPress={() => handleValue2('yes')}
-                />
-              </View>
-              <View style={styles.col2}>
-                <RadioButton.Item
-                  value="no"
-                  label="No"
-                  style={styles.radiobutton}
-                  onPress={() => handleValue2('no')}
-                />
-              </View>
+            <View>
+              <Text style={styles.p}>
+                {translate('Covid question 2')} {'\n'}
+              </Text>
+              <RadioButton.Group value={formData.value2}>
+                <View style={styles.radioGroup}>
+                  <View>
+                    <RadioButton.Item
+                      value="yes"
+                      label={translate('Yes')}
+                      style={styles.radiobutton}
+                      onPress={() => handleValue2('yes')}
+                    />
+                  </View>
+                  <View>
+                    <RadioButton.Item
+                      value="no"
+                      label="No"
+                      style={styles.radiobutton}
+                      onPress={() => handleValue2('no')}
+                    />
+                  </View>
+                </View>
+              </RadioButton.Group>
             </View>
-          </RadioButton.Group>
-        </View>
-        <View>
-          <Text style={styles.p}>
-            {translate('Covid question 3')} {'\n'}
-          </Text>
-          <RadioButton.Group value={formData.value3}>
-            <View style={styles.radioGroup}>
-              <View style={styles.col1}>
-                <RadioButton.Item
-                  value="yes"
-                  label={translate('Yes')}
-                  style={styles.radiobutton}
-                  onPress={() => handleValue3('yes')}
-                />
-              </View>
-              <View style={styles.col2}>
-                <RadioButton.Item
-                  value="no"
-                  label="No"
-                  style={styles.radiobutton}
-                  onPress={() => handleValue3('no')}
-                />
-              </View>
+            <View>
+              <Text style={styles.p}>
+                {translate('Covid question 3')} {'\n'}
+              </Text>
+              <RadioButton.Group value={formData.value3}>
+                <View style={styles.radioGroup}>
+                  <View>
+                    <RadioButton.Item
+                      value="yes"
+                      label={translate('Yes')}
+                      style={styles.radiobutton}
+                      onPress={() => handleValue3('yes')}
+                    />
+                  </View>
+                  <View>
+                    <RadioButton.Item
+                      value="no"
+                      label="No"
+                      style={styles.radiobutton}
+                      onPress={() => handleValue3('no')}
+                    />
+                  </View>
+                </View>
+              </RadioButton.Group>
             </View>
-          </RadioButton.Group>
-        </View>
-        <View>
-          <Text style={styles.p}>
-            {translate('Covid question 4')} {'\n'}
-          </Text>
-          <RadioButton.Group value={formData.value4}>
-            <View style={styles.radioGroup}>
-              <View style={styles.col1}>
-                <RadioButton.Item
-                  value="yes"
-                  label={translate('Yes')}
-                  style={styles.radiobutton}
-                  onPress={() => handleValue4('yes')}
-                />
-              </View>
-              <View style={styles.col2}>
-                <RadioButton.Item
-                  value="no"
-                  label="No"
-                  style={styles.radiobutton}
-                  onPress={() => handleValue4('no')}
-                />
-              </View>
+            <View>
+              <Text style={styles.p}>
+                {translate('Covid question 4')} {'\n'}
+              </Text>
+              <RadioButton.Group value={formData.value4}>
+                <View style={styles.radioGroup}>
+                  <View>
+                    <RadioButton.Item
+                      value="yes"
+                      label={translate('Yes')}
+                      style={styles.radiobutton}
+                      onPress={() => handleValue4('yes')}
+                    />
+                  </View>
+                  <View>
+                    <RadioButton.Item
+                      value="no"
+                      label="No"
+                      style={styles.radiobutton}
+                      onPress={() => handleValue4('no')}
+                    />
+                  </View>
+                </View>
+              </RadioButton.Group>
             </View>
-          </RadioButton.Group>
-        </View>
-        <View>
-          <Text style={styles.p}>
-            {translate('Covid question 5')} {'\n'}
-          </Text>
-          <RadioButton.Group value={formData.value5}>
-            <View style={styles.radioGroup}>
-              <View style={styles.col1}>
-                <RadioButton.Item
-                  value="yes"
-                  label={translate('Yes')}
-                  style={styles.radiobutton}
-                  onPress={() => handleValue5('yes')}
-                />
-              </View>
-              <View style={styles.col2}>
-                <RadioButton.Item
-                  value="no"
-                  label="No"
-                  style={styles.radiobutton}
-                  onPress={() => handleValue5('no')}
-                />
-              </View>
+            <View>
+              <Text style={styles.p}>
+                {translate('Covid question 5')} {'\n'}
+              </Text>
+              <RadioButton.Group value={formData.value5}>
+                <View style={styles.radioGroup}>
+                  <View>
+                    <RadioButton.Item
+                      value="yes"
+                      label={translate('Yes')}
+                      style={styles.radiobutton}
+                      onPress={() => handleValue5('yes')}
+                    />
+                  </View>
+                  <View>
+                    <RadioButton.Item
+                      value="no"
+                      label="No"
+                      style={styles.radiobutton}
+                      onPress={() => handleValue5('no')}
+                    />
+                  </View>
+                </View>
+              </RadioButton.Group>
             </View>
-          </RadioButton.Group>
-        </View>
-        <View>
-          <Text style={styles.p}>
-            {translate('Covid question 6')} {'\n'}
-          </Text>
-          <RadioButton.Group value={formData.value6}>
-            <View style={styles.radioGroup}>
-              <View style={styles.col1}>
-                <RadioButton.Item
-                  value="yes"
-                  label={translate('Yes')}
-                  style={styles.radiobutton}
-                  onPress={() => handleValue6('yes')}
-                />
-              </View>
-              <View style={styles.col2}>
-                <RadioButton.Item
-                  value="no"
-                  label="No"
-                  style={styles.radiobutton}
-                  onPress={() => handleValue6('no')}
-                />
-              </View>
+            <View>
+              <Text style={styles.p}>
+                {translate('Covid question 6')} {'\n'}
+              </Text>
+              <RadioButton.Group value={formData.value6}>
+                <View style={styles.radioGroup}>
+                  <View>
+                    <RadioButton.Item
+                      value="yes"
+                      label={translate('Yes')}
+                      style={styles.radiobutton}
+                      onPress={() => handleValue6('yes')}
+                    />
+                  </View>
+                  <View>
+                    <RadioButton.Item
+                      value="no"
+                      label="No"
+                      style={styles.radiobutton}
+                      onPress={() => handleValue6('no')}
+                    />
+                  </View>
+                </View>
+              </RadioButton.Group>
             </View>
-          </RadioButton.Group>
-        </View>
-        <View>
-          <Text style={styles.p}>
-            {translate('Covid question 7')} {'\n'}
-          </Text>
-          <RadioButton.Group value={formData.value7}>
-            <View style={styles.radioGroup}>
-              <View style={styles.col1}>
-                <RadioButton.Item
-                  value="yes"
-                  label={translate('Yes')}
-                  style={styles.radiobutton}
-                  onPress={() => handleValue7('yes')}
-                />
-              </View>
-              <View style={styles.col2}>
-                <RadioButton.Item
-                  value="no"
-                  label="No"
-                  style={styles.radiobutton}
-                  onPress={() => handleValue7('no')}
-                />
-              </View>
+            <View>
+              <Text style={styles.p}>
+                {translate('Covid question 7')} {'\n'}
+              </Text>
+              <RadioButton.Group value={formData.value7}>
+                <View style={styles.radioGroup}>
+                  <View>
+                    <RadioButton.Item
+                      value="yes"
+                      label={translate('Yes')}
+                      style={styles.radiobutton}
+                      onPress={() => handleValue7('yes')}
+                    />
+                  </View>
+                  <View>
+                    <RadioButton.Item
+                      value="no"
+                      label="No"
+                      style={styles.radiobutton}
+                      onPress={() => handleValue7('no')}
+                    />
+                  </View>
+                </View>
+              </RadioButton.Group>
             </View>
-          </RadioButton.Group>
-        </View>
-        <View>
-          <Text style={styles.p}>
-            {translate('Covid question 8')}
-            {'\n'}
-          </Text>
-          <RadioButton.Group value={formData.value8}>
-            <View style={styles.radioGroup}>
-              <View style={styles.col1}>
-                <RadioButton.Item
-                  value="yes"
-                  label={translate('Yes')}
-                  style={styles.radiobutton}
-                  onPress={() => handleValue8('yes')}
-                />
-              </View>
-              <View style={styles.col2}>
-                <RadioButton.Item
-                  value="no"
-                  label="No"
-                  style={styles.radiobutton}
-                  onPress={() => handleValue8('no')}
-                />
-              </View>
+            <View>
+              <Text style={styles.p}>
+                {translate('Covid question 8')}
+                {'\n'}
+              </Text>
+              <RadioButton.Group value={formData.value8}>
+                <View style={styles.radioGroup}>
+                  <View>
+                    <RadioButton.Item
+                      value="yes"
+                      label={translate('Yes')}
+                      style={styles.radiobutton}
+                      onPress={() => handleValue8('yes')}
+                    />
+                  </View>
+                  <View>
+                    <RadioButton.Item
+                      value="no"
+                      label="No"
+                      style={styles.radiobutton}
+                      onPress={() => handleValue8('no')}
+                    />
+                  </View>
+                </View>
+              </RadioButton.Group>
             </View>
-          </RadioButton.Group>
-        </View>
-        <View style={styles.suggestionWrapper}>
-          <TextInput
-            theme={{colors: {primary: '#00486D'}}}
-            selectionColor={'white'}
-            autoCapitalize="words"
-            underlineColorAndroid={'#00486D'}
-            name="firstname"
-            style={styles.suggestionInput}
-            placeholder={translate('First Name')}
-            value={formData.firstname}
-            onChangeText={(firstname) => setFormData({...formData, firstname})}
-          />
-          <TextInput
-            required={true}
-            theme={{colors: {primary: '#00486D'}}}
-            name="lastname"
-            style={styles.suggestionInput}
-            placeholder={translate('Last Name')}
-            value={formData.lastname}
-            autoCapitalize="words"
-            selectionColor={'white'}
-            underlineColorAndroid={'#white'}
-            onChangeText={(lastname) => setFormData({...formData, lastname})}
-          />
-          <View>
+            <View style={styles.suggestionWrapper}>
+              <TextInput
+                selectionColor={'white'}
+                autoCapitalize="words"
+                name="firstname"
+                style={styles.suggestionInput}
+                placeholder={translate('First Name')}
+                value={formData.firstname}
+                onChangeText={(firstname) =>
+                  setFormData({...formData, firstname})
+                }
+              />
+              <TextInput
+                required={true}
+                name="lastname"
+                style={styles.suggestionInput}
+                placeholder={translate('Last Name')}
+                value={formData.lastname}
+                autoCapitalize="words"
+                selectionColor={'white'}
+                onChangeText={(lastname) =>
+                  setFormData({...formData, lastname})
+                }
+              />
+            </View>
             <RadioButton.Group value={formData.certify}>
               <View style={styles.radioGroup}>
                 <View style={styles.col3}>
@@ -341,68 +361,115 @@ function CovidFormEn() {
               {translate('Submit btn')}
             </Text>
           </TouchableOpacity>
-        </View>
-      </View>
-    </ScrollView>
+        </ImageBackground>
+      </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
-  suggestionWrapper: {
-    marginTop: '4%',
-    marginLeft: 15,
-    marginRight: 15,
+  mainWrapper: {
+    flexDirection: 'row',
     height: '100%',
   },
-  hOneSuggestion: {
-    fontSize: 23,
-    textAlign: 'center',
-    marginTop: '6%',
+  rightWrapper: {
+    width: '85%',
+    backgroundColor: 'rgb(218, 218, 218)',
+  },
+  rightBackground: {
+    width: '100%',
+    height: '46%',
+    resizeMode: 'cover',
+  },
+  titleWrapper: {
+    marginTop: 65,
+    marginLeft: 25,
+  },
+  mainTitleIcon: {
+    color: 'white',
+    fontSize: 38,
+    marginLeft: -6,
+  },
+  mainTitle: {
+    color: 'white',
+    fontSize: 27,
+  },
+  formWrapper: {
+    backgroundColor: 'white',
+    borderRadius: 10,
+    padding: 10,
+    marginTop: 40,
+    marginLeft: 20,
+    marginRight: 20,
+    marginBottom: 20,
+  },
+  healthDec: {
+    color: '#00486e',
+    fontWeight: '900',
+    fontSize: 25,
+    marginBottom: 15,
+    marginLeft: 2,
+    marginRight: 2,
+  },
+  pleaseAnswer: {
+    fontSize: 16,
+    marginLeft: 5,
+    marginRight: 5,
+  },
+  suggestionWrapper: {
+    marginTop: '4%',
+    marginLeft: 5,
+    marginRight: 5,
   },
   p: {
-    fontSize: 15,
+    fontSize: 14,
     textAlign: 'left',
-    marginLeft: 15,
-    marginRight: 15,
+    marginLeft: 5,
+    marginRight: 5,
     fontWeight: 'bold',
     marginBottom: -20,
   },
+  col3: {
+    marginLeft: -20,
+  },
   p1: {
     fontSize: 15,
-    textAlign: 'left',
+    // textAlign: 'left',
     marginTop: '6%',
-    marginLeft: 15,
-    marginRight: 15,
+    marginLeft: -10,
+    marginRight: 10,
+    fontWeight: 'bold',
   },
   suggestionInput: {
     backgroundColor: 'white',
-    marginBottom: '1%',
-    fontSize: 13,
+    marginBottom: '3%',
+    fontSize: 15,
+    borderRadius: 10,
+    borderWidth: 1,
+    paddingLeft: 10,
+    borderColor: 'rgb(180, 180, 180)',
   },
   btnSuggestion: {
-    marginTop: 10,
-    borderRadius: 2,
+    width: '50%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: 30,
   },
   btnTextSuggestion: {
-    backgroundColor: '#00486D',
+    backgroundColor: '#0db4e8',
     textAlign: 'center',
     padding: 15,
-    borderRadius: 4,
+    borderRadius: 30,
     color: 'white',
     fontWeight: 'bold',
-    fontSize: 15,
+    fontSize: 18,
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 3,
   },
   radioGroup: {
     flexDirection: 'row',
-  },
-  radiobutton: {
-    flexDirection: 'column',
-  },
-  col3: {
-    width: '10%',
-  },
-  col4: {
-    width: '90%',
+    alignItems: 'center',
   },
 });
 

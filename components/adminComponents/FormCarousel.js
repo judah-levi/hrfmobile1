@@ -6,12 +6,10 @@ import {
   TextInput,
   ImageBackground,
   View,
+  ScrollView,
 } from 'react-native';
 import AdminNavBar from './adminNavBar';
-import ImagePicker from 'react-native-image-picker';
 import firestore from '@react-native-firebase/firestore';
-import storage from '@react-native-firebase/storage';
-import RNFetchBlob from 'rn-fetch-blob';
 import {useNavigation} from '@react-navigation/native';
 import * as RNLocalize from 'react-native-localize';
 import {stateContext} from '../context/context';
@@ -44,24 +42,6 @@ class FormCarousel extends React.Component {
     );
   }
 
-  getPathForFirebaseStorage = async (uri) => {
-    const stat = await RNFetchBlob.fs.stat(uri);
-    return stat.path;
-  };
-
-  uploadToStorage = (uploadFile) => {
-    const reference = storage().ref('/images' + uploadFile);
-    const task = reference.putFile(uploadFile);
-    task.on('state_changed', (taskSnapshot) => {
-      console.log(
-        `${taskSnapshot.bytesTransferred} transferred out of ${taskSnapshot.totalBytes}`,
-      );
-    });
-    task.then(() => {
-      console.log('Image uploaded to the bucket!');
-    });
-  };
-
   uploadPost = (post) => {
     const uploadData = {
       title: post.title,
@@ -71,45 +51,6 @@ class FormCarousel extends React.Component {
     };
     return firestore().collection('news-updates').doc().set(uploadData);
   };
-
-  handleImagePicker = () => {
-    const options = {
-      storageOptions: {
-        path: 'images',
-      },
-    };
-    const pickMe = ImagePicker.launchImageLibrary(options, (response) => {
-      if (response.didCancel) {
-        console.log('User cancelled image picker');
-      } else if (response.error) {
-        console.log('ImagePicker Error: ', response.error);
-      } else if (response.customButton) {
-        console.log('User tapped custom button: ', response.customButton);
-      } else {
-        const source = {uri: response.uri};
-        this.setState({image: source});
-        console.log(this.state.image);
-      }
-    });
-  };
-
-  // handleShootPhoto = () => {
-  //   const options = {};
-  //   ImagePicker.launchCamera(options, (response) => {
-  //     if (response.didCancel) {
-  //       console.log('User cancelled camera');
-  //     } else if (response.error) {
-  //       console.log('ImagePicker Error: ', response.error);
-  //     } else if (response.customButton) {
-  //       console.log('User tapped custom button: ', response.customButton);
-  //     } else {
-  //       const source = {uri: response.uri};
-  //       const androidPath = this.getPathForFirebaseStorage(source.uri);
-  //       this.setState({image: androidPath});
-  //       console.log(this.state.image);
-  //     }
-  //   });
-  // };
 
   handleSubmit = async () => {
     const post = {
@@ -128,9 +69,11 @@ class FormCarousel extends React.Component {
     return (
       <View style={styles.mainWrapper}>
         <AdminNavBar />
-        <View style={styles.rightWrapper}>
+        <ScrollView
+          style={styles.rightWrapper}
+          showsVerticalScrollIndicator={false}>
           <ImageBackground
-            source={require('../../pics/fondos-2.png')}
+            source={require('../../pics/ballena.png')}
             style={styles.rightBackground}>
             <View style={styles.titleWrapper}>
               <MaterialCommunityIcons
@@ -141,38 +84,39 @@ class FormCarousel extends React.Component {
                 {translate('Create Message')}
               </Text>
             </View>
+
+            <View style={styles.carouselWrapper}>
+              <TextInput
+                selectionColor={'white'}
+                autoCapitalize="words"
+                maxLength={15}
+                style={styles.carouselInput}
+                placeholder={translate('Title')}
+                onChangeText={(title) => this.setState({title: title})}
+              />
+              <TextInput
+                selectionColor={'white'}
+                autoCapitalize="sentences"
+                maxLength={140}
+                multiline={true}
+                numberOfLines={7}
+                style={styles.carouselTextTarea}
+                placeholder={translate('Content')}
+                onChangeText={(content) => this.setState({content: content})}
+              />
+              <TouchableOpacity
+                style={styles.btnCarousel}
+                onPress={() => {
+                  this.handleSubmit();
+                  navigation.navigate('AdminPage');
+                }}>
+                <Text style={styles.btnTextCarousel}>
+                  {translate('Submit btn')}
+                </Text>
+              </TouchableOpacity>
+            </View>
           </ImageBackground>
-          <View style={styles.carouselWrapper}>
-            <TextInput
-              selectionColor={'white'}
-              autoCapitalize="words"
-              maxLength={15}
-              style={styles.carouselInput}
-              placeholder={translate('Title')}
-              onChangeText={(title) => this.setState({title: title})}
-            />
-            <TextInput
-              selectionColor={'white'}
-              autoCapitalize="sentences"
-              maxLength={140}
-              multiline={true}
-              numberOfLines={7}
-              style={styles.carouselTextTarea}
-              placeholder={translate('Content')}
-              onChangeText={(content) => this.setState({content: content})}
-            />
-            <TouchableOpacity
-              style={styles.btnCarousel}
-              onPress={() => {
-                this.handleSubmit();
-                navigation.navigate('AdminPage');
-              }}>
-              <Text style={styles.btnTextCarousel}>
-                {translate('Submit btn')}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
+        </ScrollView>
       </View>
     );
   }
@@ -195,7 +139,7 @@ const styles = StyleSheet.create({
   },
   rightBackground: {
     width: '100%',
-    height: '70%',
+    height: '76%',
     resizeMode: 'cover',
   },
   titleWrapper: {
@@ -212,7 +156,7 @@ const styles = StyleSheet.create({
     fontSize: 27,
   },
   carouselWrapper: {
-    marginTop: -380,
+    marginTop: 50,
     marginLeft: 20,
     marginRight: 20,
   },
@@ -241,6 +185,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     width: '50%',
+    marginBottom: 30,
   },
   btnTextCarousel: {
     backgroundColor: '#0db4e8',

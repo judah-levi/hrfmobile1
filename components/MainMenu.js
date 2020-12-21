@@ -14,9 +14,13 @@ import {useNavigation} from '@react-navigation/native';
 
 function MainMenu() {
   const navigation = useNavigation();
-  const {translate, setI18nConfig, handleLocalizationChange} = useContext(
-    stateContext,
-  );
+  const {
+    translate,
+    setI18nConfig,
+    handleLocalizationChange,
+    userInfo,
+    setUserInfo,
+  } = useContext(stateContext);
 
   setI18nConfig();
 
@@ -31,7 +35,9 @@ function MainMenu() {
         style={styles.mainMenuImgBg}
         source={require('../pics/prueba1.png')}
         imageStyle={{resizeMode: 'cover'}}>
-        <Text style={styles.mainMenuHi}>{translate('Hi')}, Peter!</Text>
+        <Text style={styles.mainMenuHi}>
+          {translate('Hi')}, {userInfo.firstName.toUpperCase()}!
+        </Text>
         <View style={styles.wrapperIcons}>
           <MaterialCommunityIcon name="color-helper" style={styles.iconLine} />
           <TouchableOpacity

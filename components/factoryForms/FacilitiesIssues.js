@@ -31,7 +31,7 @@ function FacilitiesIssues() {
     event.preventDefault();
     console.log({data: formData});
     sendEmail();
-    navigation.navigate('MainPage');
+    navigation.navigate('MainMenu');
   };
 
   const sendEmail = () => {
@@ -44,9 +44,11 @@ function FacilitiesIssues() {
   return (
     <View style={styles.mainWrapper}>
       <Nav />
-      <View style={styles.rightWrapper}>
+      <ScrollView
+        style={styles.rightWrapper}
+        showsVerticalScrollIndicator={false}>
         <ImageBackground
-          source={require('../../pics/fondos-2.png')}
+          source={require('../../pics/ballena.png')}
           style={styles.rightBackground}>
           <View style={styles.titleWrapper}>
             <MaterialCommunityIcons
@@ -57,28 +59,30 @@ function FacilitiesIssues() {
               {translate('Facilities Issues2')}
             </Text>
           </View>
+          <View style={styles.facilitiesWrapper}>
+            <TextInput
+              selectionColor={'white'}
+              autoCapitalize="sentences"
+              name="description"
+              style={styles.facilitiesInput}
+              multiline={true}
+              numberOfLines={7}
+              placeholder={translate('Facility issue desc')}
+              value={formData.description}
+              onChangeText={(description) =>
+                setFormData({...formData, description})
+              }
+            />
+            <TouchableOpacity
+              style={styles.btnFacilities}
+              onPress={handleSubmit}>
+              <Text style={styles.btnTextFacilities}>
+                {translate('Submit btn')}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </ImageBackground>
-        <View style={styles.facilitiesWrapper}>
-          <TextInput
-            selectionColor={'white'}
-            autoCapitalize="sentences"
-            name="description"
-            style={styles.facilitiesInput}
-            multiline={true}
-            numberOfLines={7}
-            placeholder={translate('Facility issue desc')}
-            value={formData.description}
-            onChangeText={(description) =>
-              setFormData({...formData, description})
-            }
-          />
-          <TouchableOpacity style={styles.btnFacilities} onPress={handleSubmit}>
-            <Text style={styles.btnTextFacilities}>
-              {translate('Submit btn')}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </ScrollView>
     </View>
   );
 }
@@ -89,18 +93,19 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   rightWrapper: {
-    // flex: 1,
     width: '85%',
     backgroundColor: 'rgb(218, 218, 218)',
-    // borderColor: 'yellow',
-    // borderWidth: 3,
+    height: '100%',
   },
   rightBackground: {
+    flex: 1,
     width: '100%',
     height: '70%',
     resizeMode: 'cover',
-    // borderColor: 'red',
-    // borderWidth: 3,
+  },
+  scrollview: {
+    borderColor: 'yellow',
+    borderWidth: 3,
   },
   titleWrapper: {
     marginTop: 65,
@@ -116,7 +121,7 @@ const styles = StyleSheet.create({
     fontSize: 27,
   },
   facilitiesWrapper: {
-    marginTop: -380,
+    marginTop: 50,
     marginLeft: 20,
     marginRight: 20,
   },
@@ -135,6 +140,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     width: '50%',
+    marginBottom: 30,
   },
   btnTextFacilities: {
     backgroundColor: '#0db4e8',

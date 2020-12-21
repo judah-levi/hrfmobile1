@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   ImageBackground,
+  ScrollView,
 } from 'react-native';
 import Nav from '../Nav';
 import axios from 'axios';
@@ -43,9 +44,11 @@ function Suggestion() {
   return (
     <View style={styles.mainWrapper}>
       <Nav />
-      <View style={styles.rightWrapper}>
+      <ScrollView
+        style={styles.rightWrapper}
+        showsVerticalScrollIndicator={false}>
         <ImageBackground
-          source={require('../../pics/fondos-2.png')}
+          source={require('../../pics/ballena.png')}
           style={styles.rightBackground}>
           <View style={styles.titleWrapper}>
             <MaterialCommunityIcons
@@ -54,46 +57,50 @@ function Suggestion() {
             />
             <Text style={styles.mainTitle}>{translate('Suggestions2')}</Text>
           </View>
+          <View style={styles.suggestionWrapper}>
+            <TextInput
+              selectionColor={'white'}
+              autoCapitalize="words"
+              name="firstname"
+              style={styles.suggestionInput}
+              placeholder={translate('First Name')}
+              value={formData.firstname}
+              onChangeText={(firstname) =>
+                setFormData({...formData, firstname})
+              }
+            />
+            <TextInput
+              selectionColor={'white'}
+              autoCapitalize="words"
+              name="lastname"
+              style={styles.suggestionInput}
+              placeholder={translate('Last Name')}
+              value={formData.lastname}
+              onChangeText={(lastname) => setFormData({...formData, lastname})}
+            />
+            <TextInput
+              selectionColor={'white'}
+              autoCapitalize="sentences"
+              name="suggestion"
+              style={styles.suggestionTextTarea}
+              placeholder={translate('Suggestion desc')}
+              multiline={true}
+              numberOfLines={7}
+              value={formData.suggestion}
+              onChangeText={(suggestion) =>
+                setFormData({...formData, suggestion})
+              }
+            />
+            <TouchableOpacity
+              style={styles.btnSuggestion}
+              onPress={handleSubmit}>
+              <Text style={styles.btnTextSuggestion}>
+                {translate('Submit btn')}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </ImageBackground>
-        <View style={styles.suggestionWrapper}>
-          <TextInput
-            selectionColor={'white'}
-            autoCapitalize="words"
-            name="firstname"
-            style={styles.suggestionInput}
-            placeholder={translate('First Name')}
-            value={formData.firstname}
-            onChangeText={(firstname) => setFormData({...formData, firstname})}
-          />
-          <TextInput
-            selectionColor={'white'}
-            autoCapitalize="words"
-            name="lastname"
-            style={styles.suggestionInput}
-            placeholder={translate('Last Name')}
-            value={formData.lastname}
-            onChangeText={(lastname) => setFormData({...formData, lastname})}
-          />
-          <TextInput
-            selectionColor={'white'}
-            autoCapitalize="sentences"
-            name="suggestion"
-            style={styles.suggestionTextTarea}
-            placeholder={translate('Suggestion desc')}
-            multiline={true}
-            numberOfLines={7}
-            value={formData.suggestion}
-            onChangeText={(suggestion) =>
-              setFormData({...formData, suggestion})
-            }
-          />
-          <TouchableOpacity style={styles.btnSuggestion} onPress={handleSubmit}>
-            <Text style={styles.btnTextSuggestion}>
-              {translate('Submit btn')}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </ScrollView>
     </View>
   );
 }
@@ -109,7 +116,7 @@ const styles = StyleSheet.create({
   },
   rightBackground: {
     width: '100%',
-    height: '70%',
+    height: '72%',
     resizeMode: 'cover',
   },
   titleWrapper: {
@@ -126,7 +133,7 @@ const styles = StyleSheet.create({
     fontSize: 27,
   },
   suggestionWrapper: {
-    marginTop: -380,
+    marginTop: 50,
     marginLeft: 20,
     marginRight: 20,
   },
@@ -155,6 +162,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     width: '50%',
+    marginBottom: 30,
   },
   btnTextSuggestion: {
     backgroundColor: '#0db4e8',

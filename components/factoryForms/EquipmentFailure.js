@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   ImageBackground,
+  ScrollView,
 } from 'react-native';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
@@ -43,9 +44,11 @@ function EquipmentFailure() {
   return (
     <View style={styles.mainWrapper}>
       <Nav />
-      <View style={styles.rightWrapper}>
+      <ScrollView
+        style={styles.rightWrapper}
+        showsVerticalScrollIndicator={false}>
         <ImageBackground
-          source={require('../../pics/fondos-2.png')}
+          source={require('../../pics/ballena.png')}
           style={styles.rightBackground}>
           <View style={styles.titleWrapper}>
             <MaterialCommunityIcons
@@ -56,39 +59,41 @@ function EquipmentFailure() {
               {translate('Equipment Failure2')}
             </Text>
           </View>
+          <View style={styles.equipmentWrapper}>
+            <TextInput
+              selectionColor={'white'}
+              autoCapitalize="words"
+              name="lineNumber"
+              style={styles.equipmentInput}
+              placeholder={translate('Line num')}
+              value={formData.lineNumber}
+              onChangeText={(lineNumber) =>
+                setFormData({...formData, lineNumber})
+              }
+            />
+            <TextInput
+              selectionColor={'white'}
+              autoCapitalize="sentences"
+              name="description"
+              style={styles.equipmentTextTarea}
+              placeholder={translate('Failure desc')}
+              multiline={true}
+              numberOfLines={7}
+              value={formData.description}
+              onChangeText={(description) =>
+                setFormData({...formData, description})
+              }
+            />
+            <TouchableOpacity
+              style={styles.btnEquipment}
+              onPress={handleSubmit}>
+              <Text style={styles.btnTextEquipment}>
+                {translate('Submit btn')}
+              </Text>
+            </TouchableOpacity>
+          </View>
         </ImageBackground>
-        <View style={styles.equipmentWrapper}>
-          <TextInput
-            selectionColor={'white'}
-            autoCapitalize="words"
-            name="lineNumber"
-            style={styles.equipmentInput}
-            placeholder={translate('Line num')}
-            value={formData.lineNumber}
-            onChangeText={(lineNumber) =>
-              setFormData({...formData, lineNumber})
-            }
-          />
-          <TextInput
-            selectionColor={'white'}
-            autoCapitalize="sentences"
-            name="description"
-            style={styles.equipmentTextTarea}
-            placeholder={translate('Failure desc')}
-            multiline={true}
-            numberOfLines={7}
-            value={formData.description}
-            onChangeText={(description) =>
-              setFormData({...formData, description})
-            }
-          />
-          <TouchableOpacity style={styles.btnEquipment} onPress={handleSubmit}>
-            <Text style={styles.btnTextEquipment}>
-              {translate('Submit btn')}
-            </Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </ScrollView>
     </View>
   );
 }
@@ -103,6 +108,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgb(218, 218, 218)',
   },
   rightBackground: {
+    flex: 1,
     width: '100%',
     height: '70%',
     resizeMode: 'cover',
@@ -121,7 +127,7 @@ const styles = StyleSheet.create({
     fontSize: 27,
   },
   equipmentWrapper: {
-    marginTop: -380,
+    marginTop: 50,
     marginLeft: 20,
     marginRight: 20,
   },
@@ -138,6 +144,7 @@ const styles = StyleSheet.create({
   equipmentTextTarea: {
     marginBottom: '3%',
     paddingLeft: 10,
+    paddingRight: 10,
     backgroundColor: 'white',
     textAlignVertical: 'top',
     borderRadius: 10,
@@ -150,6 +157,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     width: '50%',
+    marginBottom: 30,
   },
   btnTextEquipment: {
     backgroundColor: '#0db4e8',

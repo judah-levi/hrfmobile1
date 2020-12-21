@@ -31,18 +31,11 @@ function AdminNav() {
         style={styles.mainMenuImgBg}
         source={require('../../pics/prueba1.png')}
         imageStyle={{resizeMode: 'cover'}}>
-        <Text style={styles.mainMenuHi}>{translate('Hi')}, Peter!</Text>
+        <Text style={styles.mainMenuHi}>
+          {translate('Hi')}, {userInfo.firstName}!
+        </Text>
         <View style={styles.wrapperIcons}>
           <MaterialCommunityIcon name="color-helper" style={styles.iconLine} />
-          {/* <TouchableOpacity
-            style={styles.iconText}
-            onPress={() => navigation.navigate('MainPage')}>
-            <MaterialCommunityIcon
-              name="calendar-text-outline"
-              style={styles.icons}
-            />
-            <Text style={styles.text}>{translate('Messages')}</Text>
-          </TouchableOpacity> */}
           <TouchableOpacity
             style={styles.iconText}
             onPress={() => navigation.navigate('FormCarousel')}>

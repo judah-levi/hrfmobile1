@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   TextInput,
   ImageBackground,
+  ScrollView,
 } from 'react-native';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
@@ -43,9 +44,11 @@ function MaterialsNeeded() {
   return (
     <View style={styles.mainWrapper}>
       <Nav />
-      <View style={styles.rightWrapper}>
+      <ScrollView
+        style={styles.rightWrapper}
+        showsVerticalScrollIndicator={false}>
         <ImageBackground
-          source={require('../../pics/fondos-2.png')}
+          source={require('../../pics/ballena.png')}
           style={styles.rightBackground}>
           <View style={styles.titleWrapper}>
             <MaterialCommunityIcons
@@ -56,46 +59,48 @@ function MaterialsNeeded() {
               {translate('Materials Needed2')}
             </Text>
           </View>
+          <View style={styles.materialWrapper}>
+            <TextInput
+              selectionColor={'white'}
+              autoCapitalize="words"
+              name="stockCode"
+              style={styles.materialInput}
+              placeholder={translate('Stock Code')}
+              value={formData.stockCode}
+              onChangeText={(stockCode) =>
+                setFormData({...formData, stockCode})
+              }
+            />
+            <TextInput
+              selectionColor={'white'}
+              autoCapitalize="words"
+              name="quantityShort"
+              style={styles.materialInput}
+              placeholder={translate('Quantity Short')}
+              value={formData.quantityShort}
+              onChangeText={(quantityShort) =>
+                setFormData({...formData, quantityShort})
+              }
+            />
+            <TextInput
+              selectionColor={'white'}
+              autoCapitalize="words"
+              name="description"
+              style={styles.materialTextTarea}
+              multiline={true}
+              numberOfLines={7}
+              placeholder={translate('Material Description')}
+              value={formData.description}
+              onChangeText={(description) =>
+                setFormData({...formData, description})
+              }
+            />
+            <TouchableOpacity style={styles.btnStock} onPress={handleSubmit}>
+              <Text style={styles.btnTextStock}>{translate('Submit btn')}</Text>
+            </TouchableOpacity>
+          </View>
         </ImageBackground>
-        <View style={styles.materialWrapper}>
-          <TextInput
-            selectionColor={'white'}
-            autoCapitalize="words"
-            name="stockCode"
-            style={styles.materialInput}
-            placeholder={translate('Stock Code')}
-            value={formData.stockCode}
-            onChangeText={(stockCode) => setFormData({...formData, stockCode})}
-          />
-          <TextInput
-            selectionColor={'white'}
-            autoCapitalize="words"
-            name="quantityShort"
-            style={styles.materialInput}
-            placeholder={translate('Quantity Short')}
-            value={formData.quantityShort}
-            onChangeText={(quantityShort) =>
-              setFormData({...formData, quantityShort})
-            }
-          />
-          <TextInput
-            selectionColor={'white'}
-            autoCapitalize="words"
-            name="description"
-            style={styles.materialTextTarea}
-            multiline={true}
-            numberOfLines={7}
-            placeholder={translate('Material Description')}
-            value={formData.description}
-            onChangeText={(description) =>
-              setFormData({...formData, description})
-            }
-          />
-          <TouchableOpacity style={styles.btnStock} onPress={handleSubmit}>
-            <Text style={styles.btnTextStock}>{translate('Submit btn')}</Text>
-          </TouchableOpacity>
-        </View>
-      </View>
+      </ScrollView>
     </View>
   );
 }
@@ -111,7 +116,7 @@ const styles = StyleSheet.create({
   },
   rightBackground: {
     width: '100%',
-    height: '70%',
+    height: '72%',
     resizeMode: 'cover',
   },
   titleWrapper: {
@@ -128,7 +133,7 @@ const styles = StyleSheet.create({
     fontSize: 27,
   },
   materialWrapper: {
-    marginTop: -380,
+    marginTop: 50,
     marginLeft: 20,
     marginRight: 20,
   },
@@ -157,6 +162,7 @@ const styles = StyleSheet.create({
     marginLeft: 'auto',
     marginRight: 'auto',
     width: '50%',
+    marginBottom: 30,
   },
   btnTextStock: {
     backgroundColor: '#0db4e8',
