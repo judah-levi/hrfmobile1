@@ -14,6 +14,7 @@ import {stateContext} from './context/context';
 import * as RNLocalize from 'react-native-localize';
 import axios from 'axios';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 
 export default function VerificationPage() {
   const [verificationCode, setVerificationCode] = useState('');

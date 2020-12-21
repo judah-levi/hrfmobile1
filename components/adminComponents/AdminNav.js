@@ -14,7 +14,7 @@ import {useNavigation} from '@react-navigation/native';
 
 function AdminNav() {
   const navigation = useNavigation();
-  const {translate, setI18nConfig, handleLocalizationChange} = useContext(
+  const {translate, setI18nConfig, handleLocalizationChange, userInfo} = useContext(
     stateContext,
   );
 
