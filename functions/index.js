@@ -316,7 +316,7 @@ exports.submitCovidForm = functions.https.onRequest((req, res) => {
       const mailOptions = {
         from: req.body.email,
         replyTo: req.body.email,
-        to: gmailEmail /*today@hudsonriverfoods.com*/,
+        to: "today@hudsonriverfoods.com",
         subject: `${req.body.firstname} ${req.body.lastname} has submited their daily Health Declaration.`,
         html: `<p>An HRF employee has signed their daily COVID-19 health declaration. <br> 
                 <br> 
