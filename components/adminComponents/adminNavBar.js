@@ -1,11 +1,20 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {stateContext} from '../context/context';
 
 function Nav() {
   const navigation = useNavigation();
+  const {setToken, setPhoneNumber} = useContext(stateContext);
+
+  const handleLogOut = () => {
+    setToken('');
+    setPhoneNumber('');
+    AsyncStorage.removeItem('token');
+  };
 
   return (
     <View style={styles.mainWrapper}>
@@ -15,9 +24,7 @@ function Nav() {
           onPress={() => navigation.navigate('FormCarousel')}>
           <MaterialCommunityIcon name="pencil" style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.iconBtn}
-          onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity style={styles.iconBtn} onPress={handleLogOut}>
           <MaterialCommunityIcon name="logout" style={styles.icon} />
         </TouchableOpacity>
       </View>

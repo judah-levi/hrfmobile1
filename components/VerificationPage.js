@@ -7,7 +7,7 @@ import {
   Image,
   ImageBackground,
   TextInput,
-  ScrollView,
+  Keyboard,
 } from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {stateContext} from './context/context';
@@ -15,9 +15,11 @@ import * as RNLocalize from 'react-native-localize';
 import axios from 'axios';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export default function VerificationPage() {
   const [verificationCode, setVerificationCode] = useState('');
+  const [keyboardOn, setKeyboardOn] = useState(false);
   const navigation = useNavigation();
   const [error, setError] = useState(false);
   const {
@@ -26,156 +28,168 @@ export default function VerificationPage() {
     handleLocalizationChange,
     userInfo,
     phoneNumber,
+    setToken,
+    userRole,
+    setUserRole,
   } = useContext(stateContext);
 
   setI18nConfig();
 
   useEffect(() => {
     RNLocalize.addEventListener('change', handleLocalizationChange);
-    return RNLocalize.removeEventListener('change', handleLocalizationChange);
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardOn(true);
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardOn(false);
+      },
+    );
+
+    return () => {
+      RNLocalize.removeEventListener('change', handleLocalizationChange);
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
   }, []);
 
-  const enterWebsite = (verificationCode) => {
-    axios
-      .post(
-        `https://hrf-api-auth-kdrukbtfra-ue.a.run.app/verify-login/${phoneNumber}/${verificationCode}`,
-      )
-      .then((res) => {
-        if (userInfo.role === 'user') {
-          navigation.navigate('MainMenu');
-        } else {
-          navigation.navigate('AdminNav');
-        }
-        setError(false);
-      })
-      .catch(
-        (err) => console.log(err),
-        setError(true),
-        setVerificationCode(''),
-      );
+  const verificationLogin = async (verificationCode) => {
+    try {
+      let res = await axios({
+        url: `https://hrf-api-auth-kdrukbtfra-ue.a.run.app/verify-login/${phoneNumber}/${verificationCode}`,
+        method: 'post',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+      });
+      setUserRole(userInfo.role);
+      setToken(userInfo.firstName);
+      AsyncStorage.setItem('token', userInfo.firstName);
+      AsyncStorage.setItem('role', userInfo.role);
+    } catch (err) {
+      setError(true), setVerificationCode('');
+    }
   };
+
   return (
-    <ScrollView
-      style={styles.loginWrapper}
-      showsVerticalScrollIndicator={false}>
-      <View style={styles.loginSubWrapper}>
-        <ImageBackground
-          style={{width: '100%', height: '100%'}}
-          source={require('../pics/fondo_1.jpg')}
-          imageStyle={{
-            borderBottomRightRadius: 40,
-            borderBottomLeftRadius: 40,
-          }}>
-          <View style={styles.card}>
+    <View style={styles.loginWrapper}>
+      <ImageBackground
+        style={styles.imgLogo}
+        borderBottomRightRadius={40}
+        borderBottomLeftRadius={40}
+        source={require('../pics/fondo_1.jpg')}>
+        <View style={styles.loginHeader}></View>
+        {keyboardOn ? null : (
+          <View style={styles.welcomeIn}>
             <Text style={styles.welcomeText}>{translate('Welcome')}</Text>
+          </View>
+        )}
+        {keyboardOn ? null : (
+          <View style={styles.logoIn}>
             <Image
-              style={styles.logo}
+              style={{width: 130, height: 130}}
               source={require('../pics/HeaderLogo_180x.webp')}
             />
-            <TextInput
-              onKeyPress={() => setError(false)}
-              value={verificationCode}
-              style={error ? styles.inputError : styles.input}
-              onChangeText={(code) => setVerificationCode(code)}
-              clearTextOnFocus
-              secureTextEntry={true}
-              placeholder={translate('Verification Code')}
-              placeholderTextColor="white"
-            />
-            <TouchableOpacity
-              style={styles.loginButton}
-              onPress={() => enterWebsite(verificationCode)}>
-              <Text style={styles.buttonText}>
-                {translate('Conf Verification Code')}
-              </Text>
-            </TouchableOpacity>
-            <View>
-              {error ? (
-                <View style={styles.errorWrapper}>
-                  <MaterialIcons name="warning" style={styles.warningIcon} />
-                  <Text style={styles.helperText}>
-                    {translate('Code Error')}
-                  </Text>
-                </View>
-              ) : null}
-            </View>
           </View>
-        </ImageBackground>
-      </View>
-      <View style={styles.bottomView}>
+        )}
+        <View style={keyboardOn ? styles.inputOut : styles.inputIn}>
+          <TextInput
+            value={verificationCode}
+            onChangeText={(code) => setVerificationCode(code)}
+            secureTextEntry={true}
+            placeholder={translate('Verification Code')}
+            clearTextOnFocus
+            style={error ? styles.inputError : styles.input}
+            placeholderTextColor="white"
+          />
+          <TouchableOpacity
+            onPress={() => verificationLogin(verificationCode)}
+            style={styles.button}>
+            <Text style={{color: '#fff', fontSize: 19}}>
+              {translate('Conf Verification Code')}
+            </Text>
+          </TouchableOpacity>
+          <View>
+            {error ? (
+              <View style={styles.errorWrapper}>
+                <MaterialIcons name="warning" style={styles.errorIcon} />
+                <Text style={styles.errorText}>{translate('Code Error')}</Text>
+              </View>
+            ) : null}
+          </View>
+        </View>
+      </ImageBackground>
+      <View style={styles.needHelpWrapper}>
         <MaterialCommunityIcon
           name="map-marker-question-outline"
-          style={styles.questionIcon}
+          style={styles.needHelpIcon}
         />
-        <Text style={styles.bottomViewText}>{translate('NeedHelp')}</Text>
+        <Text style={styles.needHelpText}>{translate('NeedHelp')}</Text>
       </View>
-    </ScrollView>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   loginWrapper: {
+    flex: 1,
     backgroundColor: '#00486e',
   },
-  loginSubWrapper: {
-    height: '90%',
-    borderBottomRightRadius: 40,
-    borderBottomLeftRadius: 40,
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.7,
-    elevation: 18,
+  loginHeader: {
+    flex: 0.5,
   },
-  card: {
-    flex: 1,
-    alignItems: 'center',
-    marginTop: 75,
-    marginBottom: 205,
-    width: 280,
-    marginLeft: 'auto',
-    marginRight: 'auto',
+  imgLogo: {
+    flex: 7,
+    resizeMode: 'cover',
+    width: '100%',
+    height: '100%',
   },
   welcomeText: {
-    color: 'white',
     fontSize: 35,
-    marginBottom: 75,
+    color: 'white',
+    textAlign: 'center',
   },
-  logo: {
-    height: 125,
-    width: 125,
-    marginBottom: 50,
+  logoIn: {
+    flex: 2.2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  inputOut: {
+    flex: 3,
+    alignItems: 'center',
+  },
+  inputIn: {
+    paddingTop: 7,
+    flex: 2.5,
+    alignItems: 'center',
   },
   input: {
-    height: 70,
-    width: '100%',
-    backgroundColor: 'transparent',
-    borderRadius: 35,
     borderWidth: 1,
     borderColor: 'white',
-    fontSize: 18,
-    color: 'white',
-    textAlign: 'center',
-  },
-  errorWrapper: {
-    alignItems: 'center',
-    flexDirection: 'row',
-    marginTop: 15,
-  },
-  inputError: {
-    height: 70,
-    width: '100%',
+    height: '27%',
+    width: 280,
     backgroundColor: 'transparent',
     borderRadius: 35,
-    borderWidth: 1,
-    borderColor: 'red',
-    fontSize: 18,
+    fontSize: 19,
     color: 'white',
     textAlign: 'center',
   },
-  warningIcon: {
-    color: 'red',
+  inputError: {
+    borderWidth: 1,
+    borderColor: 'red',
+    height: '27%',
+    width: 280,
+    backgroundColor: 'transparent',
+    borderRadius: 35,
     fontSize: 19,
+    color: 'white',
+    textAlign: 'center',
   },
-  loginButton: {
+  button: {
     backgroundColor: '#58a7da',
     alignItems: 'center',
     justifyContent: 'center',
@@ -183,43 +197,39 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 20,
     borderRadius: 35,
-    width: '100%',
-    height: 70,
+    width: 280,
+    height: '27%',
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.5,
     elevation: 3,
   },
-  buttonText: {
-    color: '#fff',
-    fontSize: 18,
+  errorWrapper: {
+    alignItems: 'center',
+    flexDirection: 'row',
+    marginTop: '4%',
   },
-  helperText: {
-    textAlign: 'center',
-    borderRadius: 10,
-    padding: 10,
-    maxWidth: 260,
-    marginTop: '10%',
+  errorIcon: {
+    color: 'red',
+    fontSize: 19,
+    marginRight: 6,
+  },
+  errorText: {
     color: 'white',
     fontSize: 15,
-    fontWeight: '500',
   },
-  bottomView: {
-    backgroundColor: '#00486e',
-    borderColor: '#00486e',
-    borderWidth: 1,
-    height: '11%',
+  needHelpWrapper: {
+    flex: 1,
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
   },
-  questionIcon: {
+  needHelpIcon: {
     color: 'white',
+    marginRight: 5,
     fontSize: 15,
   },
-  bottomViewText: {
-    textAlign: 'center',
-    fontSize: 16,
+  needHelpText: {
     color: 'white',
-    marginLeft: 5,
+    fontSize: 17,
   },
 });

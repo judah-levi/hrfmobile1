@@ -56,7 +56,7 @@ function MainPage() {
   const renderItem = ({item, index}) => {
     return (
       <View style={styles.carouselGeneral}>
-        <View style={styles.carouselSubWrapper}>
+        <View>
           <Text style={styles.carouselTitle} key={index}>
             {item.title}
           </Text>
@@ -75,7 +75,7 @@ function MainPage() {
   return (
     <View style={styles.mainWrapper}>
       <Nav />
-      <ScrollView style={styles.rightWrapper}>
+      <View style={styles.rightWrapper}>
         <ImageBackground
           source={require('../../pics/ballena.png')}
           style={styles.rightBackground}>
@@ -108,7 +108,7 @@ function MainPage() {
             )}
           </View>
         </ImageBackground>
-      </ScrollView>
+      </View>
     </View>
   );
 }
@@ -119,13 +119,12 @@ const styles = StyleSheet.create({
     height: '100%',
   },
   rightWrapper: {
-    width: '85%',
+    flex: 5,
     backgroundColor: 'rgb(218, 218, 218)',
-    flex: 1,
   },
   rightBackground: {
     width: '100%',
-    height: '70%',
+    height: '100%',
     resizeMode: 'cover',
   },
   titleWrapper: {

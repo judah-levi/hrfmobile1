@@ -4,7 +4,7 @@ import {
   Text,
   View,
   TouchableOpacity,
-  ImageBackground,
+  Image,
   ScrollView,
 } from 'react-native';
 import Nav from '../Nav';
@@ -24,42 +24,41 @@ function CovidPage() {
     }, 2000);
   }, []);
 
-  // const j = () => {
-  //   navigation.navigate('MeetingsForm');
-  //   console.log('press');
-  // };
-
   return (
     <View style={styles.mainWrapper}>
       <Nav />
       <ScrollView
-        style={styles.rightWrapper}
-        showsVerticalScrollIndicator={false}>
-        <ImageBackground
-          source={require('../../pics/ballena.png')}
-          style={styles.rightBackground}>
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{flexGrow: 1}}>
+        <View style={styles.topWrapper}>
           <View style={styles.titleWrapper}>
-            <MaterialCommunityIcons
-              name="account-outline"
-              style={styles.mainTitleIcon}
+            <Image
+              style={styles.imageCisne}
+              source={require('../../pics/f-2.png')}
             />
-            <Text style={styles.mainTitle}>{translate('Covid-192')}</Text>
+            <View style={styles.textTitleWrapper}>
+              <MaterialCommunityIcons
+                name="account-outline"
+                style={styles.mainTitleIcon}
+              />
+              <Text style={styles.mainTitle}>{translate('Covid-192')}</Text>
+            </View>
           </View>
-          <View style={styles.wrapperText}>
-            <Text style={styles.declaration}>
-              {translate('Covid Statement')}
-            </Text>
-          </View>
-        </ImageBackground>
-        <TouchableOpacity
-          style={styles.buttonWrapper}
-          onPress={() => navigation.navigate('CovidForm')}>
-          <Text
-            style={styles.btnText}
+        </View>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={styles.bottomWrapper}>
+          <Text style={styles.declaration}>{translate('Covid Statement')}</Text>
+          <TouchableOpacity
+            style={styles.buttonWrapper}
             onPress={() => navigation.navigate('CovidForm')}>
-            {translate('Form')}{' '}
-          </Text>
-        </TouchableOpacity>
+            <Text
+              style={styles.btnText}
+              onPress={() => navigation.navigate('CovidForm')}>
+              {translate('Form')}
+            </Text>
+          </TouchableOpacity>
+        </ScrollView>
       </ScrollView>
     </View>
   );
@@ -70,50 +69,69 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: '100%',
   },
-  rightWrapper: {
-    width: '85%',
-    backgroundColor: 'rgb(218, 218, 218)',
-  },
   rightBackground: {
-    width: '100%',
-    height: '73%',
-    resizeMode: 'cover',
+    flex: 1,
+    height: '100%',
+  },
+  topWrapper: {
+    height: '30%',
   },
   titleWrapper: {
-    marginTop: 65,
-    marginLeft: 25,
+    overflow: 'hidden',
+    flex: 2,
+    borderBottomRightRadius: 165,
+    backgroundColor: '#73a4d8',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 5,
+  },
+  imageCisne: {
+    position: 'absolute',
+    width: 165,
+    height: 155,
+    position: 'absolute',
+    top: '4%',
+    right: '2%',
+    zIndex: 0,
+  },
+  textTitleWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    marginLeft: '5%',
   },
   mainTitleIcon: {
     color: 'white',
-    fontSize: 38,
+    fontSize: 30,
     marginLeft: -6,
   },
   mainTitle: {
     color: 'white',
-    fontSize: 27,
+    fontSize: 25,
   },
-  wrapperText: {
-    marginTop: 50,
-    marginLeft: 20,
-    marginRight: 20,
+  bottomWrapper: {
+    marginTop: '10%',
+    height: 100,
   },
   declaration: {
     backgroundColor: 'white',
+    width: '85%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     padding: 20,
     borderRadius: 10,
-    fontSize: 15,
-    lineHeight: 19,
+    fontSize: 16,
+    lineHeight: 20,
     fontWeight: 'bold',
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.5,
     elevation: 3,
   },
   buttonWrapper: {
-    marginTop: '15%',
+    marginTop: '6%',
     marginLeft: 'auto',
     marginRight: 'auto',
-    width: '55%',
-    marginBottom: 30,
+    width: '50%',
+    marginBottom: '6%',
   },
   btnText: {
     backgroundColor: '#0db4e8',

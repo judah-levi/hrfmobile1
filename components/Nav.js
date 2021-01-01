@@ -1,11 +1,20 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Image, StyleSheet, TouchableOpacity} from 'react-native';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useNavigation} from '@react-navigation/native';
+import {stateContext} from './context/context';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function Nav() {
   const navigation = useNavigation();
+  const {setToken, setPhoneNumber} = useContext(stateContext);
+
+  const handleLogOut = () => {
+    setToken('');
+    setPhoneNumber('');
+    AsyncStorage.removeItem('token');
+  };
 
   return (
     <View style={styles.mainWrapper}>
@@ -28,9 +37,7 @@ function Nav() {
           onPress={() => navigation.navigate('BusinessPage')}>
           <MaterialCommunityIcon name="cog-outline" style={styles.icon} />
         </TouchableOpacity>
-        <TouchableOpacity
-          style={styles.iconBtn}
-          onPress={() => navigation.navigate('Login')}>
+        <TouchableOpacity style={styles.iconBtn} onPress={handleLogOut}>
           <MaterialCommunityIcon name="logout" style={styles.icon} />
         </TouchableOpacity>
       </View>
@@ -56,7 +63,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   iconsWrapper: {
-    marginTop: 35,
+    marginTop: 30,
   },
   iconBtn: {
     padding: 10,
@@ -71,8 +78,8 @@ const styles = StyleSheet.create({
   },
   image: {
     marginBottom: 35,
-    width: 40,
-    height: 40,
+    width: 35,
+    height: 35,
   },
 });
 

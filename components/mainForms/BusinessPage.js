@@ -1,11 +1,5 @@
 import React, {useContext, useEffect} from 'react';
-import {
-  StyleSheet,
-  Text,
-  View,
-  ImageBackground,
-  TouchableOpacity,
-} from 'react-native';
+import {StyleSheet, Text, View, Image, TouchableOpacity} from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
 import {stateContext} from '../context/context';
@@ -28,64 +22,66 @@ export default function BusinessPage() {
   return (
     <View style={styles.mainWrapper}>
       <Nav />
-      <View style={styles.rightWrapper}>
-        <ImageBackground
-          source={require('../../pics/fondos-2.png')}
-          style={styles.rightBackground}>
-          <View style={styles.titleWrapper}>
+      <View style={styles.rightBackground}>
+        <View style={styles.titleWrapper}>
+          <Image
+            style={styles.imageCisne}
+            source={require('../../pics/f-2.png')}
+          />
+          <View style={styles.textTitleWrapper}>
             <MaterialCommunityIcons
               name="cog-outline"
               style={styles.mainTitleIcon}
             />
             <Text style={styles.mainTitle}>{translate('FactForms')}</Text>
           </View>
-        </ImageBackground>
-        <View style={styles.wrapperIcons}>
-          <TouchableOpacity
-            style={styles.buttonAvatar}
-            onPress={() => navigation.navigate('EquipmentFailuresForm')}>
-            <MaterialCommunityIcons
-              style={styles.avatar}
-              size={75}
-              name="robot-industrial"
-            />
-            <Text style={styles.avatarText}>
-              {translate('Equipment Failure')}
-            </Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonAvatar}
-            onPress={() => navigation.navigate('FacilitiesIssuesForm')}>
-            <MaterialCommunityIcons
-              style={styles.avatar}
-              size={75}
-              name="hammer-wrench"
-            />
-            <Text style={styles.avatarText}>
-              {translate('Facilities Issues')}
-            </Text>
-          </TouchableOpacity>
-          <View style={styles.belows}>
+        </View>
+        <View style={styles.allIcons}>
+          <View style={styles.iconsWrapper}>
+            <TouchableOpacity
+              style={styles.buttonAvatar}
+              onPress={() => navigation.navigate('EquipmentFailuresForm')}>
+              <MaterialCommunityIcons
+                style={styles.avatar}
+                size={55}
+                name="robot-industrial"
+              />
+              <Text style={styles.avatarText}>
+                {translate('Equipment Failure')}
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonAvatar}
+              onPress={() => navigation.navigate('FacilitiesIssuesForm')}>
+              <MaterialCommunityIcons
+                style={styles.avatar}
+                size={55}
+                name="hammer-wrench"
+              />
+              <Text style={styles.avatarText}>
+                {translate('Facilities Issues')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.iconsWrapper}>
             <TouchableOpacity
               style={styles.buttonAvatar}
               onPress={() => navigation.navigate('MaterialsNeededForm')}>
               <MaterialCommunityIcons
                 style={styles.avatar}
-                size={75}
+                size={55}
                 name="cart-plus"
               />
               <Text style={styles.avatarText}>
                 {translate('Materials Needed')}
               </Text>
             </TouchableOpacity>
-          </View>
-          <View style={styles.belows}>
             <TouchableOpacity
               style={styles.buttonAvatar}
               onPress={() => navigation.navigate('SuggestionForm')}>
               <MaterialCommunityIcons
                 style={styles.avatar}
-                size={75}
+                size={55}
                 name="lightbulb-outline"
               />
               <Text style={styles.avatarText}>{translate('Suggestions')}</Text>
@@ -102,57 +98,58 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: '100%',
   },
-  rightWrapper: {
-    width: '85%',
-    backgroundColor: 'rgb(218, 218, 218)',
-  },
   rightBackground: {
-    width: '100%',
-    height: '70%',
-    resizeMode: 'cover',
+    flex: 4,
+  },
+  imageCisne: {
+    position: 'absolute',
+    width: 165,
+    height: 155,
+    position: 'absolute',
+    top: '4%',
+    right: '2%',
+    zIndex: 0,
+  },
+  textTitleWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    marginLeft: '5%',
   },
   titleWrapper: {
-    marginTop: 65,
-    marginLeft: 25,
+    overflow: 'hidden',
+    height: '35%',
+    borderBottomRightRadius: 165,
+    backgroundColor: '#73a4d8',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 5,
   },
   mainTitleIcon: {
     color: 'white',
-    fontSize: 45,
+    fontSize: 35,
     marginLeft: -6,
   },
   mainTitle: {
     color: 'white',
-    fontSize: 32,
+    fontSize: 29,
   },
-  wrapperIcons: {
-    marginTop: -340,
-    flexDirection: 'row',
+  allIcons: {
+    flex: 4,
     justifyContent: 'space-evenly',
-    flexWrap: 'wrap',
-    alignItems: 'center',
+  },
+  iconsWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
   avatar: {
     color: '#00486D',
   },
   avatarText: {
     textAlign: 'center',
-    fontWeight: 'normal',
     color: '#00486D',
+    fontWeight: 'bold',
   },
   buttonAvatar: {
-    width: 157,
-    height: 160,
-    opacity: 0.9,
-    backgroundColor: 'white',
-    padding: 20,
-    borderRadius: 10,
-    justifyContent: 'center',
     alignItems: 'center',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.5,
-    elevation: 5,
-  },
-  belows: {
-    marginTop: 20,
   },
 });
