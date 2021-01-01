@@ -5,7 +5,7 @@ import {
   View,
   TouchableOpacity,
   ScrollView,
-  ImageBackground,
+  Image,
   TextInput,
 } from 'react-native';
 import {RadioButton} from 'react-native-paper';
@@ -94,18 +94,26 @@ function CovidFormEn() {
     <View style={styles.mainWrapper}>
       <Nav />
       <ScrollView
-        style={styles.rightWrapper}
-        showsVerticalScrollIndicator={false}>
-        <ImageBackground
-          source={require('../../pics/ballena.png')}
-          style={styles.rightBackground}>
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{flexGrow: 1}}>
+        <View style={styles.topWrapper}>
           <View style={styles.titleWrapper}>
-            <MaterialCommunityIcons
-              name="account-outline"
-              style={styles.mainTitleIcon}
+            <Image
+              style={styles.imageCisne}
+              source={require('../../pics/f-2.png')}
             />
-            <Text style={styles.mainTitle}>{translate('Covid-192')}</Text>
+            <View style={styles.textTitleWrapper}>
+              <MaterialCommunityIcons
+                name="account-outline"
+                style={styles.mainTitleIcon}
+              />
+              <Text style={styles.mainTitle}>{translate('Covid-192')}</Text>
+            </View>
           </View>
+        </View>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={styles.bottomWrapper}>
           <View style={styles.formWrapper}>
             <Text style={styles.healthDec}>
               {translate('Covid Health Dec')}
@@ -340,18 +348,15 @@ function CovidFormEn() {
               />
             </View>
             <RadioButton.Group value={formData.certify}>
-              <View style={styles.radioGroup}>
+              <View style={styles.radioGroupLast}>
                 <View style={styles.col3}>
                   <RadioButton.Item
                     value="yes"
-                    style={styles.radiobutton}
                     onPress={() => handleCertify('yes')}
                   />
                 </View>
-                <View style={styles.col4}>
-                  <Text style={styles.p1}>
-                    {translate('Covid certify')} {'\n'}
-                  </Text>
+                <View>
+                  <Text style={styles.p1}>{translate('Covid certify')}</Text>
                 </View>
               </View>
             </RadioButton.Group>
@@ -361,7 +366,7 @@ function CovidFormEn() {
               {translate('Submit btn')}
             </Text>
           </TouchableOpacity>
-        </ImageBackground>
+        </ScrollView>
       </ScrollView>
     </View>
   );
@@ -372,36 +377,59 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: '100%',
   },
-  rightWrapper: {
-    width: '85%',
-    backgroundColor: 'rgb(218, 218, 218)',
-  },
   rightBackground: {
-    width: '100%',
-    height: '46%',
-    resizeMode: 'cover',
+    flex: 1,
+    height: '100%',
+  },
+  topWrapper: {
+    height: '30%',
   },
   titleWrapper: {
-    marginTop: 65,
-    marginLeft: 25,
+    overflow: 'hidden',
+    flex: 2,
+    borderBottomRightRadius: 165,
+    backgroundColor: '#73a4d8',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 5,
+  },
+  imageCisne: {
+    position: 'absolute',
+    width: 165,
+    height: 155,
+    position: 'absolute',
+    top: '4%',
+    right: '2%',
+    zIndex: 0,
+  },
+  textTitleWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    marginLeft: '5%',
   },
   mainTitleIcon: {
     color: 'white',
-    fontSize: 38,
+    fontSize: 30,
     marginLeft: -6,
   },
   mainTitle: {
     color: 'white',
-    fontSize: 27,
+    fontSize: 25,
+  },
+  bottomWrapper: {
+    marginTop: '10%',
+    height: 100,
   },
   formWrapper: {
     backgroundColor: 'white',
     borderRadius: 10,
     padding: 10,
-    marginTop: 40,
-    marginLeft: 20,
-    marginRight: 20,
-    marginBottom: 20,
+    width: '85%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 5,
   },
   healthDec: {
     color: '#00486e',
@@ -429,31 +457,40 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     marginBottom: -20,
   },
-  col3: {
-    marginLeft: -20,
+  radioGroupLast: {
+    flexDirection: 'column',
+    width: '90%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    marginBottom: '3%',
+    textAlign: 'center',
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   p1: {
-    fontSize: 15,
-    // textAlign: 'left',
-    marginTop: '6%',
-    marginLeft: -10,
-    marginRight: 10,
+    fontSize: 14,
     fontWeight: 'bold',
+    textAlign: 'center',
   },
   suggestionInput: {
-    backgroundColor: 'white',
-    marginBottom: '3%',
-    fontSize: 15,
-    borderRadius: 10,
-    borderWidth: 1,
     paddingLeft: 10,
+    backgroundColor: 'white',
+    height: 55,
+    borderRadius: 10,
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 3,
+    marginBottom: '6%',
+    fontSize: 15,
+    borderWidth: 1,
     borderColor: 'rgb(180, 180, 180)',
   },
   btnSuggestion: {
     width: '50%',
     marginLeft: 'auto',
     marginRight: 'auto',
-    marginBottom: 30,
+    marginTop: '6%',
+    marginBottom: '6%',
   },
   btnTextSuggestion: {
     backgroundColor: '#0db4e8',

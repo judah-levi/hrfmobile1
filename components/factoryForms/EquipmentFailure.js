@@ -5,7 +5,8 @@ import {
   View,
   TouchableOpacity,
   TextInput,
-  ImageBackground,
+  Image,
+  Keyboard,
   ScrollView,
 } from 'react-native';
 import axios from 'axios';
@@ -18,20 +19,35 @@ import Nav from '../Nav';
 function EquipmentFailure() {
   const navigation = useNavigation();
   const [formData, setFormData] = useState({});
+  const [keyboardOn, setKeyboardOn] = useState(false);
   const {translate, handleLocalizationChange} = useContext(stateContext);
 
   useEffect(() => {
     RNLocalize.addEventListener('change', handleLocalizationChange);
-    setTimeout(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardOn(true);
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardOn(false);
+      },
+    );
+
+    return () => {
       RNLocalize.removeEventListener('change', handleLocalizationChange);
-    }, 2000);
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
   }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log({data: formData});
     sendEmail();
-    navigation.navigate('MainPage');
+    navigation.navigate('MainMenu');
   };
 
   const sendEmail = () => {
@@ -45,54 +61,62 @@ function EquipmentFailure() {
     <View style={styles.mainWrapper}>
       <Nav />
       <ScrollView
-        style={styles.rightWrapper}
-        showsVerticalScrollIndicator={false}>
-        <ImageBackground
-          source={require('../../pics/ballena.png')}
-          style={styles.rightBackground}>
-          <View style={styles.titleWrapper}>
-            <MaterialCommunityIcons
-              name="cog-outline"
-              style={styles.mainTitleIcon}
-            />
-            <Text style={styles.mainTitle}>
-              {translate('Equipment Failure2')}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{flexGrow: 1}}>
+        {keyboardOn ? (
+          <Text></Text>
+        ) : (
+          <View style={styles.topWrapper}>
+            <View style={styles.titleWrapper}>
+              <Image
+                style={styles.imageCisne}
+                source={require('../../pics/f-2.png')}
+              />
+              <View style={styles.textTitleWrapper}>
+                <MaterialCommunityIcons
+                  name="cog-outline"
+                  style={styles.mainTitleIcon}
+                />
+                <Text style={styles.mainTitle}>
+                  {translate('Equipment Failure2')}
+                </Text>
+              </View>
+            </View>
+          </View>
+        )}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={styles.bottomWrapper}>
+          <TextInput
+            selectionColor={'white'}
+            autoCapitalize="words"
+            name="lineNumber"
+            style={styles.equipmentInput}
+            placeholder={translate('Line num')}
+            value={formData.lineNumber}
+            onChangeText={(lineNumber) =>
+              setFormData({...formData, lineNumber})
+            }
+          />
+          <TextInput
+            selectionColor={'white'}
+            autoCapitalize="sentences"
+            name="description"
+            style={styles.equipmentTextTarea}
+            placeholder={translate('Failure desc')}
+            multiline={true}
+            numberOfLines={7}
+            value={formData.description}
+            onChangeText={(description) =>
+              setFormData({...formData, description})
+            }
+          />
+          <TouchableOpacity style={styles.btnEquipment} onPress={handleSubmit}>
+            <Text style={styles.btnTextEquipment}>
+              {translate('Submit btn')}
             </Text>
-          </View>
-          <View style={styles.equipmentWrapper}>
-            <TextInput
-              selectionColor={'white'}
-              autoCapitalize="words"
-              name="lineNumber"
-              style={styles.equipmentInput}
-              placeholder={translate('Line num')}
-              value={formData.lineNumber}
-              onChangeText={(lineNumber) =>
-                setFormData({...formData, lineNumber})
-              }
-            />
-            <TextInput
-              selectionColor={'white'}
-              autoCapitalize="sentences"
-              name="description"
-              style={styles.equipmentTextTarea}
-              placeholder={translate('Failure desc')}
-              multiline={true}
-              numberOfLines={7}
-              value={formData.description}
-              onChangeText={(description) =>
-                setFormData({...formData, description})
-              }
-            />
-            <TouchableOpacity
-              style={styles.btnEquipment}
-              onPress={handleSubmit}>
-              <Text style={styles.btnTextEquipment}>
-                {translate('Submit btn')}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </ImageBackground>
+          </TouchableOpacity>
+        </ScrollView>
       </ScrollView>
     </View>
   );
@@ -103,33 +127,48 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: '100%',
   },
-  rightWrapper: {
-    width: '85%',
-    backgroundColor: 'rgb(218, 218, 218)',
-  },
   rightBackground: {
     flex: 1,
-    width: '100%',
-    height: '70%',
-    resizeMode: 'cover',
+    height: '100%',
+  },
+  topWrapper: {
+    height: '30%',
   },
   titleWrapper: {
-    marginTop: 65,
-    marginLeft: 25,
+    overflow: 'hidden',
+    flex: 2,
+    borderBottomRightRadius: 165,
+    backgroundColor: '#73a4d8',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 5,
+  },
+  imageCisne: {
+    position: 'absolute',
+    width: 165,
+    height: 155,
+    position: 'absolute',
+    top: '4%',
+    right: '2%',
+    zIndex: 0,
+  },
+  textTitleWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    marginLeft: '5%',
   },
   mainTitleIcon: {
     color: 'white',
-    fontSize: 38,
+    fontSize: 30,
     marginLeft: -6,
   },
   mainTitle: {
     color: 'white',
-    fontSize: 27,
+    fontSize: 25,
   },
-  equipmentWrapper: {
-    marginTop: 50,
-    marginLeft: 20,
-    marginRight: 20,
+  bottomWrapper: {
+    marginTop: '10%',
+    height: 100,
   },
   equipmentInput: {
     marginBottom: '3%',
@@ -140,6 +179,9 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.5,
     elevation: 3,
+    width: '85%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   equipmentTextTarea: {
     marginBottom: '3%',
@@ -151,13 +193,16 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.5,
     elevation: 3,
+    width: '85%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   btnEquipment: {
-    marginTop: '6%',
+    marginTop: '3%',
+    marginBottom: '6%',
     marginLeft: 'auto',
     marginRight: 'auto',
     width: '50%',
-    marginBottom: 30,
   },
   btnTextEquipment: {
     backgroundColor: '#0db4e8',

@@ -1,12 +1,13 @@
-import React, {useContext, useEffect} from 'react';
+import React, {useContext, useState, useEffect} from 'react';
 import {
   StyleSheet,
   Text,
   View,
   TouchableOpacity,
   TextInput,
-  ImageBackground,
+  Image,
   ScrollView,
+  Keyboard,
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import axios from 'axios';
@@ -18,16 +19,32 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 
 function Meetings() {
   const navigation = useNavigation();
-  const [selectedRoleValue, setSelectedRoleValue] = React.useState('');
-  const [selectedEmailValue, setSelectedEmailValue] = React.useState('');
-  const [formData, setFormData] = React.useState({});
+  const [keyboardOn, setKeyboardOn] = useState(false);
+  const [selectedRoleValue, setSelectedRoleValue] = useState('');
+  const [selectedEmailValue, setSelectedEmailValue] = useState('');
+  const [formData, setFormData] = useState({});
   const {translate, handleLocalizationChange} = useContext(stateContext);
 
   useEffect(() => {
     RNLocalize.addEventListener('change', handleLocalizationChange);
-    setTimeout(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardOn(true);
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardOn(false);
+      },
+    );
+
+    return () => {
       RNLocalize.removeEventListener('change', handleLocalizationChange);
-    }, 2000);
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
   }, []);
 
   const handleRolePicker = (role) => {
@@ -57,121 +74,125 @@ function Meetings() {
     <View style={styles.mainWrapper}>
       <Nav />
       <ScrollView
-        style={styles.rightWrapper}
-        showsVerticalScrollIndicator={false}>
-        <ImageBackground
-          source={require('../../pics/ballena.png')}
-          style={styles.rightBackground}>
-          <View style={styles.titleWrapper}>
-            <MaterialCommunityIcons
-              name="account-outline"
-              style={styles.mainTitleIcon}
-            />
-            <Text style={styles.mainTitle}>{translate('Meetings2')}</Text>
-          </View>
-          <View style={styles.meetingWrapper}>
-            <TextInput
-              selectionColor={'white'}
-              autoCapitalize="words"
-              name="firstname"
-              style={styles.meetingInput}
-              placeholder={translate('First Name')}
-              value={formData.firstname}
-              onChangeText={(firstname) =>
-                setFormData({...formData, firstname})
-              }
-            />
-            <TextInput
-              selectionColor={'white'}
-              autoCapitalize="words"
-              name="lastname"
-              style={styles.meetingInput}
-              placeholder={translate('Last Name')}
-              value={formData.lastname}
-              onChangeText={(lastname) => setFormData({...formData, lastname})}
-            />
-            <View style={styles.pickerWrapper}>
-              <Picker
-                style={styles.meetingPicker}
-                name="role"
-                value={formData.role}
-                selectedValue={selectedRoleValue}
-                onValueChange={(role) => handleRolePicker(role)}>
-                <Picker.Item label={translate('Role selector')} value="" />
-                <Picker.Item label={translate('Warehouse')} value="Warehouse" />
-                <Picker.Item label={translate('Bakery')} value="Bakery" />
-                <Picker.Item label={translate('Dry Pack')} value="Dry pack" />
-                <Picker.Item label={translate('Dry Mix')} value="Dry mix" />
-                <Picker.Item
-                  label={translate('Maintenance')}
-                  value="Maintenance"
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{flexGrow: 1}}>
+        {keyboardOn ? (
+          <Text></Text>
+        ) : (
+          <View style={styles.topWrapper}>
+            <View style={styles.titleWrapper}>
+              <Image
+                style={styles.imageCisne}
+                source={require('../../pics/f-2.png')}
+              />
+              <View style={styles.textTitleWrapper}>
+                <MaterialCommunityIcons
+                  name="account-outline"
+                  style={styles.mainTitleIcon}
                 />
-                <Picker.Item
-                  label={translate('Mechanical')}
-                  value="Mechanical"
-                />
-              </Picker>
+                <Text style={styles.mainTitle}>{translate('Meetings2')}</Text>
+              </View>
             </View>
-            <View style={styles.pickerWrapper}>
-              <Picker
-                style={styles.meetingPicker}
-                name="contactEmail"
-                value={formData.contactEmail}
-                selectedValue={selectedEmailValue}
-                onValueChange={(contactEmail) =>
-                  handleEmailPicker(contactEmail)
-                }>
-                <Picker.Item label={translate('Meeting selector')} value="" />
-                <Picker.Item
-                  label={translate('Dry Mix/Pack Supervisor')}
-                  value="manuel@hudsonriverfoods.com"
-                />
-                <Picker.Item
-                  label={translate('Bakery Supervisor')}
-                  value="ambar@hudsonriverfoods.com"
-                />
-                <Picker.Item
-                  label={translate('Maintenance Manager')}
-                  value="jerryhof@hudsonriverfoods.com"
-                />
-                <Picker.Item
-                  label={translate('Facilities Manager')}
-                  value="victor@hudsonriverfoods.com"
-                />
-                <Picker.Item
-                  label={translate('Purchasing Manager')}
-                  value="phil@hudsonriverfoods.com"
-                />
-                <Picker.Item
-                  label={translate('Quality Assurance Manager')}
-                  value="steve@hudsonriverfoods.com"
-                />
-                <Picker.Item
-                  label={translate('Warehouse/DTC Manager')}
-                  value="willis@hudsonriverfoods.com"
-                />
-              </Picker>
-            </View>
-            <TextInput
-              selectionColor={'white'}
-              autoCapitalize="sentences"
-              name="meetingDescription"
-              style={styles.textTareaInput}
-              placeholder={translate('Meeting desc')}
-              multiline={true}
-              numberOfLines={7}
-              value={formData.meetingDescription}
-              onChangeText={(meetingDescription) =>
-                setFormData({...formData, meetingDescription})
-              }
-            />
-            <TouchableOpacity style={styles.btnMeeting} onPress={handleSubmit}>
-              <Text style={styles.btnTextMeeting}>
-                {translate('Submit btn')}
-              </Text>
-            </TouchableOpacity>
           </View>
-        </ImageBackground>
+        )}
+        <ScrollView
+          style={styles.bottomWrapper}
+          contentContainerStyle={{flexGrow: 1}}
+          showsVerticalScrollIndicator={false}>
+          <TextInput
+            selectionColor={'white'}
+            autoCapitalize="words"
+            name="firstname"
+            style={styles.equipmentInput}
+            placeholder={translate('First Name')}
+            value={formData.firstname}
+            onChangeText={(firstname) => setFormData({...formData, firstname})}
+          />
+          <TextInput
+            selectionColor={'white'}
+            autoCapitalize="words"
+            name="lastname"
+            style={styles.equipmentInput}
+            placeholder={translate('Last Name')}
+            value={formData.lastname}
+            onChangeText={(lastname) => setFormData({...formData, lastname})}
+          />
+          <View style={styles.pickerWrapper}>
+            <Picker
+              style={styles.meetingPicker}
+              name="role"
+              value={formData.role}
+              selectedValue={selectedRoleValue}
+              onValueChange={(role) => handleRolePicker(role)}>
+              <Picker.Item label={translate('Role selector')} value="" />
+              <Picker.Item label={translate('Warehouse')} value="Warehouse" />
+              <Picker.Item label={translate('Bakery')} value="Bakery" />
+              <Picker.Item label={translate('Dry Pack')} value="Dry pack" />
+              <Picker.Item label={translate('Dry Mix')} value="Dry mix" />
+              <Picker.Item
+                label={translate('Maintenance')}
+                value="Maintenance"
+              />
+              <Picker.Item label={translate('Mechanical')} value="Mechanical" />
+            </Picker>
+          </View>
+          <View style={styles.pickerWrapper}>
+            <Picker
+              style={styles.meetingPicker}
+              name="contactEmail"
+              value={formData.contactEmail}
+              selectedValue={selectedEmailValue}
+              onValueChange={(contactEmail) => handleEmailPicker(contactEmail)}>
+              <Picker.Item label={translate('Meeting selector')} value="" />
+              <Picker.Item
+                label={translate('Dry Mix/Pack Supervisor')}
+                value="manuel@hudsonriverfoods.com"
+              />
+              <Picker.Item
+                label={translate('Bakery Supervisor')}
+                value="ambar@hudsonriverfoods.com"
+              />
+              <Picker.Item
+                label={translate('Maintenance Manager')}
+                value="jerryhof@hudsonriverfoods.com"
+              />
+              <Picker.Item
+                label={translate('Facilities Manager')}
+                value="victor@hudsonriverfoods.com"
+              />
+              <Picker.Item
+                label={translate('Purchasing Manager')}
+                value="phil@hudsonriverfoods.com"
+              />
+              <Picker.Item
+                label={translate('Quality Assurance Manager')}
+                value="steve@hudsonriverfoods.com"
+              />
+              <Picker.Item
+                label={translate('Warehouse/DTC Manager')}
+                value="willis@hudsonriverfoods.com"
+              />
+            </Picker>
+          </View>
+          <TextInput
+            selectionColor={'white'}
+            autoCapitalize="sentences"
+            name="meetingDescription"
+            style={styles.equipmentTextTarea}
+            placeholder={translate('Meeting desc')}
+            multiline={true}
+            numberOfLines={7}
+            value={formData.meetingDescription}
+            onChangeText={(meetingDescription) =>
+              setFormData({...formData, meetingDescription})
+            }
+          />
+          <TouchableOpacity style={styles.btnEquipment} onPress={handleSubmit}>
+            <Text style={styles.btnTextEquipment}>
+              {translate('Submit btn')}
+            </Text>
+          </TouchableOpacity>
+        </ScrollView>
       </ScrollView>
     </View>
   );
@@ -182,37 +203,67 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: '100%',
   },
-  rightWrapper: {
-    width: '85%',
-    backgroundColor: 'rgb(218, 218, 218)',
-  },
   rightBackground: {
-    width: '100%',
-    height: '70%',
-    resizeMode: 'cover',
+    flex: 1,
+  },
+  topWrapper: {
+    height: '30%',
   },
   titleWrapper: {
-    marginTop: 65,
-    marginLeft: 25,
+    overflow: 'hidden',
+    flex: 2,
+    borderBottomRightRadius: 165,
+    backgroundColor: '#73a4d8',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 5,
+  },
+  imageCisne: {
+    position: 'absolute',
+    width: 165,
+    height: 155,
+    position: 'absolute',
+    top: '4%',
+    right: '2%',
+    zIndex: 0,
+  },
+  textTitleWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    marginLeft: '5%',
   },
   mainTitleIcon: {
     color: 'white',
-    fontSize: 38,
+    fontSize: 30,
     marginLeft: -6,
   },
   mainTitle: {
     color: 'white',
-    fontSize: 27,
+    fontSize: 25,
   },
-  meetingWrapper: {
-    marginTop: 50,
-    marginLeft: 20,
-    marginRight: 20,
+  bottomWrapper: {
+    marginTop: '10%',
+    height: 100,
+  },
+  equipmentInput: {
+    marginBottom: '3%',
+    paddingLeft: 10,
+    backgroundColor: 'white',
+    height: 55,
+    borderRadius: 10,
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 3,
+    width: '85%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   pickerWrapper: {
-    borderRadius: 10,
     marginBottom: '3%',
-    height: 55,
+    borderRadius: 10,
+    width: '85%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     overflow: 'hidden',
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.5,
@@ -222,34 +273,28 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     height: 55,
   },
-  meetingInput: {
+  equipmentTextTarea: {
     marginBottom: '3%',
     paddingLeft: 10,
-    backgroundColor: 'white',
-    height: 55,
-    borderRadius: 10,
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.5,
-    elevation: 3,
-  },
-  textTareaInput: {
-    marginBottom: '3%',
-    paddingLeft: 10,
+    paddingRight: 10,
     backgroundColor: 'white',
     textAlignVertical: 'top',
     borderRadius: 10,
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.5,
     elevation: 3,
+    width: '85%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
-  btnMeeting: {
-    marginTop: '6%',
+  btnEquipment: {
+    marginTop: '3%',
+    marginBottom: '6%',
     marginLeft: 'auto',
     marginRight: 'auto',
     width: '50%',
-    marginBottom: 30,
   },
-  btnTextMeeting: {
+  btnTextEquipment: {
     backgroundColor: '#0db4e8',
     textAlign: 'center',
     padding: 15,

@@ -11,12 +11,21 @@ import {stateContext} from '../context/context';
 import * as RNLocalize from 'react-native-localize';
 import MaterialCommunityIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 function AdminNav() {
   const navigation = useNavigation();
-  const {translate, setI18nConfig, handleLocalizationChange, userInfo} = useContext(
-    stateContext,
-  );
+  const {
+    translate,
+    setI18nConfig,
+    handleLocalizationChange,
+    userInfo,
+    setToken,
+    token,
+    userRole,
+    setPhoneNumber,
+  } = useContext(stateContext);
+  const nameCapitalized = token.charAt(0).toUpperCase() + token.slice(1);
 
   setI18nConfig();
 
@@ -25,26 +34,29 @@ function AdminNav() {
     return RNLocalize.removeEventListener('change', handleLocalizationChange);
   }, []);
 
+  const handleLogOut = () => {
+    setToken('');
+    setPhoneNumber('');
+    AsyncStorage.removeItem('token');
+  };
+
   return (
     <View style={styles.mainMenuWrapper}>
       <ImageBackground
+        resizeMode="stretch"
         style={styles.mainMenuImgBg}
-        source={require('../../pics/prueba1.png')}
-        imageStyle={{resizeMode: 'cover'}}>
+        source={require('../../pics/prueba1.png')}>
         <Text style={styles.mainMenuHi}>
-          {translate('Hi')}, {userInfo.firstName}!
+          {translate('Hi')}, {nameCapitalized}!
         </Text>
         <View style={styles.wrapperIcons}>
-          <MaterialCommunityIcon name="color-helper" style={styles.iconLine} />
           <TouchableOpacity
             style={styles.iconText}
             onPress={() => navigation.navigate('FormCarousel')}>
             <MaterialCommunityIcon name="pencil" style={styles.icons} />
             <Text style={styles.text}>{translate('Create Message')}</Text>
           </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.iconText}
-            onPress={() => navigation.navigate('Login')}>
+          <TouchableOpacity style={styles.iconText} onPress={handleLogOut}>
             <MaterialCommunityIcon name="logout" style={styles.icons} />
             <Text style={styles.text}>{translate('Logout')}</Text>
           </TouchableOpacity>
@@ -68,47 +80,43 @@ function AdminNav() {
 }
 const styles = StyleSheet.create({
   mainMenuWrapper: {
+    flex: 1,
     backgroundColor: '#00486e',
-    height: '100%',
   },
   mainMenuImgBg: {
+    flex: 8,
     width: '100%',
-    height: '94%',
+    height: '100%',
   },
   mainMenuHi: {
     color: 'white',
-    fontSize: 32,
-    marginTop: '20%',
-    marginLeft: '11%',
-  },
-  iconLine: {
-    fontSize: 25,
-    color: 'white',
-    marginBottom: 47,
+    fontSize: 27,
+    marginTop: '7%',
+    marginLeft: '7%',
   },
   wrapperIcons: {
-    marginTop: 30,
-    marginLeft: '11%',
+    marginTop: '12%',
+    marginLeft: '7%',
   },
   iconText: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginBottom: 47,
+    marginBottom: '10%',
   },
   icons: {
-    fontSize: 28,
+    fontSize: 24,
     marginRight: 15,
     color: 'white',
   },
   text: {
     color: 'white',
-    fontSize: 22,
+    fontSize: 20,
   },
   helpWrapper: {
     flexDirection: 'row',
     justifyContent: 'center',
     alignItems: 'center',
-    marginLeft: '11%',
+    marginLeft: '7%',
   },
   questionIcon: {
     color: 'white',
@@ -121,15 +129,15 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   viewBottom: {
+    flex: 1.3,
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
-    marginTop: -35,
   },
   image: {
-    width: 50,
-    height: 50,
-    marginRight: '11%',
+    width: 40,
+    height: 40,
+    marginRight: '7%',
   },
 });
 

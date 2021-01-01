@@ -4,8 +4,9 @@ import {
   Text,
   View,
   TouchableOpacity,
-  ImageBackground,
+  Keyboard,
   TextInput,
+  Image,
   ScrollView,
 } from 'react-native';
 import axios from 'axios';
@@ -18,18 +19,33 @@ import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityI
 function FacilitiesIssues() {
   const navigation = useNavigation();
   const [formData, setFormData] = useState({});
+  const [keyboardOn, setKeyboardOn] = useState(false);
   const {translate, handleLocalizationChange} = useContext(stateContext);
 
   useEffect(() => {
     RNLocalize.addEventListener('change', handleLocalizationChange);
-    setTimeout(() => {
+    const keyboardDidShowListener = Keyboard.addListener(
+      'keyboardDidShow',
+      () => {
+        setKeyboardOn(true);
+      },
+    );
+    const keyboardDidHideListener = Keyboard.addListener(
+      'keyboardDidHide',
+      () => {
+        setKeyboardOn(false);
+      },
+    );
+
+    return () => {
       RNLocalize.removeEventListener('change', handleLocalizationChange);
-    }, 2000);
+      keyboardDidHideListener.remove();
+      keyboardDidShowListener.remove();
+    };
   }, []);
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    console.log({data: formData});
     sendEmail();
     navigation.navigate('MainMenu');
   };
@@ -45,43 +61,51 @@ function FacilitiesIssues() {
     <View style={styles.mainWrapper}>
       <Nav />
       <ScrollView
-        style={styles.rightWrapper}
-        showsVerticalScrollIndicator={false}>
-        <ImageBackground
-          source={require('../../pics/ballena.png')}
-          style={styles.rightBackground}>
-          <View style={styles.titleWrapper}>
-            <MaterialCommunityIcons
-              name="cog-outline"
-              style={styles.mainTitleIcon}
-            />
-            <Text style={styles.mainTitle}>
-              {translate('Facilities Issues2')}
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{flexGrow: 1}}>
+        {keyboardOn ? (
+          <Text></Text>
+        ) : (
+          <View style={styles.topWrapper}>
+            <View style={styles.titleWrapper}>
+              <Image
+                style={styles.imageCisne}
+                source={require('../../pics/f-2.png')}
+              />
+              <View style={styles.textTitleWrapper}>
+                <MaterialCommunityIcons
+                  name="cog-outline"
+                  style={styles.mainTitleIcon}
+                />
+                <Text style={styles.mainTitle}>
+                  {translate('Facilities Issues2')}
+                </Text>
+              </View>
+            </View>
+          </View>
+        )}
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={styles.bottomWrapper}>
+          <TextInput
+            selectionColor={'white'}
+            autoCapitalize="sentences"
+            name="description"
+            style={styles.equipmentInput}
+            multiline={true}
+            numberOfLines={7}
+            placeholder={translate('Facility issue desc')}
+            value={formData.description}
+            onChangeText={(description) =>
+              setFormData({...formData, description})
+            }
+          />
+          <TouchableOpacity style={styles.btnEquipment} onPress={handleSubmit}>
+            <Text style={styles.btnTextEquipment}>
+              {translate('Submit btn')}
             </Text>
-          </View>
-          <View style={styles.facilitiesWrapper}>
-            <TextInput
-              selectionColor={'white'}
-              autoCapitalize="sentences"
-              name="description"
-              style={styles.facilitiesInput}
-              multiline={true}
-              numberOfLines={7}
-              placeholder={translate('Facility issue desc')}
-              value={formData.description}
-              onChangeText={(description) =>
-                setFormData({...formData, description})
-              }
-            />
-            <TouchableOpacity
-              style={styles.btnFacilities}
-              onPress={handleSubmit}>
-              <Text style={styles.btnTextFacilities}>
-                {translate('Submit btn')}
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </ImageBackground>
+          </TouchableOpacity>
+        </ScrollView>
       </ScrollView>
     </View>
   );
@@ -92,40 +116,50 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: '100%',
   },
-  rightWrapper: {
-    width: '85%',
-    backgroundColor: 'rgb(218, 218, 218)',
-    height: '100%',
-  },
   rightBackground: {
     flex: 1,
-    width: '100%',
-    height: '70%',
-    resizeMode: 'cover',
+    height: '100%',
   },
-  scrollview: {
-    borderColor: 'yellow',
-    borderWidth: 3,
+  topWrapper: {
+    height: '30%',
   },
   titleWrapper: {
-    marginTop: 65,
-    marginLeft: 25,
+    overflow: 'hidden',
+    flex: 2,
+    borderBottomRightRadius: 165,
+    backgroundColor: '#73a4d8',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 5,
+  },
+  imageCisne: {
+    position: 'absolute',
+    width: 165,
+    height: 155,
+    position: 'absolute',
+    top: '4%',
+    right: '2%',
+    zIndex: 0,
+  },
+  textTitleWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    marginLeft: '5%',
   },
   mainTitleIcon: {
     color: 'white',
-    fontSize: 38,
+    fontSize: 30,
     marginLeft: -6,
   },
   mainTitle: {
     color: 'white',
-    fontSize: 27,
+    fontSize: 25,
   },
-  facilitiesWrapper: {
-    marginTop: 50,
-    marginLeft: 20,
-    marginRight: 20,
+  bottomWrapper: {
+    marginTop: '10%',
+    height: 100,
   },
-  facilitiesInput: {
+  equipmentInput: {
     marginBottom: '3%',
     paddingLeft: 10,
     backgroundColor: 'white',
@@ -134,15 +168,32 @@ const styles = StyleSheet.create({
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.5,
     elevation: 3,
+    width: '85%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
-  btnFacilities: {
-    marginTop: '6%',
+  equipmentTextTarea: {
+    marginBottom: '3%',
+    paddingLeft: 10,
+    paddingRight: 10,
+    backgroundColor: 'white',
+    textAlignVertical: 'top',
+    borderRadius: 10,
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 3,
+    width: '85%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+  },
+  btnEquipment: {
+    marginTop: '3%',
+    marginBottom: '6%',
     marginLeft: 'auto',
     marginRight: 'auto',
     width: '50%',
-    marginBottom: 30,
   },
-  btnTextFacilities: {
+  btnTextEquipment: {
     backgroundColor: '#0db4e8',
     textAlign: 'center',
     padding: 15,

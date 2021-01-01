@@ -23,13 +23,15 @@ import {stateContext} from './components/context/context';
 import * as RNLocalize from 'react-native-localize';
 import i18n from 'i18n-js';
 import memoize from 'lodash.memoize';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 const Stack = createStackNavigator();
 
 function App() {
-  const [isEnter, setIsEnter] = useState(true);
   const [userInfo, setUserInfo] = useState();
+  const [userRole, setUserRole] = useState();
   const [phoneNumber, setPhoneNumber] = useState();
+  const [token, setToken] = useState();
 
   const translationGetters = {
     en: () => require('./translations/en.json'),
@@ -59,10 +61,23 @@ function App() {
       });
   };
 
+  const getToken = async () => {
+    let token = await AsyncStorage.getItem('token');
+    if (token !== null) {
+      setToken(token);
+    }
+  };
+
+  const getRole = async () => {
+    let role = await AsyncStorage.getItem('role');
+    if (role !== null) {
+      setUserRole(role);
+    }
+  };
+
   useEffect(() => {
-    setTimeout(() => {
-      setIsEnter(false);
-    }, 2000);
+    getToken();
+    getRole();
   }, []);
 
   return (
@@ -76,42 +91,47 @@ function App() {
           setUserInfo,
           phoneNumber,
           setPhoneNumber,
+          token,
+          setToken,
+          setUserRole,
         }}>
         <Stack.Navigator screenOptions={{headerShown: false}}>
-          <Stack.Screen
-            name="Login"
-            // component={isEnter ? EnterPage : LoginPage}
-            component={LoginPage}
-          />
-          <Stack.Screen name="Verification" component={VerificationPage} />
-          <Stack.Screen name="AdminNav" component={AdminNav} />
-          <Stack.Screen name="MainPage" component={MainPage} />
-          <Stack.Screen name="MainMenu" component={MainMenu} />
-          <Stack.Screen
-            name="PersonalPage"
-            component={PersonalPage}
-            hola="hola"
-          />
-          <Stack.Screen name="BusinessPage" component={BusinessPage} />
-          <Stack.Screen name="TimeOffForm" component={TimeOff} />
-          <Stack.Screen name="MeetingsForm" component={Meetings} />
-          <Stack.Screen name="SickDayForm" component={SickDay} />
-          <Stack.Screen name="CovidPage" component={CovidPage} />
-          <Stack.Screen name="CovidForm" component={CovidFormEn} />
-          <Stack.Screen
-            name="EquipmentFailuresForm"
-            component={EquipmentFailure}
-          />
-          <Stack.Screen
-            name="FacilitiesIssuesForm"
-            component={FacilitiesIssues}
-          />
-          <Stack.Screen
-            name="MaterialsNeededForm"
-            component={MaterialsNeeded}
-          />
-          <Stack.Screen name="SuggestionForm" component={Suggestion} />
-          <Stack.Screen name="FormCarousel" component={FormCarousel} />
+          {!token ? (
+            <>
+              <Stack.Screen name="Login" component={LoginPage} />
+              <Stack.Screen name="Verification" component={VerificationPage} />
+            </>
+          ) : (
+            <>
+              <Stack.Screen
+                name="MainMenu"
+                component={userRole === 'user' ? MainMenu : AdminNav}
+              />
+              <Stack.Screen name="AdminNav" component={AdminNav} />
+              <Stack.Screen name="MainPage" component={MainPage} />
+              <Stack.Screen name="PersonalPage" component={PersonalPage} />
+              <Stack.Screen name="BusinessPage" component={BusinessPage} />
+              <Stack.Screen name="TimeOffForm" component={TimeOff} />
+              <Stack.Screen name="MeetingsForm" component={Meetings} />
+              <Stack.Screen name="SickDayForm" component={SickDay} />
+              <Stack.Screen name="CovidPage" component={CovidPage} />
+              <Stack.Screen name="CovidForm" component={CovidFormEn} />
+              <Stack.Screen
+                name="EquipmentFailuresForm"
+                component={EquipmentFailure}
+              />
+              <Stack.Screen
+                name="FacilitiesIssuesForm"
+                component={FacilitiesIssues}
+              />
+              <Stack.Screen
+                name="MaterialsNeededForm"
+                component={MaterialsNeeded}
+              />
+              <Stack.Screen name="SuggestionForm" component={Suggestion} />
+              <Stack.Screen name="FormCarousel" component={FormCarousel} />
+            </>
+          )}
         </Stack.Navigator>
       </stateContext.Provider>
     </NavigationContainer>

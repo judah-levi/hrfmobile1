@@ -4,7 +4,8 @@ import {
   Text,
   View,
   TouchableOpacity,
-  ImageBackground,
+  ScrollView,
+  Image,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
@@ -28,59 +29,60 @@ export default function PersonalPage() {
   return (
     <View style={styles.mainWrapper}>
       <Nav />
-      <View style={styles.rightWrapper}>
-        <ImageBackground
-          source={require('../../pics/fondos-2.png')}
-          style={styles.rightBackground}>
-          <View style={styles.titleWrapper}>
+      <View style={styles.rightBackground}>
+        <View style={styles.titleWrapper}>
+          <Image
+            style={styles.imageCisne}
+            source={require('../../pics/f-2.png')}
+          />
+          <View style={styles.textTitleWrapper}>
             <MaterialCommunityIcons
               name="account-outline"
               style={styles.mainTitleIcon}
             />
             <Text style={styles.mainTitle}>{translate('PerForms')}</Text>
           </View>
-        </ImageBackground>
-        <View style={styles.wrapperIcons}>
-          <TouchableOpacity
-            style={styles.buttonAvatar}
-            onPress={() => navigation.navigate('TimeOffForm')}>
-            <MaterialCommunityIcons
-              style={styles.avatar}
-              size={75}
-              name="calendar-account"
-            />
-            <Text style={styles.avatarText}>{translate('Time Off')}</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={styles.buttonAvatar}
-            onPress={() => navigation.navigate('MeetingsForm')}>
-            <MaterialCommunityIcons
-              style={styles.avatar}
-              size={75}
-              name="account-supervisor-outline"
-            />
-            <Text style={styles.avatarText}>{translate('Meetings')}</Text>
-          </TouchableOpacity>
-          <View style={styles.belows}>
+        </View>
+        <View style={styles.allIcons}>
+          <View style={styles.iconsWrapper}>
+            <TouchableOpacity
+              style={styles.buttonAvatar}
+              onPress={() => navigation.navigate('TimeOffForm')}>
+              <MaterialCommunityIcons
+                style={styles.avatar}
+                size={55}
+                name="calendar-account"
+              />
+              <Text style={styles.avatarText}>{translate('Time Off')}</Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={styles.buttonAvatar}
+              onPress={() => navigation.navigate('MeetingsForm')}>
+              <MaterialCommunityIcons
+                style={styles.avatar}
+                size={55}
+                name="account-supervisor-outline"
+              />
+              <Text style={styles.avatarText}>{translate('Meetings')}</Text>
+            </TouchableOpacity>
+          </View>
+          <View style={styles.iconsWrapper}>
             <TouchableOpacity
               style={styles.buttonAvatar}
               onPress={() => navigation.navigate('SickDayForm')}>
               <MaterialCommunityIcons
                 style={styles.avatar}
-                size={75}
+                size={55}
                 name="account-cancel-outline"
               />
               <Text style={styles.avatarText}>{translate('Sick Day')}</Text>
             </TouchableOpacity>
-          </View>
-          <View style={styles.belows}>
             <TouchableOpacity
-              style={styles.belows}
               style={styles.buttonAvatar}
               onPress={() => navigation.navigate('CovidPage')}>
               <MaterialCommunityIcons
                 style={styles.avatar}
-                size={80}
+                size={55}
                 name="doctor"
               />
               <Text style={styles.avatarText}>{translate('Covid-19')}</Text>
@@ -97,34 +99,48 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: '100%',
   },
-  rightWrapper: {
-    width: '85%',
-    backgroundColor: 'rgb(218, 218, 218)',
-  },
   rightBackground: {
-    width: '100%',
-    height: '70%',
-    resizeMode: 'cover',
+    flex: 4,
   },
   titleWrapper: {
-    marginTop: 65,
-    marginLeft: 25,
+    overflow: 'hidden',
+    height: '35%',
+    borderBottomRightRadius: 165,
+    backgroundColor: '#73a4d8',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 5,
+  },
+  imageCisne: {
+    position: 'absolute',
+    width: 165,
+    height: 155,
+    position: 'absolute',
+    top: '4%',
+    right: '2%',
+    zIndex: 0,
+  },
+  textTitleWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    marginLeft: '5%',
   },
   mainTitleIcon: {
     color: 'white',
-    fontSize: 45,
+    fontSize: 35,
     marginLeft: -6,
   },
   mainTitle: {
     color: 'white',
-    fontSize: 32,
+    fontSize: 29,
   },
-  wrapperIcons: {
-    marginTop: -340,
-    flexDirection: 'row',
+  allIcons: {
+    flex: 4,
     justifyContent: 'space-evenly',
-    flexWrap: 'wrap',
-    alignItems: 'center',
+  },
+  iconsWrapper: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
   avatar: {
     color: '#00486D',
@@ -132,21 +148,9 @@ const styles = StyleSheet.create({
   avatarText: {
     textAlign: 'center',
     color: '#00486D',
+    fontWeight: 'bold',
   },
   buttonAvatar: {
-    width: 150,
-    height: 160,
-    backgroundColor: 'white',
-    opacity: 0.9,
-    padding: 20,
-    borderRadius: 10,
-    justifyContent: 'center',
     alignItems: 'center',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.5,
-    elevation: 5,
-  },
-  belows: {
-    marginTop: 35,
   },
 });

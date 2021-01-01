@@ -42,10 +42,10 @@ class TimeOff extends React.Component {
   onDateChange = (date, type) => {
     let state = this.state.formData;
     if (type === 'END_DATE') {
-      state.dateEnd = date;
+      state.maxDate = date;
     } else {
-      state.dateStart = date;
-      state.dateEnd = null;
+      state.minDate = date;
+      state.maxDate = null;
     }
   };
 
@@ -83,121 +83,119 @@ class TimeOff extends React.Component {
         <ScrollView
           style={styles.rightWrapper}
           showsVerticalScrollIndicator={false}>
-          <ImageBackground
+          {/* <ImageBackground
             source={require('../../pics/ballena.png')}
-            style={styles.rightBackground}>
-            <View style={styles.titleWrapper}>
-              <MaterialCommunityIcons
-                name="account-outline"
-                style={styles.mainTitleIcon}
-              />
-              <Text style={styles.mainTitle}>
-                {translate('Schedule Time Off')}
-              </Text>
-            </View>
-            <View style={styles.timeOffWrapper}>
-              <TextInput
+            style={styles.rightBackground}> */}
+          <View style={styles.titleWrapper}>
+            <MaterialCommunityIcons
+              name="account-outline"
+              style={styles.mainTitleIcon}
+            />
+            <Text style={styles.mainTitle}>
+              {translate('Schedule Time Off')}
+            </Text>
+          </View>
+          <View style={styles.timeOffWrapper}>
+            <TextInput
+              selectionColor={'white'}
+              autoCapitalize="words"
+              name="firstname"
+              style={styles.timeOffInput}
+              placeholder={translate('First Name')}
+              value={formData.firstname}
+              onChangeText={(firstname) =>
+                this.handleChange('firstname', firstname)
+              }
+            />
+            <TextInput
+              selectionColor={'white'}
+              autoCapitalize="words"
+              name="lastname"
+              style={styles.timeOffInput}
+              placeholder={translate('Last Name')}
+              value={formData.lastname}
+              onChangeText={(lastname) =>
+                this.handleChange('lastname', lastname)
+              }
+            />
+            <View style={styles.pickerWrapper}>
+              <Picker
                 selectionColor={'white'}
                 autoCapitalize="words"
-                name="firstname"
-                style={styles.timeOffInput}
-                placeholder={translate('First Name')}
-                value={formData.firstname}
-                onChangeText={(firstname) =>
-                  this.handleChange('firstname', firstname)
-                }
-              />
-              <TextInput
-                selectionColor={'white'}
-                autoCapitalize="words"
-                name="lastname"
-                style={styles.timeOffInput}
-                placeholder={translate('Last Name')}
-                value={formData.lastname}
-                onChangeText={(lastname) =>
-                  this.handleChange('lastname', lastname)
-                }
-              />
-              <View style={styles.pickerWrapper}>
-                <Picker
-                  selectionColor={'white'}
-                  autoCapitalize="words"
-                  name="role"
-                  style={styles.timeOffPicker}
-                  value={formData.role}
-                  selectedValue={formData.role}
-                  onValueChange={(role) => this.handleChange('role', role)}>
-                  <Picker.Item label={translate('Role selector')} value="" />
-                  <Picker.Item
-                    label={translate('Warehouse')}
-                    value="Warehouse"
-                  />
-                  <Picker.Item label={translate('Bakery')} value="Bakery" />
-                  <Picker.Item label={translate('Dry Pack')} value="Dry pack" />
-                  <Picker.Item label={translate('Dry Mix')} value="Dry mix" />
-                  <Picker.Item
-                    label={translate('Maintenance')}
-                    value="Maintenance"
-                  />
-                  <Picker.Item
-                    label={translate('Mechanical')}
-                    value="Mechanical"
-                  />
-                </Picker>
-              </View>
-              <View style={styles.container}>
-                <CalendarPicker
-                  weekdays={[
-                    translate('Monday'),
-                    translate('Tuesday'),
-                    translate('Wenesday'),
-                    translate('Thursday'),
-                    translate('Friday'),
-                    translate('Saturday'),
-                    translate('Sunday'),
-                  ]}
-                  months={[
-                    translate('January'),
-                    translate('February'),
-                    translate('March'),
-                    translate('April'),
-                    translate('May'),
-                    translate('June'),
-                    translate('July'),
-                    translate('August'),
-                    translate('September'),
-                    translate('October'),
-                    translate('November'),
-                    translate('December'),
-                  ]}
-                  previousTitle={translate('Previous')}
-                  nextTitle={translate('Next')}
-                  selectMonthTitle={translate('SelectMonth')}
-                  selectYearTitle={translate('SelectYear')}
-                  style={styles.calendar}
-                  width={320}
-                  startFromMonday={true}
-                  allowRangeSelection={true}
-                  minDate={minDate}
-                  maxDate={maxDate}
-                  selectedDayColor="#00486D"
-                  selectedDayTextColor="#FFFFFF"
-                  onDateChange={this.onDateChange}
+                name="role"
+                style={styles.timeOffPicker}
+                value={formData.role}
+                selectedValue={formData.role}
+                onValueChange={(role) => this.handleChange('role', role)}>
+                <Picker.Item label={translate('Role selector')} value="" />
+                <Picker.Item label={translate('Warehouse')} value="Warehouse" />
+                <Picker.Item label={translate('Bakery')} value="Bakery" />
+                <Picker.Item label={translate('Dry Pack')} value="Dry pack" />
+                <Picker.Item label={translate('Dry Mix')} value="Dry mix" />
+                <Picker.Item
+                  label={translate('Maintenance')}
+                  value="Maintenance"
                 />
-              </View>
-              <TouchableOpacity
-                style={styles.btnTimeOff}
-                onPress={(event) => {
-                  event.preventDefault();
-                  this.sendEmail();
-                  navigation.navigate('MainPage');
-                }}>
-                <Text style={styles.btnTextTimeOff}>
-                  {translate('Submit btn')}
-                </Text>
-              </TouchableOpacity>
+                <Picker.Item
+                  label={translate('Mechanical')}
+                  value="Mechanical"
+                />
+              </Picker>
             </View>
-          </ImageBackground>
+            <View style={styles.container}>
+              <CalendarPicker
+                weekdays={[
+                  translate('Monday'),
+                  translate('Tuesday'),
+                  translate('Wenesday'),
+                  translate('Thursday'),
+                  translate('Friday'),
+                  translate('Saturday'),
+                  translate('Sunday'),
+                ]}
+                months={[
+                  translate('January'),
+                  translate('February'),
+                  translate('March'),
+                  translate('April'),
+                  translate('May'),
+                  translate('June'),
+                  translate('July'),
+                  translate('August'),
+                  translate('September'),
+                  translate('October'),
+                  translate('November'),
+                  translate('December'),
+                ]}
+                previousTitle={translate('Previous')}
+                nextTitle={translate('Next')}
+                selectMonthTitle={translate('SelectMonth')}
+                selectYearTitle={translate('SelectYear')}
+                style={styles.calendar}
+                width={320}
+                startFromMonday={true}
+                allowRangeSelection={true}
+                minDate={minDate}
+                maxDate={maxDate}
+                selectedDayColor="#00486D"
+                selectedDayTextColor="#FFFFFF"
+                onDateChange={this.onDateChange}
+              />
+            </View>
+            <TouchableOpacity
+              style={styles.btnTimeOff}
+              onPress={(event) => {
+                event.preventDefault();
+                console.log('time off', this.state.formData);
+                this.sendEmail();
+                navigation.navigate('MainPage');
+              }}>
+              <Text style={styles.btnTextTimeOff}>
+                {translate('Submit btn')}
+              </Text>
+            </TouchableOpacity>
+          </View>
+          {/* </ImageBackground> */}
         </ScrollView>
       </View>
     );

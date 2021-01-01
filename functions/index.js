@@ -16,10 +16,6 @@ const mailTransport = nodemailer.createTransport({
   },
 });
 
-
-
-
-
 exports.submitTimeOff = functions.https.onRequest((req, res) => {
   res.set('Access-Control-Allow-Origin', '*');
   res.set('Access-Control-Allow-Methods', 'GET, PUT, POST, OPTIONS');
@@ -40,8 +36,8 @@ exports.submitTimeOff = functions.https.onRequest((req, res) => {
         subject: `${req.body.firstname} ${req.body.lastname} just submitted a request for time off.`,
         html: `<p>${req.body.firstname} ${req.body.lastname}, a team member from the ${req.body.role} 
                 work center is requesting time off from work. The requested dates are as follows: <br> 
-                <b>Start Date:</b> ${req.body.dateStart}<br>
-                <b>End Date:</b> ${req.body.dateEnd}<br>
+                <b>Start Date:</b> ${req.body.minDate}<br>
+                <b>End Date:</b> ${req.body.maxDate}<br>
                 
                 Please contact the employee's manager with approval or denial. <br>
                 <br>
@@ -80,8 +76,8 @@ exports.submitSickDay = functions.https.onRequest((req, res) => {
         subject: `${req.body.firstname} ${req.body.lastname} just declared of sick day.`,
         html: `<p>${req.body.firstname} ${req.body.lastname}, a team member from the ${req.body.role} 
                 work center is sick and cannot come in to work. The details are as follows: <br> 
-                <b>Start Date:</b> ${req.body.dateStart}<br>
-                <b>End Date:</b> ${req.body.dateEnd}<br>
+                <b>Start Date:</b> ${req.body.minDate}<br>
+                <b>End Date:</b> ${req.body.maxDate}<br>
                 
                 Please ensure to record the absence in the employee's PTO file. <br>
                 <br>
@@ -314,7 +310,7 @@ exports.submitCovidForm = functions.https.onRequest((req, res) => {
       const mailOptions = {
         from: req.body.email,
         replyTo: req.body.email,
-        to: "today@hudsonriverfoods.com",
+        to: 'today@hudsonriverfoods.com',
         subject: `${req.body.firstname} ${req.body.lastname} has submited their daily Health Declaration.`,
         html: `<p>An HRF employee has signed their daily COVID-19 health declaration. <br> 
                 <br> 
