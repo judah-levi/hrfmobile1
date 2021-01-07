@@ -6,6 +6,7 @@ import {
   Image,
   TouchableOpacity,
   ImageBackground,
+  PixelRatio,
 } from 'react-native';
 import {stateContext} from './context/context';
 import * as RNLocalize from 'react-native-localize';
@@ -19,8 +20,6 @@ function MainMenu() {
     translate,
     setI18nConfig,
     handleLocalizationChange,
-    userInfo,
-    setUserInfo,
     token,
     setToken,
     setPhoneNumber,
@@ -38,6 +37,8 @@ function MainMenu() {
     setToken('');
     setPhoneNumber('');
     AsyncStorage.removeItem('token');
+    AsyncStorage.removeItem('role');
+    AsyncStorage.removeItem('userInfo');
   };
 
   return (
@@ -96,6 +97,27 @@ function MainMenu() {
     </View>
   );
 }
+
+let font_size_name = 31;
+let font_size_name_top = '15%';
+let font_size_icons = 28;
+let font_size_iconText = 23;
+let marginBottom_iconText = '13%';
+
+if (PixelRatio.get() <= 2) {
+  font_size_name = 29;
+  font_size_name_top = '9%';
+  font_size_icons = 23;
+  font_size_iconText = 20;
+  marginBottom_iconText = '10%';
+}
+if (PixelRatio.get() <= 1.5) {
+  font_size_name = 27;
+  font_size_name_top = '7%';
+  font_size_icons = 23;
+  font_size_iconText = 20;
+}
+
 const styles = StyleSheet.create({
   mainMenuWrapper: {
     flex: 1,
@@ -108,27 +130,29 @@ const styles = StyleSheet.create({
   },
   mainMenuHi: {
     color: 'white',
-    fontSize: 27,
-    marginTop: '7%',
+    fontSize: font_size_name,
+    marginTop: font_size_name_top,
     marginLeft: '7%',
+    // fontFamily: 'Roboto-Light',
   },
   wrapperIcons: {
-    marginTop: '12%',
+    marginTop: '11%',
     marginLeft: '7%',
   },
   iconText: {
     alignItems: 'center',
     flexDirection: 'row',
-    marginBottom: '10%',
+    marginBottom: marginBottom_iconText,
   },
   icons: {
-    fontSize: 24,
+    fontSize: font_size_icons,
     marginRight: 15,
     color: 'white',
   },
   text: {
     color: 'white',
-    fontSize: 20,
+    fontSize: font_size_iconText,
+    fontFamily: 'Roboto-Light',
   },
   helpWrapper: {
     flexDirection: 'row',
@@ -145,6 +169,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 16,
     marginLeft: 5,
+    fontFamily: 'Roboto-Light',
   },
   viewBottom: {
     flex: 1.3,

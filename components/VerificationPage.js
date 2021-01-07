@@ -8,8 +8,8 @@ import {
   ImageBackground,
   TextInput,
   Keyboard,
+  PixelRatio,
 } from 'react-native';
-import {useNavigation} from '@react-navigation/native';
 import {stateContext} from './context/context';
 import * as RNLocalize from 'react-native-localize';
 import axios from 'axios';
@@ -20,7 +20,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 export default function VerificationPage() {
   const [verificationCode, setVerificationCode] = useState('');
   const [keyboardOn, setKeyboardOn] = useState(false);
-  const navigation = useNavigation();
   const [error, setError] = useState(false);
   const {
     translate,
@@ -29,7 +28,6 @@ export default function VerificationPage() {
     userInfo,
     phoneNumber,
     setToken,
-    userRole,
     setUserRole,
   } = useContext(stateContext);
 
@@ -58,6 +56,7 @@ export default function VerificationPage() {
   }, []);
 
   const verificationLogin = async (verificationCode) => {
+    Keyboard.dismiss();
     try {
       let res = await axios({
         url: `https://hrf-api-auth-kdrukbtfra-ue.a.run.app/verify-login/${phoneNumber}/${verificationCode}`,
@@ -91,7 +90,7 @@ export default function VerificationPage() {
         {keyboardOn ? null : (
           <View style={styles.logoIn}>
             <Image
-              style={{width: 130, height: 130}}
+              style={styles.logoImage}
               source={require('../pics/HeaderLogo_180x.webp')}
             />
           </View>
@@ -108,7 +107,7 @@ export default function VerificationPage() {
           />
           <TouchableOpacity
             onPress={() => verificationLogin(verificationCode)}
-            style={styles.button}>
+            style={verificationCode ? styles.buttonP : styles.button}>
             <Text style={{color: '#fff', fontSize: 19}}>
               {translate('Conf Verification Code')}
             </Text>
@@ -134,6 +133,23 @@ export default function VerificationPage() {
   );
 }
 
+let font_size_welcome = 40;
+let logo_w_h = 150;
+let input_height = 75;
+let input_width = 280;
+
+if (PixelRatio.get() <= 2) {
+  font_size_welcome = 35;
+  logo_w_h = 130;
+  input_height = 60;
+}
+
+if (PixelRatio.get() <= 1.5) {
+  logo_w_h = 110;
+  input_width = 240;
+  input_height = 45;
+}
+
 const styles = StyleSheet.create({
   loginWrapper: {
     flex: 1,
@@ -148,8 +164,12 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
+  logoImage: {
+    width: logo_w_h,
+    height: logo_w_h,
+  },
   welcomeText: {
-    fontSize: 35,
+    fontSize: font_size_welcome,
     color: 'white',
     textAlign: 'center',
   },
@@ -170,26 +190,42 @@ const styles = StyleSheet.create({
   input: {
     borderWidth: 1,
     borderColor: 'white',
-    height: '27%',
-    width: 280,
+    height: input_height,
+    width: input_width,
     backgroundColor: 'transparent',
     borderRadius: 35,
     fontSize: 19,
     color: 'white',
     textAlign: 'center',
+    fontFamily: 'Roboto-Light',
   },
   inputError: {
     borderWidth: 1,
     borderColor: 'red',
-    height: '27%',
-    width: 280,
+    height: input_height,
+    width: input_width,
     backgroundColor: 'transparent',
     borderRadius: 35,
     fontSize: 19,
     color: 'white',
     textAlign: 'center',
+    fontFamily: 'Roboto-Light',
   },
   button: {
+    backgroundColor: 'rgba(88, 167, 218, 0.7)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderColor: 'rgba(88, 167, 218, 0.7)',
+    borderWidth: 1,
+    marginTop: 20,
+    borderRadius: 35,
+    height: input_height,
+    width: input_width,
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 3,
+  },
+  buttonP: {
     backgroundColor: '#58a7da',
     alignItems: 'center',
     justifyContent: 'center',
@@ -197,8 +233,8 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginTop: 20,
     borderRadius: 35,
-    width: 280,
-    height: '27%',
+    height: input_height,
+    width: input_width,
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.5,
     elevation: 3,
@@ -231,5 +267,6 @@ const styles = StyleSheet.create({
   needHelpText: {
     color: 'white',
     fontSize: 17,
+    fontFamily: 'Roboto-Light',
   },
 });

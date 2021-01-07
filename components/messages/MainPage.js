@@ -5,8 +5,9 @@ import {
   StyleSheet,
   View,
   Text,
-  ImageBackground,
   ScrollView,
+  Image,
+  PixelRatio,
 } from 'react-native';
 import {useAndroidBackHandler} from 'react-navigation-backhandler';
 import moment from 'moment';
@@ -20,9 +21,7 @@ function MainPage() {
   const [loading, setLoading] = useState(false);
   const [newsList, setNewsList] = useState([]);
   const [activeIndex, setActivateIndex] = useState();
-  const {translate, setI18nConfig, handleLocalizationChange} = useContext(
-    stateContext,
-  );
+  const {translate, handleLocalizationChange} = useContext(stateContext);
 
   useAndroidBackHandler(() => {
     return true;
@@ -75,24 +74,34 @@ function MainPage() {
   return (
     <View style={styles.mainWrapper}>
       <Nav />
-      <View style={styles.rightWrapper}>
-        <ImageBackground
-          source={require('../../pics/ballena.png')}
-          style={styles.rightBackground}>
+      <ScrollView
+        showsVerticalScrollIndicator={false}
+        contentContainerStyle={{flexGrow: 1}}>
+        <View style={styles.topWrapper}>
           <View style={styles.titleWrapper}>
-            <MaterialCommunityIcons
-              name="calendar-text-outline"
-              style={styles.mainTitleIcon}
+            <Image
+              style={styles.imageCisne}
+              source={require('../../pics/f-2.png')}
             />
-            <Text style={styles.mainTitle}>{translate('Messages')}</Text>
+            <View style={styles.textTitleWrapper}>
+              <MaterialCommunityIcons
+                name="calendar-text-outline"
+                style={styles.mainTitleIcon}
+              />
+              <Text style={styles.mainTitle}>{translate('Messages')}</Text>
+            </View>
           </View>
+        </View>
+        <ScrollView
+          showsVerticalScrollIndicator={false}
+          style={styles.bottomWrapper}>
           <View style={styles.carouselWrapper}>
             {loading ? (
               <Carousel
                 layout={'default'}
                 data={newsList}
-                sliderWidth={300}
-                itemWidth={300}
+                sliderWidth={260}
+                itemWidth={260}
                 renderItem={renderItem}
                 onSnapToItem={(index) => setActivateIndex({activeIndex: index})}
               />
@@ -107,10 +116,35 @@ function MainPage() {
               </View>
             )}
           </View>
-        </ImageBackground>
-      </View>
+        </ScrollView>
+      </ScrollView>
     </View>
   );
+}
+
+let font_size_title = 28;
+let size_icon = 34;
+let imageCisne_width = 215;
+let imageCisne_height = 205;
+let imageCisne_right = '-15%';
+let font_size_content = 19;
+let font_size_date = 19;
+
+if (PixelRatio.get() <= 2) {
+  font_size_title = 26;
+  size_icon = 32;
+  imageCisne_width = 185;
+  imageCisne_height = 175;
+  imageCisne_right = '-5%';
+}
+if (PixelRatio.get() <= 1.5) {
+  font_size_title = 23;
+  size_icon = 28;
+  imageCisne_width = 155;
+  imageCisne_height = 145;
+  imageCisne_right = '-4%';
+  font_size_content = 16;
+  font_size_date = 17;
 }
 
 const styles = StyleSheet.create({
@@ -118,42 +152,57 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     height: '100%',
   },
-  rightWrapper: {
-    flex: 5,
-    backgroundColor: 'rgb(218, 218, 218)',
-  },
-  rightBackground: {
-    width: '100%',
-    height: '100%',
-    resizeMode: 'cover',
+  topWrapper: {
+    height: '30%',
   },
   titleWrapper: {
-    marginTop: 65,
-    marginLeft: 25,
+    overflow: 'hidden',
+    flex: 2,
+    borderBottomRightRadius: 165,
+    backgroundColor: '#73a4d8',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 5,
+  },
+  imageCisne: {
+    position: 'absolute',
+    width: imageCisne_width,
+    height: imageCisne_height,
+    position: 'absolute',
+    top: '4%',
+    right: imageCisne_right,
+    zIndex: 0,
+    opacity: 0.6,
+  },
+  textTitleWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    marginLeft: '5%',
   },
   mainTitleIcon: {
     color: 'white',
-    fontSize: 38,
+    fontSize: size_icon,
     marginLeft: -6,
   },
   mainTitle: {
     color: 'white',
-    fontSize: 27,
+    fontSize: font_size_title,
+  },
+  bottomWrapper: {
+    marginTop: '5%',
+    marginBottom: '5%',
+    height: 100,
   },
   carouselWrapper: {
     flex: 1,
     flexDirection: 'row',
-    marginTop: 50,
-    marginRight: 0,
-    width: '100%',
-    paddingLeft: 10,
-    paddingRight: 5,
+    paddingLeft: 15,
+    paddingRight: 10,
   },
   carouselGeneral: {
     backgroundColor: 'white',
     borderRadius: 10,
-    height: 550,
-    maxWidth: 300,
+    height: 500,
     padding: 18,
     justifyContent: 'space-between',
     shadowOffset: {width: 0, height: 1},
@@ -167,19 +216,21 @@ const styles = StyleSheet.create({
     color: 'black',
   },
   carouselContent: {
-    fontSize: 19,
+    fontSize: font_size_content,
     zIndex: 1,
     lineHeight: 29,
     color: 'black',
+    fontFamily: 'Roboto-Light',
   },
   carouselDate: {
-    fontSize: 19,
-    color: 'grey',
+    fontSize: font_size_date,
+    color: 'rgb(190, 190, 190)',
+    fontFamily: 'Roboto-Light',
+    fontStyle: 'italic',
   },
   spinner: {
-    flexDirection: 'row',
-    marginBottom: '15%',
-    marginLeft: '30%',
+    flex: 1,
+    marginTop: '10%',
   },
 });
 

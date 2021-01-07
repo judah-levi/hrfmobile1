@@ -75,9 +75,17 @@ function App() {
     }
   };
 
+  const getUserData = async () => {
+    let userInfo = await AsyncStorage.getItem('userInfo');
+    if (userInfo !== null) {
+      setUserInfo(userInfo);
+    }
+  };
+
   useEffect(() => {
     getToken();
     getRole();
+    getUserData();
   }, []);
 
   return (

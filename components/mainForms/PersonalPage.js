@@ -4,8 +4,8 @@ import {
   Text,
   View,
   TouchableOpacity,
-  ScrollView,
   Image,
+  PixelRatio,
 } from 'react-native';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import {useNavigation} from '@react-navigation/native';
@@ -50,7 +50,7 @@ export default function PersonalPage() {
               onPress={() => navigation.navigate('TimeOffForm')}>
               <MaterialCommunityIcons
                 style={styles.avatar}
-                size={55}
+                size={PixelRatio.get() <= 1.5 ? 40 : 55}
                 name="calendar-account"
               />
               <Text style={styles.avatarText}>{translate('Time Off')}</Text>
@@ -60,7 +60,7 @@ export default function PersonalPage() {
               onPress={() => navigation.navigate('MeetingsForm')}>
               <MaterialCommunityIcons
                 style={styles.avatar}
-                size={55}
+                size={PixelRatio.get() <= 1.5 ? 40 : 55}
                 name="account-supervisor-outline"
               />
               <Text style={styles.avatarText}>{translate('Meetings')}</Text>
@@ -72,7 +72,7 @@ export default function PersonalPage() {
               onPress={() => navigation.navigate('SickDayForm')}>
               <MaterialCommunityIcons
                 style={styles.avatar}
-                size={55}
+                size={PixelRatio.get() <= 1.5 ? 40 : 55}
                 name="account-cancel-outline"
               />
               <Text style={styles.avatarText}>{translate('Sick Day')}</Text>
@@ -82,7 +82,7 @@ export default function PersonalPage() {
               onPress={() => navigation.navigate('CovidPage')}>
               <MaterialCommunityIcons
                 style={styles.avatar}
-                size={55}
+                size={PixelRatio.get() <= 1.5 ? 40 : 55}
                 name="doctor"
               />
               <Text style={styles.avatarText}>{translate('Covid-19')}</Text>
@@ -92,6 +92,29 @@ export default function PersonalPage() {
       </View>
     </View>
   );
+}
+
+let font_size_title = 29;
+let size_icon = 35;
+let marginTop_allIcons = '-5%';
+let font_size_textOpt = 14;
+let imageCisne_width = 215;
+let imageCisne_height = 205;
+let imageCisne_right = '-15%';
+
+if (PixelRatio.get() <= 2) {
+  marginTop_allIcons = 0;
+  imageCisne_width = 185;
+  imageCisne_height = 175;
+  imageCisne_right = '-5%';
+}
+if (PixelRatio.get() <= 1.5) {
+  font_size_title = 25;
+  size_icon = 32;
+  font_size_textOpt = 13;
+  imageCisne_width = 155;
+  imageCisne_height = 145;
+  imageCisne_right = '-4%';
 }
 
 const styles = StyleSheet.create({
@@ -113,12 +136,13 @@ const styles = StyleSheet.create({
   },
   imageCisne: {
     position: 'absolute',
-    width: 165,
-    height: 155,
+    width: imageCisne_width,
+    height: imageCisne_height,
     position: 'absolute',
     top: '4%',
-    right: '2%',
+    right: imageCisne_right,
     zIndex: 0,
+    opacity: 0.6,
   },
   textTitleWrapper: {
     flex: 1,
@@ -127,15 +151,17 @@ const styles = StyleSheet.create({
   },
   mainTitleIcon: {
     color: 'white',
-    fontSize: 35,
+    fontSize: size_icon,
     marginLeft: -6,
   },
   mainTitle: {
     color: 'white',
-    fontSize: 29,
+    fontSize: font_size_title,
+    // fontFamily: 'Roboto-Light',
   },
   allIcons: {
-    flex: 4,
+    flex: 1,
+    marginTop: marginTop_allIcons,
     justifyContent: 'space-evenly',
   },
   iconsWrapper: {
@@ -149,6 +175,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     color: '#00486D',
     fontWeight: 'bold',
+    fontSize: font_size_textOpt,
   },
   buttonAvatar: {
     alignItems: 'center',
