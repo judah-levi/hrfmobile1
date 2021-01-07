@@ -1,12 +1,14 @@
 import React from 'react';
 import {
   StyleSheet,
-  ImageBackground,
+  Image,
   Text,
   View,
   TouchableOpacity,
   TextInput,
   ScrollView,
+  Keyboard,
+  PixelRatio,
 } from 'react-native';
 import {Picker} from '@react-native-community/picker';
 import CalendarPicker from 'react-native-calendar-picker';
@@ -22,7 +24,29 @@ class SickDay extends React.Component {
   static contextType = stateContext;
   state = {
     formData: '',
+    keyboardOn: false,
   };
+
+  componentDidMount() {
+    this.context.setI18nConfig();
+    RNLocalize.addEventListener(
+      'change',
+      this.context.handleLocalizationChange,
+    );
+    Keyboard.addListener('keyboardDidShow', () => {
+      this.setState({keyboardOn: true});
+    });
+    Keyboard.addListener('keyboardDidHide', () => {
+      this.setState({keyboardOn: false});
+    });
+  }
+
+  componentWillUnmount() {
+    RNLocalize.removeEventListener(
+      'change',
+      this.context.handleLocalizationChange,
+    );
+  }
 
   onDateChange = (date, type) => {
     let state = this.state.formData;
@@ -54,48 +78,50 @@ class SickDay extends React.Component {
     );
   };
 
-  componentDidMount() {
-    this.context.setI18nConfig();
-    RNLocalize.addEventListener(
-      'change',
-      this.context.handleLocalizationChange,
-    );
-  }
-
-  componentWillUnmount() {
-    RNLocalize.removeEventListener(
-      'change',
-      this.context.handleLocalizationChange,
-    );
-  }
-
   render() {
     const {translate} = this.context;
     Moment.locale('en');
     const {formData} = this.state;
+    const {keyboardOn} = this.state;
     const minDate = new Date();
     const maxDate = new Date(2090, 0, 1);
     const {navigation} = this.props;
+    const firstNameDisabled =
+      formData.firstname === undefined || formData.firstname === '';
+    const lastNameDisabled =
+      formData.lastname === undefined || formData.lastname === '';
+    const roleDisabled = formData.role === undefined || formData.role === '';
 
     return (
       <View style={styles.mainWrapper}>
         <Nav />
         <ScrollView
-          style={styles.rightWrapper}
-          showsVerticalScrollIndicator={false}>
-          {/* <ImageBackground
-            source={require('../../pics/ballena.png')}
-            style={styles.rightBackground}> */}
-          <View style={styles.titleWrapper}>
-            <MaterialCommunityIcons
-              name="account-outline"
-              style={styles.mainTitleIcon}
-            />
-            <Text style={styles.mainTitle}>
-              {translate('Declare Sick Day')}
-            </Text>
-          </View>
-          <View style={styles.timeOffWrapper}>
+          showsVerticalScrollIndicator={false}
+          contentContainerStyle={{flexGrow: 1}}>
+          {keyboardOn ? (
+            <Text></Text>
+          ) : (
+            <View style={styles.topWrapper}>
+              <View style={styles.titleWrapper}>
+                <Image
+                  style={styles.imageCisne}
+                  source={require('../../pics/f-2.png')}
+                />
+                <View style={styles.textTitleWrapper}>
+                  <MaterialCommunityIcons
+                    name="account-outline"
+                    style={styles.mainTitleIcon}
+                  />
+                  <Text style={styles.mainTitle}>
+                    {translate('Declare Sick Day')}
+                  </Text>
+                </View>
+              </View>
+            </View>
+          )}
+          <ScrollView
+            showsVerticalScrollIndicator={false}
+            style={styles.bottomWrapper}>
             <TextInput
               selectionColor={'white'}
               autoCapitalize="words"
@@ -120,6 +146,8 @@ class SickDay extends React.Component {
             />
             <View style={styles.pickerWrapper}>
               <Picker
+                selectionColor={'white'}
+                autoCapitalize="words"
                 name="role"
                 style={styles.timeOffPicker}
                 value={formData.role}
@@ -142,7 +170,6 @@ class SickDay extends React.Component {
             </View>
             <View style={styles.container}>
               <CalendarPicker
-                startFromMonday={true}
                 weekdays={[
                   translate('Monday'),
                   translate('Tuesday'),
@@ -170,8 +197,10 @@ class SickDay extends React.Component {
                 nextTitle={translate('Next')}
                 selectMonthTitle={translate('SelectMonth')}
                 selectYearTitle={translate('SelectYear')}
+                startFromMonday={true}
                 allowRangeSelection={true}
-                width={320}
+                width={PixelRatio.get() <= 1.5 ? 240 : 285}
+                scaleFactor={355}
                 minDate={minDate}
                 maxDate={maxDate}
                 selectedDayColor="#00486D"
@@ -181,18 +210,22 @@ class SickDay extends React.Component {
             </View>
             <TouchableOpacity
               style={styles.btnTimeOff}
+              disabled={firstNameDisabled || lastNameDisabled || roleDisabled}
               onPress={(event) => {
                 event.preventDefault();
-                console.log(this.state.formData);
                 this.sendEmail();
-                navigation.navigate('MainPage');
+                navigation.navigate('MainMenu');
               }}>
-              <Text style={styles.btnTextTimeOff}>
+              <Text
+                style={
+                  firstNameDisabled || lastNameDisabled || roleDisabled
+                    ? styles.btnTextTimeOffDisabled
+                    : styles.btnTextTimeOff
+                }>
                 {translate('Submit btn')}
               </Text>
             </TouchableOpacity>
-          </View>
-          {/* </ImageBackground> */}
+          </ScrollView>
         </ScrollView>
       </View>
     );
@@ -205,42 +238,101 @@ export default function (props) {
   return <SickDay {...props} navigation={navigation} />;
 }
 
+let font_size_title = 28;
+let size_icon = 34;
+let imageCisne_width = 215;
+let imageCisne_height = 205;
+let imageCisne_right = '-15%';
+
+if (PixelRatio.get() <= 2) {
+  font_size_title = 26;
+  size_icon = 32;
+  imageCisne_width = 185;
+  imageCisne_height = 175;
+  imageCisne_right = '-5%';
+}
+if (PixelRatio.get() <= 1.5) {
+  font_size_title = 23;
+  size_icon = 28;
+  imageCisne_width = 155;
+  imageCisne_height = 145;
+  imageCisne_right = '-4%';
+}
+
 const styles = StyleSheet.create({
   mainWrapper: {
     flexDirection: 'row',
     height: '100%',
   },
-  rightWrapper: {
-    width: '85%',
-    backgroundColor: 'rgb(218, 218, 218)',
-  },
-  rightBackground: {
-    width: '100%',
-    height: '70%',
-    resizeMode: 'cover',
+  topWrapper: {
+    height: '30%',
   },
   titleWrapper: {
-    marginTop: 65,
-    marginLeft: 25,
+    overflow: 'hidden',
+    flex: 2,
+    borderBottomRightRadius: 165,
+    backgroundColor: '#73a4d8',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 5,
+  },
+  imageCisne: {
+    position: 'absolute',
+    width: imageCisne_width,
+    height: imageCisne_height,
+    position: 'absolute',
+    top: '4%',
+    right: imageCisne_right,
+    zIndex: 0,
+    opacity: 0.6,
+  },
+  textTitleWrapper: {
+    flex: 1,
+    justifyContent: 'center',
+    marginLeft: '5%',
   },
   mainTitleIcon: {
     color: 'white',
-    fontSize: 38,
+    fontSize: size_icon,
     marginLeft: -6,
   },
   mainTitle: {
     color: 'white',
-    fontSize: 27,
+    fontSize: font_size_title,
   },
-  timeOffWrapper: {
-    marginTop: 50,
-    marginLeft: 20,
-    marginRight: 20,
+  bottomWrapper: {
+    marginTop: '10%',
+    height: 100,
+  },
+  timeOffInput: {
+    marginBottom: '3%',
+    paddingLeft: 10,
+    backgroundColor: 'white',
+    borderRadius: 10,
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 3,
+    width: '85%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
   },
   pickerWrapper: {
+    marginBottom: '3%',
     borderRadius: 10,
-    height: 55,
+    width: '85%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     overflow: 'hidden',
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 3,
+  },
+  container: {
+    width: '85%',
+    marginLeft: 'auto',
+    marginRight: 'auto',
+    backgroundColor: '#fff',
+    borderRadius: 10,
     marginBottom: '3%',
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.5,
@@ -250,32 +342,27 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     height: 55,
   },
-  timeOffInput: {
-    marginBottom: '3%',
-    paddingLeft: 10,
-    backgroundColor: 'white',
-    height: 55,
-    borderRadius: 10,
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.5,
-    elevation: 3,
-  },
-  container: {
-    backgroundColor: '#fff',
-    borderRadius: 10,
-    marginBottom: '9%',
-    shadowOffset: {width: 0, height: 1},
-    shadowOpacity: 0.5,
-    elevation: 3,
-  },
   btnTimeOff: {
+    marginTop: '3%',
+    marginBottom: '6%',
     marginLeft: 'auto',
     marginRight: 'auto',
     width: '50%',
-    marginBottom: 30,
   },
   btnTextTimeOff: {
     backgroundColor: '#0db4e8',
+    textAlign: 'center',
+    padding: 15,
+    borderRadius: 30,
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 18,
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 3,
+  },
+  btnTextTimeOffDisabled: {
+    backgroundColor: 'rgb(180,180,180)',
     textAlign: 'center',
     padding: 15,
     borderRadius: 30,

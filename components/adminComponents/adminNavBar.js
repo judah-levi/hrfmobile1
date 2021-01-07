@@ -14,6 +14,8 @@ function Nav() {
     setToken('');
     setPhoneNumber('');
     AsyncStorage.removeItem('token');
+    AsyncStorage.removeItem('role');
+    AsyncStorage.removeItem('userInfo');
   };
 
   return (

@@ -6,6 +6,7 @@ import {
   TouchableOpacity,
   Image,
   ScrollView,
+  PixelRatio,
 } from 'react-native';
 import Nav from '../Nav';
 import {useNavigation} from '@react-navigation/native';
@@ -64,6 +65,27 @@ function CovidPage() {
   );
 }
 
+let font_size_title = 28;
+let size_icon = 34;
+let imageCisne_width = 215;
+let imageCisne_height = 205;
+let imageCisne_right = '-15%';
+
+if (PixelRatio.get() <= 2) {
+  font_size_title = 26;
+  size_icon = 32;
+  imageCisne_width = 185;
+  imageCisne_height = 175;
+  imageCisne_right = '-5%';
+}
+if (PixelRatio.get() <= 1.5) {
+  font_size_title = 23;
+  size_icon = 28;
+  imageCisne_width = 155;
+  imageCisne_height = 145;
+  imageCisne_right = '-4%';
+}
+
 const styles = StyleSheet.create({
   mainWrapper: {
     flexDirection: 'row',
@@ -87,12 +109,13 @@ const styles = StyleSheet.create({
   },
   imageCisne: {
     position: 'absolute',
-    width: 165,
-    height: 155,
+    width: imageCisne_width,
+    height: imageCisne_height,
     position: 'absolute',
     top: '4%',
-    right: '2%',
+    right: imageCisne_right,
     zIndex: 0,
+    opacity: 0.6,
   },
   textTitleWrapper: {
     flex: 1,
@@ -101,12 +124,12 @@ const styles = StyleSheet.create({
   },
   mainTitleIcon: {
     color: 'white',
-    fontSize: 30,
+    fontSize: size_icon,
     marginLeft: -6,
   },
   mainTitle: {
     color: 'white',
-    fontSize: 25,
+    fontSize: font_size_title,
   },
   bottomWrapper: {
     marginTop: '10%',
@@ -120,11 +143,11 @@ const styles = StyleSheet.create({
     padding: 20,
     borderRadius: 10,
     fontSize: 16,
-    lineHeight: 20,
-    fontWeight: 'bold',
+    lineHeight: 21,
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.5,
     elevation: 3,
+    fontFamily: 'Roboto-Light',
   },
   buttonWrapper: {
     marginTop: '6%',
@@ -140,6 +163,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
     color: 'white',
     fontWeight: 'bold',
+    fontFamily: 'Roboto-Light',
     fontSize: 18,
     shadowOffset: {width: 0, height: 1},
     shadowOpacity: 0.5,

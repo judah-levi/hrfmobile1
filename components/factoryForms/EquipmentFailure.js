@@ -8,6 +8,7 @@ import {
   Image,
   Keyboard,
   ScrollView,
+  PixelRatio,
 } from 'react-native';
 import axios from 'axios';
 import {useNavigation} from '@react-navigation/native';
@@ -21,6 +22,10 @@ function EquipmentFailure() {
   const [formData, setFormData] = useState({});
   const [keyboardOn, setKeyboardOn] = useState(false);
   const {translate, handleLocalizationChange} = useContext(stateContext);
+  const lineNumberDisabled =
+    formData.lineNumber === undefined || formData.lineNumber === '';
+  const descriptionDisabled =
+    formData.description === undefined || formData.description === '';
 
   useEffect(() => {
     RNLocalize.addEventListener('change', handleLocalizationChange);
@@ -111,8 +116,16 @@ function EquipmentFailure() {
               setFormData({...formData, description})
             }
           />
-          <TouchableOpacity style={styles.btnEquipment} onPress={handleSubmit}>
-            <Text style={styles.btnTextEquipment}>
+          <TouchableOpacity
+            style={styles.btnEquipment}
+            disabled={lineNumberDisabled || descriptionDisabled}
+            onPress={handleSubmit}>
+            <Text
+              style={
+                lineNumberDisabled || descriptionDisabled
+                  ? styles.btnTextEquipmentDisabled
+                  : styles.btnTextEquipment
+              }>
               {translate('Submit btn')}
             </Text>
           </TouchableOpacity>
@@ -120,6 +133,27 @@ function EquipmentFailure() {
       </ScrollView>
     </View>
   );
+}
+
+let font_size_title = 28;
+let size_icon = 34;
+let imageCisne_width = 215;
+let imageCisne_height = 205;
+let imageCisne_right = '-15%';
+
+if (PixelRatio.get() <= 2) {
+  font_size_title = 26;
+  size_icon = 32;
+  imageCisne_width = 185;
+  imageCisne_height = 175;
+  imageCisne_right = '-5%';
+}
+if (PixelRatio.get() <= 1.5) {
+  font_size_title = 23;
+  size_icon = 28;
+  imageCisne_width = 155;
+  imageCisne_height = 145;
+  imageCisne_right = '-4%';
 }
 
 const styles = StyleSheet.create({
@@ -145,12 +179,13 @@ const styles = StyleSheet.create({
   },
   imageCisne: {
     position: 'absolute',
-    width: 165,
-    height: 155,
+    width: imageCisne_width,
+    height: imageCisne_height,
     position: 'absolute',
     top: '4%',
-    right: '2%',
+    right: imageCisne_right,
     zIndex: 0,
+    opacity: 0.6,
   },
   textTitleWrapper: {
     flex: 1,
@@ -159,12 +194,12 @@ const styles = StyleSheet.create({
   },
   mainTitleIcon: {
     color: 'white',
-    fontSize: 30,
+    fontSize: size_icon,
     marginLeft: -6,
   },
   mainTitle: {
     color: 'white',
-    fontSize: 25,
+    fontSize: font_size_title,
   },
   bottomWrapper: {
     marginTop: '10%',
@@ -206,6 +241,18 @@ const styles = StyleSheet.create({
   },
   btnTextEquipment: {
     backgroundColor: '#0db4e8',
+    textAlign: 'center',
+    padding: 15,
+    borderRadius: 30,
+    color: 'white',
+    fontWeight: 'bold',
+    fontSize: 18,
+    shadowOffset: {width: 0, height: 1},
+    shadowOpacity: 0.5,
+    elevation: 3,
+  },
+  btnTextEquipmentDisabled: {
+    backgroundColor: 'rgb(180,180,180)',
     textAlign: 'center',
     padding: 15,
     borderRadius: 30,

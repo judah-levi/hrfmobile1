@@ -1,6 +1,6 @@
 const functions = require('firebase-functions');
 const nodemailer = require('nodemailer');
-
+const moment = require('moment');
 const cors = require('cors')({
   origin: true,
 });
@@ -34,10 +34,16 @@ exports.submitTimeOff = functions.https.onRequest((req, res) => {
         replyTo: req.body.email,
         to: 'victor@hudsonriverfoods.com',
         subject: `${req.body.firstname} ${req.body.lastname} just submitted a request for time off.`,
-        html: `<p>${req.body.firstname} ${req.body.lastname}, a team member from the ${req.body.role} 
+        html: `<p>${req.body.firstname} ${
+          req.body.lastname
+        }, a team member from the ${req.body.role} 
                 work center is requesting time off from work. The requested dates are as follows: <br> 
-                <b>Start Date:</b> ${req.body.minDate}<br>
-                <b>End Date:</b> ${req.body.maxDate}<br>
+                <b>Start Date:</b> ${moment(req.body.minDate).format(
+                  'YYYY-MM-DD',
+                )}<br>
+                <b>End Date:</b> ${moment(req.body.maxDate).format(
+                  'YYYY-MM-DD',
+                )}<br>
                 
                 Please contact the employee's manager with approval or denial. <br>
                 <br>
@@ -74,10 +80,16 @@ exports.submitSickDay = functions.https.onRequest((req, res) => {
         replyTo: req.body.email,
         to: 'victor@hudsonriverfoods.com',
         subject: `${req.body.firstname} ${req.body.lastname} just declared of sick day.`,
-        html: `<p>${req.body.firstname} ${req.body.lastname}, a team member from the ${req.body.role} 
+        html: `<p>${req.body.firstname} ${
+          req.body.lastname
+        }, a team member from the ${req.body.role} 
                 work center is sick and cannot come in to work. The details are as follows: <br> 
-                <b>Start Date:</b> ${req.body.minDate}<br>
-                <b>End Date:</b> ${req.body.maxDate}<br>
+                <b>Start Date:</b> ${moment(req.body.minDate).format(
+                  'YYYY-MM-DD',
+                )}<br>
+                <b>End Date:</b> ${moment(req.body.maxDate).format(
+                  'YYYY-MM-DD',
+                )}<br>
                 
                 Please ensure to record the absence in the employee's PTO file. <br>
                 <br>
